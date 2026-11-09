@@ -116,6 +116,7 @@ When modifying or committing repository files, use these distinct descriptive te
 | `database-guide.md` | `Define SQLite schema, table relationships, and payment calculation queries` |
 | `layout.md` | `Detail five-tab navigation, screen inventory, and UI visual specifications` |
 | `reconnect-algo.md` | `Formulate client recommendation algorithm with genre matching and cooldown rules` |
+| `OBRA_Layout_and_Database_Guide.pdf` | `Export compiled layout and database guide PDF document` |
 | `.gitignore` | `Exclude Android build artifacts, local SQLite databases, and sensitive keystores` |
 | `.gitattributes` | `Enforce cross-platform LF line endings and proper file encodings` |
 

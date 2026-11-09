@@ -1,16 +1,253 @@
-# OBRA layout and interaction plan
+# OBRA wireframe sequence and layout guide
 
 ## Purpose and current scope
 
-This document defines what to draw in the static wireframes, which fonts and colors to use, and what each represented button should eventually do. It is a planning specification, not an interactive prototype or implemented Android behavior.
+This is the master guide to every current wireframe: its number, position on the visual board, entry button, next destination, and intended scrolling behavior. The shared font/color rules and detailed validation notes follow the numbered guide.
 
-Use the reviewed dashboard and accepted four-step Add commission layout as the visual references. Commission Details is the current draft; keep its fonts, surfaces, and button hierarchy consistent with those screens.
+**All previews are static planning drawings.** Buttons, filters, saving, and scrolling described here are intended app behavior; they are not implemented in the exported previews. Example clients, dates, and prices are fictional snapshots of different moments in the workflow.
+
+Use the reviewed dashboard and accepted four-step Add commission layout as the visual references. The detail, list, and payment drawings continue that direction; keep their fonts, surfaces, and button hierarchy consistent.
 
 **Confirmed font pairing:** the owner selected **[DynaPuff](https://fonts.google.com/specimen/DynaPuff)** for playful interface text, specifically labels such as **Monthly earnings** and task titles such as **Finish lineart**, and accepted **[Mali](https://fonts.google.com/specimen/Mali)** for dates, links, figures, and other supporting text after reviewing the dashboard.
 
 **Review status:** the four-step Add commission wireframe direction and DynaPuff/Mali pairing have been accepted. Exact color values, type sizes, detailed validation/pricing rules, and new Commission Details controls remain subject to refinement.
 
-## 1. Phone layout
+## Read the numbering first
+
+- **WF-01 through WF-09** identify the nine existing page/step layouts. They are reference numbers, not a requirement to visit every screen in that order.
+- A suffix such as **WF-02A** identifies a filter/state of the same page.
+- **WF-07A and WF-07B are two scroll positions of one Commission Details page.** No Next button connects them.
+- **WF-08B is the same Payment history page after saving a payment**, not a separate success screen.
+- **P-01 onward** identifies planned wireframes that have not been drawn yet.
+- Every visual board is embedded below. Open an image at full size when reviewing its small labels. [Saved boards and editable sources](docs/wireframes/README.md) are also in the repository.
+
+## Existing wireframes: sequential index
+
+| Number | Page / step | How to reach it | Page type and intended scroll |
+| --- | --- | --- | --- |
+| [WF-01](#wf01) | Home / Dashboard | App entry or Home navigation | Main page; vertical content when needed, bottom navigation remains reachable |
+| [WF-02](#wf02) | Commissions list | Commissions navigation, Current work → View all, or queue count | One list page with Current/Queued/Completed states; list scrolls |
+| [WF-03](#wf03) | Add commission: Client details | Dashboard Add commission, list + New, or empty-state Add commission | Separate form step, Step 1 of 4; can scroll with keyboard/long content |
+| [WF-04](#wf04) | Add commission: Artwork brief | WF-03 → Next: Artwork | Separate form step, Step 2 of 4; brief/references can scroll |
+| [WF-05](#wf05) | Add commission: Price & dates | WF-04 → Next: Price & dates | Separate form step, Step 3 of 4; scroll when initial-payment fields expand |
+| [WF-06](#wf06) | Add commission: Review | WF-05 → Review commission | Separate form step, Step 4 of 4; long summary scrolls |
+| [WF-07](#wf07) | Commission Details | Any project card, related commission link, or WF-06 → Save commission | One vertically scrolling record; Current/Queued/Completed are lifecycle states |
+| [WF-08](#wf08) | Payment history for one commission | WF-07 → View payment history / Payment history | Separate page; received-payment list scrolls |
+| [WF-09](#wf09) | Record payment | WF-07 or WF-08 → Record payment | Separate short form; can scroll with keyboard/notes |
+
+Dashboard styling, the DynaPuff/Mali pairing, and the four-step intake direction have been accepted. The other drawings are current drafts for review; having a preview does not mean the app has been implemented or every behavior finalized.
+
+## The normal click sequence
+
+```mermaid
+flowchart TD
+    Home[WF-01 Dashboard] -->|Commissions / View all| List[WF-02 Commissions list]
+    Home -->|Add commission| Client[WF-03 Client details]
+    List -->|+ New| Client
+    Client -->|Next: Artwork| Artwork[WF-04 Artwork brief]
+    Artwork -->|Next: Price & dates| Price[WF-05 Price and dates]
+    Price -->|Review commission| Review[WF-06 Review]
+    Review -->|Save commission| Detail[WF-07 Commission Details]
+    List -->|Project card| Detail
+    Home -->|Project / queue card| Detail
+    Detail -->|View payment history| Payments[WF-08 Payment history]
+    Detail -->|Record payment| Entry[WF-09 Record payment]
+    Payments -->|Record payment| Entry
+    Entry -->|Save payment| Payments
+    Detail -.->|Update progress: not drawn yet| Progress[P-01 Update Progress]
+```
+
+Saving a new commission opens **WF-07Q, Queued**. Starting it later changes the same record to **WF-07A, In progress**. Paying its balance changes its payment state; it does not complete the artwork.
+
+<a id="wf01"></a>
+## WF-01 — Home / Dashboard
+
+**Visual:** one phone. **Enter:** launch the app or tap Home. **Scroll:** the dashboard can scroll vertically as its previews grow; bottom navigation remains available. The current drawing shows one viewport.
+
+Read top to bottom: header/date → monthly received earnings → workload counts → current projects → simple checklist → next queued project → Add commission → main navigation.
+
+| Click / action | Destination or result |
+| --- | --- |
+| Add commission | WF-03, Client details |
+| Current work count / View all | WF-02A, Current filter |
+| In queue count | WF-02B, Queued filter |
+| Current project or next-in-queue card | WF-07 for that project |
+| Checklist title | WF-07 for its related project |
+| Checklist checkbox | Change only that item's completion; stay on this page |
+| All tasks / unfinished-task count | P-07, simple global checklist list; not drawn yet |
+| View insights / Insights navigation | P-04, Insights; not drawn yet |
+| Commissions navigation | WF-02, normally Current |
+| History navigation | P-03, main transaction History; not drawn yet |
+
+Task-specific dates and the Send color preview action are removed. Commission deadlines and payment received dates remain.
+
+![WF-01 Dashboard, using DynaPuff and Mali, with simple checklist items and no task-specific dates](docs/wireframes/dashboard.jpg)
+
+<a id="wf02"></a>
+## WF-02 — Commissions list
+
+**Visual:** four phones showing one page's filters/states. **Enter:** Commissions navigation or a dashboard list shortcut. **Scroll:** the list scrolls vertically; New and the main navigation remain reachable. Filter selection changes the list, not the page identity.
+
+| Board position | Reference | What it represents | What a card opens |
+| --- | --- | --- | --- |
+| Top left | WF-02A | Current: artwork In progress | WF-07A, current record |
+| Top right | WF-02B | Queued: accepted but not started | WF-07Q, queued record |
+| Bottom left | WF-02C | Completed: previous/finished artwork, even if money is owed | WF-07C, completed record |
+| Bottom right | WF-02D | New-artist empty state | Add commission opens WF-03 |
+
+**+ New** also opens WF-03. Search is proposed to match client/project within the selected filter. Returning from a record should restore the filter, query, and list position.
+
+**Commissions stores artwork records; main History lists payment transactions.** One artwork with an initial deposit and a later balance payment is one commission card and two History entries. Previous artwork belongs in Completed, rather than a duplicate archive under History.
+
+![WF-02A Current top left, WF-02B Queued top right, WF-02C Completed bottom left, WF-02D empty bottom right](docs/wireframes/commissions-list.jpg)
+
+<a id="wf03"></a>
+## WF-03 — Add commission, Step 1: Client details
+
+**Visual position:** top left of the intake board below. **Enter:** Add commission or + New. **Type:** separate form step. **Scroll:** usually fits; allow vertical scrolling when the keyboard or accessibility text sizing needs room.
+
+Show platform (X/Discord), username, and optional display name.
+
+- **Next: Artwork** checks the platform/username and opens WF-04 with the draft retained.
+- **Back or Close** returns to the entry page if untouched; unsaved edits use the pending Keep editing / Discard dialog.
+- Selecting X/Discord changes the contact label only; it does not sign in to a platform.
+
+<a id="wf04"></a>
+## WF-04 — Add commission, Step 2: Artwork brief
+
+**Visual position:** top right of the intake board. **Enter:** WF-03 → Next: Artwork. **Type:** separate form step. **Scroll:** the form may scroll for longer instructions or more images; do not shrink text to fit.
+
+Show project title, Full body/Half body/Chibi/Portrait selection, genre/style tags, pose/details, and reference thumbnails.
+
+- **Add image** opens an Android image picker, then returns here. The picker itself has not been drawn.
+- A thumbnail can lead to P-06, the larger image viewer; not drawn yet.
+- **Next: Price & dates** checks required title/type and opens WF-05 with the draft retained.
+- **Back** returns to WF-03. Tag/type selection stays on this step.
+
+<a id="wf05"></a>
+## WF-05 — Add commission, Step 3: Price & dates
+
+**Visual position:** bottom left of the intake board. **Enter:** WF-04 → Next: Price & dates. **Type:** separate form step. **Scroll:** especially needed if Record initial payment is expanded or the keyboard is shown.
+
+Show package/add-on quote, agreed total, commission date, due date, optional planned start, and the optional initial-payment control.
+
+- **Calendar icon** opens a date picker dialog and returns here; it is not a new wizard step.
+- **Record initial payment** reveals amount, received date, method, and optional note on this same step. Only the collapsed/off state has been drawn so far.
+- **Review commission** checks the amount/date information and opens WF-06.
+- **Back** returns to WF-04. Next/Review has not saved a commission or payment yet.
+
+<a id="wf06"></a>
+## WF-06 — Add commission, Step 4: Review
+
+**Visual position:** bottom right of the intake board. **Enter:** WF-05 → Review commission. **Type:** separate form step. **Scroll:** long summaries scroll; Save remains reachable.
+
+Show client, artwork, schedule, and price/payment groups, each with an Edit link.
+
+| Click | Destination |
+| --- | --- |
+| Client → Edit | WF-03 with the draft values |
+| Artwork → Edit | WF-04 with the draft values |
+| Schedule / Price & payment → Edit | WF-05 with the draft values |
+| Back | WF-05 |
+| Save commission | Validate and save once, then open WF-07Q, Queued |
+
+Save includes any valid initial payment already received. It does not start the artwork or invent a payment for an unpaid quote. Failure keeps the review/draft intact. Detailed validation rules remain in the intake reference below.
+
+**Intake board reading order: top left → top right → bottom left → bottom right.** These are four steps with Next/Back actions, not four scroll positions of one long form.
+
+![WF-03 Client details, WF-04 Artwork brief, WF-05 Price and dates, WF-06 Review, in row-major order](docs/wireframes/add-commission.jpg)
+
+<a id="wf07"></a>
+## WF-07 — Commission Details
+
+**Enter:** a project card, a related-commission link, or WF-06 → Save commission. **Type:** one record page with lifecycle variants. **Scroll:** yes; this is the main long/scrolling record.
+
+| Board position | Reference | What it represents | How to get there |
+| --- | --- | --- | --- |
+| Top left | WF-07A | In-progress record, first viewport: references, brief, creative stages | Open a Current card, or start a queued commission |
+| Top right | WF-07B | Lower portion of that exact same record: checklist, dates, payments | Scroll down from WF-07A; no Next button |
+| Bottom left | WF-07Q | Queued record, work not started | WF-06 → Save commission, or open a Queued card |
+| Bottom right | WF-07C | Completed record, with final artwork/finished date; a balance may remain | Open a Completed card |
+
+WF-07A and WF-07B share the project and record. The two-phone drawing is a way to show long content without cramming it into one phone. They are not tabs or separate Activities in the wireframe specification.
+
+| Click / action | Destination or result |
+| --- | --- |
+| Record payment | WF-09 |
+| View payment history / Payment history | WF-08 for this commission |
+| Update progress | P-01; button drawn, destination not drawn yet |
+| Start commission on WF-07Q | Explicitly start work, then show this record as In progress; any start-confirmation state remains to be drawn |
+| Edit | P-05, prefilled commission editing; reuse WF-03–WF-06, but an edit-specific example is not drawn yet |
+| Reference / final-artwork image | P-06, larger viewer; not drawn yet |
+| Checklist checkbox | Change only that item's completion; remain on the record |
+| Checklist label | Display only; no extra task-detail button or deadline |
+| More options | Secondary actions such as proposed cancellation; confirmation not drawn yet |
+| Back | The originating dashboard/list/history view, preserving context |
+
+Work status and payment status remain independent. Fully paid work can still be In progress; Completed work can still have money outstanding.
+
+![WF-07A first viewport top left, WF-07B scroll continuation top right, WF-07Q queued bottom left, WF-07C completed bottom right](docs/wireframes/commission-details.jpg)
+
+<a id="wf08"></a>
+## WF-08 — Payment history for one commission
+
+**Enter:** WF-07 → View payment history / Payment history. **Type:** separate page for one commission's receipts. **Scroll:** yes, when received-payment entries grow.
+
+Show project/client context, agreed price, total received, balance, and the actual received-payment entries with dates, method, purpose, and optional notes. An outstanding balance is not a received payment.
+
+- **WF-08A:** partially paid example, with an initial deposit and an outstanding balance. It is the **right phone below**.
+- The **left phone below repeats WF-07B** to show the link's origin. It is not another new page.
+- **Record payment** opens WF-09.
+- **Back** returns to WF-07 for the same commission and previous position.
+- **WF-08B:** this same page after a successful save, including a fully paid state. It appears on the **right of the Record payment board in WF-09**.
+
+This page is distinct from the still-undrawn main History tab: WF-08 shows one commission's money; P-03 will show transactions across commissions. P-04 Insights is the separate reporting/graphs page.
+
+![Left: WF-07B simplified record context; right: WF-08A commission-specific payment history with initial deposit](docs/wireframes/payment-history.jpg)
+
+<a id="wf09"></a>
+## WF-09 — Record payment
+
+**Visual position:** left phone below. **Enter:** Record payment from WF-07 or WF-08. **Type:** separate short form, not an analytics page. **Scroll:** the form can scroll with the keyboard or longer notes; Save remains reachable.
+
+Show the selected project/client, current balance, amount received, date received, payment method, optional note, and a clearly labeled after-save balance preview.
+
+| Click / action | Destination or result |
+| --- | --- |
+| Calendar icon | Date picker dialog, returning to this form |
+| Payment method | Method chooser, returning to this form |
+| Save payment | Check a positive amount within the outstanding balance, valid received date/method; save once and open WF-08 with refreshed totals |
+| Back / Close before saving | Return to the originating record/history; unsaved changes use Keep editing / Discard |
+
+**Right phone = WF-08B, the existing Payment history page after Save.** Payment recorded is brief feedback on that page, not a separate confirmation screen. In the example, the new balance payment joins the existing initial deposit, the balance becomes zero, and the work remains In progress.
+
+When the balance is zero, **Back to commission** returns to WF-07. When a partial balance remains, Payment history can continue offering Record payment. A failed save preserves the form and does not update money totals.
+
+![Left: WF-09 Record payment form; right: WF-08B the same payment-history page after saving, not a new success page](docs/wireframes/record-payment.jpg)
+
+## Planned next wireframes — not drawn yet
+
+These entries explain destinations already mentioned by buttons. They are not hidden existing designs.
+
+| Planned number | Wireframe | Entry button / context | Expected type |
+| --- | --- | --- | --- |
+| P-01 | Update Progress | WF-07 → Update progress | Stage-selection view; full page versus sheet still to be decided |
+| P-02 | Completion confirmation | P-01 → Finished / complete | Confirmation with actual finish date; work completion does not mark paid |
+| P-03 | Main transaction History | Main navigation → History | Main scrolling payment timeline across commissions |
+| P-04 | Insights | Main navigation → Insights, or dashboard View insights | Main financial-summary/graph page |
+| P-05 | Edit Commission | WF-07 → Edit | Prefilled version of the four-step intake; final action Save changes |
+| P-06 | Image viewer | Reference / final-artwork thumbnail | Larger image view; exact page/modal format undecided |
+| P-07 | All checklist items | WF-01 → All tasks / unfinished-task count | Simple scrolling checklist across commissions, with parent-commission links; no task dates or task-editor pages |
+
+Additional **states/dialogs**, rather than automatically separate main pages, still need drawings: WF-05 initial-payment fields expanded; form validation; no search matches; empty categories; discard changes; any start/cancel confirmation; save failure; and date/method pickers if a custom layout is needed. Cancelled-record list access remains a later proposal.
+
+**Next design task after this guide: P-01 Update Progress, then P-02 completion confirmation.**
+
+## Shared design and detailed behavior reference
+
+The reference sections below preserve the font, color, spacing, and field rules behind the numbered pages above. Their lettered headings are not additional wireframe numbers.
+
+## A. Phone layout
 
 | Item | Planning reference |
 | --- | --- |
@@ -27,7 +264,7 @@ Use the reviewed dashboard and accepted four-step Add commission layout as the v
 
 Use dp for layout and sp for text in the future Android implementation. Show status/navigation areas in the wireframes without assuming that all 914 dp is available for app content. Account for bottom system insets and the keyboard in later detailed layouts.
 
-## 2. Typography
+## B. Typography
 
 ### Primary font: DynaPuff
 
@@ -64,7 +301,7 @@ Use Medium weight for small dates, links, and supporting labels, and SemiBold fo
 
 **DynaPuff and Mali are the accepted pairing.** Individual sizes, spacing, and form layouts remain open to refinement.
 
-## 3. Proposed color scheme
+## C. Proposed color scheme
 
 The palette follows the warm, simple direction of the [Guhit reference](https://app.guhit.app/). The exact values below are proposed for OBRA.
 
@@ -93,7 +330,7 @@ The earnings panel's sage fill is decorative and does not mean that all commissi
 
 Draw this light palette first. A dark theme has not been requested or specified.
 
-## 4. Dashboard: static layout and planned actions
+## D. Dashboard: detailed action reference
 
 ### Top-to-bottom layout
 
@@ -113,23 +350,23 @@ The dashboard's data summaries do not require every entire card to be a button. 
 | Starting control | Planned next view or result |
 | --- | --- |
 | View insights on Monthly earnings | Open Insights with the same month selected |
-| Current work count | Open Commissions filtered to In progress |
+| Current work count | Open WF-02A, the Current filter (In progress records) |
 | Unfinished task count / All tasks | Open the unfinished task list across commissions |
 | In queue count | Open Commissions filtered to Queued |
-| Current work → View all | Open Commissions filtered to In progress |
+| Current work → View all | Open WF-02A, the Current filter |
 | Commission card | Open that commission's details |
 | Dashboard task title such as Finish lineart | Open the related commission; no separate task-detail page is needed |
 | Task checkbox | Mark only that task complete; update task counts in the eventual app |
 | Next in queue preview | Open that queued commission's details; do not start it automatically |
 | Add commission | Open Step 1: Client details |
 | Home | Return to the dashboard |
-| Commissions | Open the commission list, initially showing In progress; status filters remain available |
+| Commissions | Open WF-02, initially showing the Current filter; other status filters remain available |
 | History | Open individual payment transactions across commissions; previous artwork is under Commissions → Completed |
 | Insights | Open earnings summaries and graphs |
 
 On the dashboard, a task title leads to its commission while its checkbox changes only the checklist item's completion state. Completing **Finish lineart** must not automatically mark the entire commission completed or record any payment. The checklist has no per-task due dates. The Send color preview row/action and additional task-detail/custom-entry controls are omitted from the simplified draft.
 
-## 5. Add commission: Next button sequence
+## E. Add commission: validation and draft behavior
 
 Use the accepted four-step wireframe direction so a long form can be reviewed in manageable groups. Show **Step 1 of 4** and a clear step heading. Draw the four screens together on the static board.
 
@@ -155,7 +392,7 @@ This step does not sign in to X/Discord, contact the client, or create a saved c
 
 1. Choose Full body, Half body, Chibi, Portrait, or another configured package.
 2. Add the brief and attach any supplied references.
-3. Tapping **Add reference** should eventually open the Android image picker; selecting an image returns here with a thumbnail. Cancelling the picker leaves the draft unchanged.
+3. Tapping **Add image** should eventually open the Android image picker; selecting an image returns here with a thumbnail. Cancelling the picker leaves the draft unchanged.
 4. Next checks that a commission type and a short project title are present.
 5. If valid, keep the draft and move to Step 3. If invalid, remain here with field-specific messages.
 
@@ -200,7 +437,7 @@ Only final Save creates the commission. If save fails, remain on Review with the
 - **Discard:** return to the screen that opened the form; create no commission or payment.
 - Saving drafts across app restarts has not been requested; it remains a separate future decision.
 
-## 6. Commission details: action map
+## F. Commission Details: detailed action reference
 
 See [the Commission Details wireframe plan](docs/commission-details.md) for the current board. It shows the first and lower portions of one in-progress record, plus Queued and Completed states. The queued record continues the intake example; the completed record demonstrates a remaining balance.
 
@@ -210,13 +447,13 @@ See [the Commission Details wireframe plan](docs/commission-details.md) for the 
 | Edit | Open the same four groups with existing values; final action reads Save changes |
 | Save changes | Save the edited commission and return to its details; retain existing payment records |
 | Start commission | Change a queued record to In progress after an explicit start action; show its initial creative stage |
-| Update stage | Open stage choices; Save stage applies the selected stage and returns to details |
+| Update progress | Open P-01 stage choices; its planned Save progress action applies the stage and returns to details; destination not drawn yet |
 | Record payment | Open the [payment-entry form](docs/record-payment.md) showing context, amount/date/method/note, and after-save balance; Save returns to updated commission payment history |
 | Reference thumbnail | Open a full image view; Back returns to the same commission |
 | Checklist label | Display a task name; no extra task-detail button or date |
-| Mark task done | Complete only that task and refresh the unfinished-task count |
-| Mark commission complete | Review a confirmation, record the actual finish date, then mark the work Completed |
-| Cancel commission | Review a cancellation confirmation; confirmed cancellation changes lifecycle status while retaining history |
+| Checklist checkbox | Complete only that task and refresh the unfinished-task count |
+| Finish/complete (planned P-02) | Review a confirmation, record the actual finish date, then mark the work Completed; confirmation not drawn yet |
+| Cancel commission (planned) | Review a cancellation confirmation; confirmed cancellation changes lifecycle status while retaining history; confirmation not drawn yet |
 
 Completing a commission must not mark it paid automatically. If money is still owed, show the remaining balance on the completed record. Whether Completed means artwork finished, final files sent, or client acceptance still needs a project decision.
 
@@ -226,7 +463,7 @@ Editing an agreed price must not silently erase payments. The handling of an edi
 
 The [Record payment draft](docs/record-payment.md) has a single Save payment action. Its example clears the remaining balance and returns to Fully paid history while the artwork stays In progress. Validate a positive amount within the outstanding balance, a received date, and a method. The date defaults to today and can be changed; notes are optional. Back/Close use Keep editing / Discard if the form has unsaved changes.
 
-## 7. History and Insights: next destinations
+## G. Main section definitions
 
 ### Commissions and History
 
@@ -251,17 +488,11 @@ The current recommendation separates payment transactions in History from previo
 
 Changing a report filter never edits commissions or payments. Detailed graphs belong here rather than filling the dashboard.
 
-## 8. What to draw on the static board
+## H. Maintaining the static board
 
-Draw the first dashboard normally, then show important alternative states beside it as separate labeled screens:
+Keep the numbered catalogue and saved previews in sync when a design changes. Preserve the distinction between a new page, a same-page state, and a scroll continuation. Do not add an extra page number for a payment success banner, selected filter, or checklist toggle.
 
-1. **Dashboard — normal:** monthly income, current work, pending tasks, queue preview.
-2. **Dashboard — empty:** zero values and a clear Add commission action.
-3. **Dashboard — urgent:** overdue/approaching deadlines labeled with words as well as color.
-4. **Add commission — Steps 1-4:** use arrows outside the phones to show the Next/Back sequence.
-5. **Form validation example:** show one missing-field state and one valid continuation.
-6. **Commission details:** show task, stage, and payment actions as distinct controls.
-7. **Record payment and completed-but-unpaid example:** make the financial distinction visible.
+The existing boards cover the standard dashboard, four-step intake, list filters/empty list, current/queued/completed detail variants, payment history, and payment entry with its saved result. Additional empty/error/urgent/dialog states are listed as pending above rather than presented as completed drawings.
 
 Use DynaPuff for **Monthly earnings**, **Finish lineart**, and the other specified titles in every state. Place notes such as **Next: Artwork → Step 2** outside the phone frames when a control's destination needs explanation.
 

@@ -64,7 +64,8 @@ This four-section navigation and the transaction-only History split are **propos
 
 | Document | Contents |
 | --- | --- |
-| [Layout and interaction plan](layout.md) | DynaPuff usage, proposed color palette, dashboard actions, and step-by-step Next/Back button flows |
+| [Numbered layout and interaction guide](layout.md) | All existing wireframes with embedded previews, WF-01–WF-09 page order, entry/exit buttons, scrolling/state explanations, pending destinations, fonts, and palette |
+| [Saved wireframe boards](docs/wireframes/README.md) | Current preview images, standalone static HTML exports, and editable source fragments |
 | [Feature requirements](docs/requirements.md) | Requested features, supporting suggestions, boundaries, and expected behavior |
 | [Dashboard plan](docs/dashboard.md) | Dashboard sections, reading order, terminology, and states to design |
 | [Commissions list](docs/commissions-list.md) | Current, Queued, Completed, and empty states; the distinction between artwork records and payment History |
@@ -95,6 +96,6 @@ The initial concept is a workspace for the artist. It does not require a client-
 
 ## Repository status
 
-Documentation only. There is no application build or automated test suite yet. Example clients and money amounts in planning materials must remain fictional.
+Planning documentation and static wireframe assets only. There is no Android application build or automated app test suite yet. Example clients and money amounts in planning materials must remain fictional.
 
 No software license has been selected. No third-party branding, illustrations, font files, proposal PDF, personal client records, or credentials are included.

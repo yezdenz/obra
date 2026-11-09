@@ -26,6 +26,7 @@ This roadmap describes the order of work. It does not claim that a feature is im
 - [ ] Draw commission editing and supporting progress/image views.
 - [x] Draft Record payment and its saved history state.
 - [x] Draft a commission-specific payment-history list and simplify the checklist to remove task dates/actions.
+- [x] Organize all existing boards in layout.md with numbered pages, button routes, scroll/state explanations, and saved previews/sources.
 - [ ] Draw payment history and previous-work views.
 - [ ] Draw Insights and choose clear graph labels.
 - [ ] Draw supporting forms and important empty/edge states.

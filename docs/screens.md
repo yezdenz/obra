@@ -2,6 +2,8 @@
 
 The screens below are a planning inventory. The dashboard's visual direction, DynaPuff/Mali pairing, and four-step intake wireframe have been reviewed and accepted as references. New screen drafts and the remaining grouping/navigation decisions still need review. Static wireframes come before executable navigation.
 
+Use [layout.md](../layout.md) as the master numbered guide. It embeds every current board and assigns WF-01–WF-09 to existing page/step layouts, with separate labels for filters, saved states, and scroll positions. Undrawn button destinations are listed under P-01 onward.
+
 ## Main sections
 
 ### Home / Dashboard

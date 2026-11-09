@@ -25,6 +25,10 @@ For a layout proposal, include screen name, information order, device size, rele
 - Check Markdown links and terminology before submitting.
 - Verify affected clickable flows, disabled states, and shared values. Do not claim native Android build/test results for an app that does not yet exist.
 
+## Git commit standards
+
+All repository commits must follow the per-file distinct description rules documented in [AUTO_COMMIT.md](AUTO_COMMIT.md). Conventional commit prefixes (`feat:`, `fix:`) and blanket commits are prohibited.
+
 ## Files to keep out of Git
 
 Do not commit credentials, personal client information, actual transaction data, private reference artwork, local databases, Android signing keys, machine-specific configuration, or generated build files.

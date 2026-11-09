@@ -81,7 +81,7 @@ A fully paid completed variant should later show a zero balance and payment hist
 | --- | --- |
 | Back | Originating dashboard/list/history view |
 | Edit | WF-14–WF-17 prefilled edit steps and changed-value review; Save changes updates this record and returns here |
-| Reference or final-artwork image | Larger image viewer; Back returns to the same record |
+| Reference or final-artwork image | WF-18 image viewer; Back returns to the same record/position |
 | Update progress | WF-10 stage-selection page; Save progress returns to this record without editing payments |
 | Finish/complete stage | WF-10 Finished → Review completion → WF-11; confirm actual finished date, then return to this record as Completed without marking paid |
 | Checklist label | Display the task name without a separate task-detail destination |
@@ -104,6 +104,6 @@ The [Record payment draft](record-payment.md) now shows the form and updated his
 
 The [Edit commission draft](edit-commission.md) now shows four prefilled steps and a due-date change reviewed before Save changes. Existing receipts remain read-only within editing, and the record's lifecycle/stage do not reset.
 
-The [Update progress/completion draft](update-progress.md) now shows stage choices, finished-date confirmation, and this existing record after completion. A larger image view, a fully paid completed record, and overdue/empty-reference states remain to draw. Task editing/detail screens are deferred under the simplified checklist direction.
+The [Update progress/completion draft](update-progress.md) now shows stage choices, finished-date confirmation, and this existing record after completion. The [larger image viewer](image-viewer.md), WF-18, now has reference and final-artwork variants. A fully paid completed record and overdue/empty-reference states remain to draw. Task editing/detail screens are deferred under the simplified checklist direction.
 
 See [layout.md](../layout.md), [Add commission](add-commission.md), and the [screen inventory](screens.md).

@@ -14,7 +14,7 @@ Use the reviewed dashboard and accepted four-step Add commission layout as the v
 
 ## Read the numbering first
 
-- **WF-01 through WF-17** identify the seventeen existing page/step layouts. They are reference numbers, not a requirement to visit every screen in that order.
+- **WF-01 through WF-18** identify the eighteen existing page/step layouts. They are reference numbers, not a requirement to visit every screen in that order.
 - A suffix such as **WF-02A** identifies a filter/state of the same page.
 - **WF-07A and WF-07B are two scroll positions of one Commission Details page.** No Next button connects them.
 - **WF-08B is the same Payment history page after saving a payment**, not a separate success screen.
@@ -22,7 +22,8 @@ Use the reviewed dashboard and accepted four-step Add commission layout as the v
 - **WF-12A/B** are populated/empty-month states of the main History page.
 - **WF-13A/B** are first/lower scroll views of one Insights page, with no Next action between them.
 - **WF-14–WF-17** are the four Edit commission steps. They reuse the intake structure but update an existing record.
-- **P-06 onward** identifies remaining planned wireframes. Former P-01–P-04 are WF-10–WF-13; former P-05 is WF-14–WF-17.
+- **WF-18A/B** show the same image viewer with reference/final-artwork collections.
+- **P-07** identifies the remaining planned All checklist items page. Former P-01–P-04 are WF-10–WF-13; former P-05 is WF-14–WF-17; former P-06 is WF-18.
 - Every visual board is embedded below. Open an image at full size when reviewing its small labels. [Saved boards and editable sources](docs/wireframes/README.md) are also in the repository.
 
 ## Existing wireframes: sequential index
@@ -46,6 +47,7 @@ Use the reviewed dashboard and accepted four-step Add commission layout as the v
 | [WF-15](#wf15) | Edit commission: Artwork brief | WF-14 → Next: Artwork | Prefilled edit Step 2 of 4; references/brief can scroll |
 | [WF-16](#wf16) | Edit commission: Price & dates | WF-15 → Next: Price & dates | Edit Step 3 of 4; received payments read-only; form can scroll |
 | [WF-17](#wf17) | Edit commission: Review changes | WF-16 → Review changes | Edit Step 4 of 4; before/after summary and full review; can scroll |
+| [WF-18](#wf18) | Image viewer | Reference/final-artwork thumbnail in Details, intake, or editing | Dedicated preview page; image zoom/pan and same-page image selection; no main navigation |
 
 Dashboard styling, the DynaPuff/Mali pairing, and the four-step intake direction have been accepted. The other drawings are current drafts for review; having a preview does not mean the app has been implemented or every behavior finalized.
 
@@ -81,6 +83,9 @@ flowchart TD
     EditArtwork -->|Next: Price and dates| EditDates[WF-16 Edit price and dates]
     EditDates -->|Review changes| EditReview[WF-17 Review changes]
     EditReview -->|Save changes| Detail
+    Detail -->|Reference / final artwork| Viewer[WF-18 Image preview]
+    Artwork -->|Reference thumbnail| Viewer
+    EditArtwork -->|Reference thumbnail| Viewer
 ```
 
 Saving a new commission opens **WF-07Q, Queued**. Starting it later changes the same record to **WF-07A, In progress**. Paying its balance changes its payment state; it does not complete the artwork.
@@ -146,7 +151,7 @@ Show platform (X/Discord), username, and optional display name.
 Show project title, Full body/Half body/Chibi/Portrait selection, genre/style tags, pose/details, and reference thumbnails.
 
 - **Add image** opens an Android image picker, then returns here. The picker itself has not been drawn.
-- A thumbnail can lead to P-06, the larger image viewer; not drawn yet.
+- A thumbnail opens WF-18, the larger image viewer; Back preserves the intake draft.
 - **Next: Price & dates** checks required title/type and opens WF-05 with the draft retained.
 - **Back** returns to WF-03. Tag/type selection stays on this step.
 
@@ -204,7 +209,7 @@ WF-07A and WF-07B share the project and record. The two-phone drawing is a way t
 | Update progress | WF-10, stage selection |
 | Start commission on WF-07Q | Explicitly start work, then show this record as In progress; any start-confirmation state remains to be drawn |
 | Edit | WF-14–WF-17, four prefilled steps that update this same commission |
-| Reference / final-artwork image | P-06, larger viewer; not drawn yet |
+| Reference / final-artwork image | WF-18 image viewer; Back returns to this record and position |
 | Checklist checkbox | Change only that item's completion; remain on the record |
 | Checklist label | Display only; no extra task-detail button or deadline |
 | More options | Secondary actions such as proposed cancellation; confirmation not drawn yet |
@@ -359,7 +364,7 @@ Show the existing platform, username, optional display name, and read-only work 
 
 **Enter:** WF-14 → Next: Artwork. **Position:** top right of the board. **Type:** separate prefilled form step, Step 2 of 4. **Scroll:** brief and reference content can grow.
 
-Show saved title, type, tags, pose/details, and references. Add image uses the device picker; thumbnail opens P-06, still undrawn. A remove cross stages reference removal in the draft rather than immediately deleting saved material. **Next: Price & dates** opens WF-16 with the draft preserved. Changing type does not silently replace the agreed price or reset progress.
+Show saved title, type, tags, pose/details, and references. Add image uses the device picker; thumbnail opens WF-18. A remove cross stages reference removal in the draft rather than immediately deleting saved material. **Next: Price & dates** opens WF-16 with the draft preserved. Changing type does not silently replace the agreed price or reset progress.
 
 <a id="wf16"></a>
 ## WF-16 — Edit commission: Price & dates
@@ -392,18 +397,41 @@ Saving edits does not create a new artwork, return work to Queued, reset progres
 
 ![WF-14 client edit top left, WF-15 artwork edit top right, WF-16 price and dates bottom left, WF-17 review changes bottom right](docs/wireframes/edit-commission.jpg)
 
+<a id="wf18"></a>
+## WF-18 — Image viewer
+
+**Enter:** reference/final-artwork thumbnail in WF-07, attached-reference thumbnail in WF-04 or WF-15, or View original references on a completed record. **Type:** one dedicated preview page. **Scroll:** normal chrome fits a viewport; zoom/pan stays in the image area. Accommodate larger text/shorter screens without cutting off Back or viewing controls. No main navigation.
+
+| Board position | Reference | What it represents |
+| --- | --- | --- |
+| Left | WF-18A | pose.png, first of two references for Fantasy portrait |
+| Right | WF-18B | cozy-cafe.png, one final-artwork image for Cozy café illustration |
+
+These are collection variants of the same page. Earlier boards show the small thumbnails; this is their larger destination. Image content remains a placeholder in these drawings.
+
+| Click / action | Destination or result |
+| --- | --- |
+| Header Back / Android Back | Return to the exact originating form/record with its draft and scroll position intact |
+| Next / Previous | Select another image from this collection on WF-18; update count/filename and fit the new image |
+| Thumbnail | Select that image on this same page |
+| Plus / minus / pinch | Adjust magnification; drag an enlarged image to pan |
+| Fit image | Reset zoom/pan and show the complete image at its original aspect ratio |
+
+Previous is unavailable at the first image; Next is unavailable at the last. A single-image collection hides its thumbnail strip, count, and pager. Previewing does not attach, save, delete, complete, or pay for anything. Back from a form preview preserves its unsaved draft without a discard prompt. See [the image viewer draft](docs/image-viewer.md) for detailed behavior and undrawn zoom/error states.
+
+![WF-18A reference-image preview on the left and WF-18B single final-artwork preview on the right, both variants of one viewer](docs/wireframes/image-viewer.jpg)
+
 ## Planned next wireframes — not drawn yet
 
 These entries explain destinations already mentioned by buttons. They are not hidden existing designs.
 
 | Planned number | Wireframe | Entry button / context | Expected type |
 | --- | --- | --- | --- |
-| P-06 | Image viewer | Reference / final-artwork thumbnail | Larger image view; exact page/modal format undecided |
 | P-07 | All checklist items | WF-01 → All tasks / unfinished-task count | Simple scrolling checklist across commissions, with parent-commission links; no task dates or task-editor pages |
 
 Additional **states/dialogs**, rather than automatically separate main pages, still need drawings: WF-05 initial-payment fields expanded; form validation; no search matches; empty categories; discard changes; any start/cancel confirmation; save failure; and date/method pickers if a custom layout is needed. Cancelled-record list access remains a later proposal.
 
-**Next suggested design task: P-06 Image viewer**, then P-07 All checklist items. The four main sections and edit flow now have static drafts; continue reviewing them alongside supporting states.
+**Next suggested design task: P-07 All checklist items.** The four main sections, edit flow, and image viewer now have static drafts; continue reviewing them alongside supporting states.
 
 ## Shared design and detailed behavior reference
 
@@ -611,7 +639,7 @@ See [the Commission Details wireframe plan](docs/commission-details.md) for the 
 | Start commission | Change a queued record to In progress after an explicit start action; show its initial creative stage |
 | Update progress | Open WF-10 stage choices; Save progress applies a non-final stage and returns to the same details record |
 | Record payment | Open the [payment-entry form](docs/record-payment.md) showing context, amount/date/method/note, and after-save balance; Save returns to updated commission payment history |
-| Reference thumbnail | Open a full image view; Back returns to the same commission |
+| Reference thumbnail | Open WF-18 full image preview; Back returns to the same commission |
 | Checklist label | Display a task name; no extra task-detail button or date |
 | Checklist checkbox | Complete only that task and refresh the unfinished-task count |
 | Finish/complete | WF-10 Finished → Review completion → WF-11; confirm actual finished date and mark the work Completed without altering payments |
@@ -655,7 +683,7 @@ Changing a report filter never edits commissions or payments. All-time earnings 
 
 Keep the numbered catalogue and saved previews in sync when a design changes. Preserve the distinction between a new page, a same-page state, and a scroll continuation. Do not add an extra page number for a payment success banner, selected filter, or checklist toggle.
 
-The existing boards cover the standard dashboard, four-step intake, list filters/empty list, current/queued/completed detail variants, commission payment history, payment entry with its saved result, progress/completion, main History with populated/empty months, Insights with a lower scroll view, and the four-step edit flow. Additional empty/error/urgent/dialog states are listed as pending above rather than presented as completed drawings.
+The existing boards cover the standard dashboard, four-step intake, list filters/empty list, current/queued/completed detail variants, commission payment history, payment entry with its saved result, progress/completion, main History with populated/empty months, Insights with a lower scroll view, the four-step edit flow, and image viewer variants. Additional empty/error/urgent/dialog states are listed as pending above rather than presented as completed drawings.
 
 Use DynaPuff for **Monthly earnings**, **Finish lineart**, and the other specified titles in every state. Place notes such as **Next: Artwork → Step 2** outside the phone frames when a control's destination needs explanation.
 
@@ -667,6 +695,7 @@ The board should communicate the planned behavior through labels, arrows, and se
 - [Commissions list](docs/commissions-list.md)
 - [Add commission wireframe](docs/add-commission.md)
 - [Edit commission wireframe](docs/edit-commission.md)
+- [Image viewer](docs/image-viewer.md)
 - [Commission Details wireframe](docs/commission-details.md)
 - [Commission payment history](docs/payment-history.md)
 - [Main transaction History](docs/main-history.md)

@@ -31,9 +31,9 @@ Next checks the same applicable username/platform requirements as intake and ret
 
 ## WF-15: artwork brief
 
-Prefill project title, type, genre/style tags, pose/details, and saved references. The pictured two references are image placeholders. Add image opens the eventual device picker; a reference thumbnail opens the still-undrawn larger viewer, P-06. The remove cross stages removal from this commission's draft; it does not delete an image immediately or affect other records.
+Prefill project title, type, genre/style tags, pose/details, and saved references. The pictured two references are image placeholders. Add image opens the eventual device picker; a reference thumbnail opens [WF-18, the larger viewer](image-viewer.md). Back preserves this edit draft. The remove cross stages removal from this commission's draft; it does not delete an image immediately or affect other records.
 
-Changing a type does not silently replace the saved agreed price or reset creative progress/checklists. Next preserves the draft and opens WF-16. Reference-picker/viewer and image-removal states remain to draw.
+Changing a type does not silently replace the saved agreed price or reset creative progress/checklists. Next preserves the draft and opens WF-16. The viewer is now drawn; device-picker and image-removal states remain to draw.
 
 ## WF-16: price and dates
 

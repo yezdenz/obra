@@ -1,0 +1,78 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400;500;600&family=Mali:wght@400;500;600;700&display=swap">
+<div id="obra-image-viewer" class="viz-dotted-background">
+  <div class="iv-grid">
+    <figure>
+      <article class="iv-phone" role="img" aria-label="WF-18A static full-size reference image viewer, first of two references for Fantasy portrait, mika.draws on Discord. Large placeholder for pose.png, Reference label, pinch-to-zoom hint, Fit image, Zoom out and Zoom in controls. Selected pose thumbnail, second outfit thumbnail. Previous unavailable at first image, Next opens the second image on this same page. Header Back returns to the exact originating form or commission without changes.">
+        <div class="iv-status"><span>9:41</span><span><i data-lucide="wifi" aria-hidden="true"></i><i data-lucide="battery-full" aria-hidden="true"></i></span></div>
+        <div class="iv-content">
+          <header><i data-lucide="arrow-left" aria-hidden="true"></i><span>Image preview</span><span class="iv-count">1 of 2</span></header>
+          <section class="iv-identity"><h2>Fantasy portrait</h2><p>mika.draws · Discord</p></section>
+          <div class="iv-image"><i data-lucide="image" aria-hidden="true"></i></div>
+          <div class="iv-filename"><strong>pose.png</strong><span class="iv-badge iv-purple">Reference</span></div>
+          <div class="iv-zoom"><span class="iv-fit"><i data-lucide="scan" aria-hidden="true"></i>Fit image</span><span class="iv-zoom-hint">Pinch to zoom</span><span class="iv-zoom-icon"><i data-lucide="minus" aria-hidden="true"></i></span><span class="iv-zoom-icon"><i data-lucide="plus" aria-hidden="true"></i></span></div>
+          <div class="iv-thumbnails"><div class="iv-thumb iv-selected"><i data-lucide="image" aria-hidden="true"></i><span>pose.png</span></div><div class="iv-thumb"><i data-lucide="image" aria-hidden="true"></i><span>outfit.png</span></div></div>
+        </div>
+        <div class="iv-paging"><span class="iv-unavailable"><i data-lucide="chevron-left" aria-hidden="true"></i>Previous</span><span>1 of 2 images</span><span class="iv-next">Next<i data-lucide="chevron-right" aria-hidden="true"></i></span></div><div class="iv-system"><span></span></div>
+      </article><figcaption>WF-18A · Tap a reference → large preview · Next changes image</figcaption>
+    </figure>
+    <figure>
+      <article class="iv-phone" role="img" aria-label="WF-18B, the same image viewer for a final artwork. Cozy café illustration, bea.sketch on X, cozy-cafe.png. Large final-artwork placeholder, Final artwork label, Fit image and zoom controls. One image, so no thumbnail strip or Previous and Next controls. Back returns to the completed commission. Previewing does not mark artwork completed or record payments.">
+        <div class="iv-status"><span>9:41</span><span><i data-lucide="wifi" aria-hidden="true"></i><i data-lucide="battery-full" aria-hidden="true"></i></span></div>
+        <div class="iv-content iv-final-view">
+          <header><i data-lucide="arrow-left" aria-hidden="true"></i><span>Image preview</span><span class="iv-header-space"></span></header>
+          <section class="iv-identity"><h2>Cozy café illustration</h2><p>bea.sketch · X</p></section>
+          <div class="iv-image iv-final-image"><i data-lucide="image" aria-hidden="true"></i></div>
+          <div class="iv-filename"><strong>cozy-cafe.png</strong><span class="iv-badge iv-green">Final artwork</span></div>
+          <div class="iv-zoom"><span class="iv-fit"><i data-lucide="scan" aria-hidden="true"></i>Fit image</span><span class="iv-zoom-hint">Pinch to zoom</span><span class="iv-zoom-icon"><i data-lucide="minus" aria-hidden="true"></i></span><span class="iv-zoom-icon"><i data-lucide="plus" aria-hidden="true"></i></span></div>
+        </div>
+        <div class="iv-system"><span></span></div>
+      </article><figcaption>WF-18B · Same viewer · one final image · Back returns to Details</figcaption>
+    </figure>
+  </div>
+</div>
+<style>
+#obra-image-viewer {--iv-bg:#FFF8EF;--iv-surface:#FFFDF9;--iv-ink:#302C37;--iv-muted:#6B6270;--iv-outline:#746A76;--iv-divider:#D8CEC4;background-color:transparent;padding:18px 0;}
+#obra-image-viewer * {box-sizing:border-box;}
+#obra-image-viewer .iv-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:25px 22px;max-width:736px;margin:auto;align-items:start;}
+#obra-image-viewer figure {margin:0;min-width:0;}
+#obra-image-viewer .iv-phone {width:100%;aspect-ratio:411/914;min-height:790px;background:var(--iv-bg);color:var(--iv-ink);border:1px solid var(--iv-outline);border-radius:27px;display:flex;flex-direction:column;font:500 12px/1.4 'Mali',sans-serif;color-scheme:light;}
+#obra-image-viewer h2,#obra-image-viewer p {margin:0;}
+#obra-image-viewer svg {width:16px;height:16px;stroke-width:1.7;flex-shrink:0;}
+#obra-image-viewer .iv-status {display:flex;align-items:center;justify-content:space-between;padding:11px 18px 0;font:600 11px/1.3 system-ui,sans-serif;}
+#obra-image-viewer .iv-status>span:last-child {display:flex;gap:5px;}
+#obra-image-viewer .iv-status svg {width:14px;height:14px;}
+#obra-image-viewer .iv-content {display:flex;flex-direction:column;gap:17px;padding:20px 18px 14px;flex:1;}
+#obra-image-viewer header {display:flex;align-items:center;justify-content:space-between;gap:8px;font:400 16px/1.3 'DynaPuff',sans-serif;}
+#obra-image-viewer header>svg {width:19px;height:19px;}
+#obra-image-viewer .iv-count {font:500 11px/1.3 'Mali',sans-serif;color:var(--iv-muted);}
+#obra-image-viewer .iv-header-space {width:19px;}
+#obra-image-viewer .iv-identity {margin-top:5px;}
+#obra-image-viewer h2 {font:500 23px/1.3 'DynaPuff',sans-serif;letter-spacing:-.4px;}
+#obra-image-viewer .iv-identity>p {font-size:13px;color:var(--iv-muted);margin-top:7px;}
+#obra-image-viewer .iv-image {min-height:280px;flex:1;display:grid;place-items:center;background:#EDE5DC;color:var(--iv-muted);border-radius:15px 19px 14px 18px;}
+#obra-image-viewer .iv-image>svg {width:51px;height:51px;stroke-width:1.2;}
+#obra-image-viewer .iv-filename {display:flex;align-items:center;justify-content:space-between;gap:9px;}
+#obra-image-viewer .iv-filename>strong {font-weight:600;font-size:13px;overflow-wrap:anywhere;}
+#obra-image-viewer .iv-badge {display:inline-flex;align-items:center;padding:4px 8px;border-radius:7px;font-size:11px;white-space:nowrap;}
+#obra-image-viewer .iv-purple {background:#EDE4F4;color:#5D4975;}
+#obra-image-viewer .iv-green {background:#E7EEDB;color:#3E6040;}
+#obra-image-viewer .iv-zoom {display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
+#obra-image-viewer .iv-fit {display:flex;align-items:center;justify-content:center;gap:5px;min-height:40px;padding:9px;border:1px solid var(--iv-outline);border-radius:12px;background:var(--iv-surface);font-size:11px;}
+#obra-image-viewer .iv-fit svg {width:14px;height:14px;}
+#obra-image-viewer .iv-zoom-hint {font-size:11px;color:var(--iv-muted);flex:1;text-align:center;}
+#obra-image-viewer .iv-zoom-icon {display:grid;place-items:center;width:36px;height:40px;border:1px solid var(--iv-outline);border-radius:12px;background:var(--iv-surface);}
+#obra-image-viewer .iv-thumbnails {display:flex;justify-content:center;gap:10px;}
+#obra-image-viewer .iv-thumb {display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;min-height:66px;min-width:83px;padding:8px;background:#EDE5DC;color:var(--iv-muted);border:1px solid var(--iv-divider);border-radius:11px;font-size:11px;}
+#obra-image-viewer .iv-selected {background:#EDE4F4;color:#5D4975;border:2px solid #5D4975;}
+#obra-image-viewer .iv-paging {display:flex;align-items:center;justify-content:space-between;gap:7px;padding:10px 18px;border-top:1px solid var(--iv-divider);font-size:11px;color:var(--iv-muted);}
+#obra-image-viewer .iv-paging>span:first-child,#obra-image-viewer .iv-paging>span:last-child {display:flex;align-items:center;gap:3px;min-height:32px;font:400 12px/1.3 'DynaPuff',sans-serif;}
+#obra-image-viewer .iv-paging .iv-next {color:var(--iv-ink);}
+#obra-image-viewer .iv-paging .iv-unavailable {color:#6B6270;}
+#obra-image-viewer .iv-paging svg {width:13px;height:13px;}
+#obra-image-viewer .iv-final-view {padding-bottom:35px;}
+#obra-image-viewer .iv-final-image {min-height:350px;}
+#obra-image-viewer .iv-system {display:flex;justify-content:center;padding:12px 0 9px;}
+#obra-image-viewer .iv-system>span {width:88px;height:4px;border-radius:4px;background:var(--iv-ink);}
+#obra-image-viewer figcaption {font:500 11px/1.6 'Mali',sans-serif;color:#6B6270;background:#FFF8EF;border-radius:7px;padding:6px 9px;margin-top:9px;}
+@media(max-width:680px){#obra-image-viewer .iv-grid {grid-template-columns:minmax(0,1fr);max-width:411px;}#obra-image-viewer .iv-phone {min-height:914px;}}
+</style>

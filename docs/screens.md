@@ -2,7 +2,7 @@
 
 The screens below are a planning inventory. The dashboard's visual direction, DynaPuff/Mali pairing, and four-step intake wireframe have been reviewed and accepted as references. New screen drafts and the remaining grouping/navigation decisions still need review. Static wireframes come before executable navigation.
 
-Use [layout.md](../layout.md) as the master numbered guide. It embeds every current board and assigns WF-01–WF-17 to existing page/step layouts, with separate labels for filters, saved states, and scroll positions. Remaining undrawn destinations start at P-06; former P-01–P-04 are WF-10–WF-13 and former P-05 is WF-14–WF-17.
+Use [layout.md](../layout.md) as the master numbered guide. It embeds every current board and assigns WF-01–WF-18 to existing page/step layouts, with separate labels for filters, saved states, and scroll positions. P-07 All checklist items remains undrawn; former P-01–P-04 are WF-10–WF-13, former P-05 is WF-14–WF-17, and former P-06 is WF-18.
 
 ## Main sections
 
@@ -64,7 +64,7 @@ The [Edit commission draft](edit-commission.md), WF-14–WF-17, reuses the intak
 | [Update progress and completion](update-progress.md) | WF-10 stage-selection page; Finished opens WF-11 full-page review with actual finished date and unchanged payment totals |
 | All tasks | A simple list of unfinished checklist items with links to their commissions; no task-specific dates or extra detail screens |
 | Package manager/editor | Maintain offered services, prices, and turnaround estimates |
-| Image viewer | Inspect a reference or final artwork |
+| [Image viewer](image-viewer.md) | WF-18 dedicated preview page for reference/final images, zoom/pan, collection selection, and Back preserving the originating form/record |
 | Date picker | Choose a commission, start, due, or payment date |
 | Confirmation dialog | Review a cancellation, deletion, or unsaved-change decision |
 

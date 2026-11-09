@@ -12,6 +12,7 @@
 | Supporting font | Mali for joyful dates, links, small labels, and numeric details alongside DynaPuff | Owner accepted the updated dashboard before moving to Add commission |
 | Current visual reference | Refined DynaPuff/Mali dashboard | Owner liked the result and requested the next screen |
 | Add commission layout | Four steps: Client details, Artwork brief, Price and dates, Review | Owner explicitly loved the static board and moved to Commission Details |
+| Checklist simplification | Remove task-specific dates and the Send color preview row/action; keep the overall commission deadline | Explicit owner request to reduce complexity |
 | Required areas | Dashboard, intake, commission records, history, financial summaries/graphs | Owner's updated feature list |
 | Client contacts | Manually recorded X or Discord usernames | Owner request |
 | Package examples | Full body, half body, chibi, portrait | Owner request |
@@ -23,6 +24,7 @@
 - Home, Commissions, History, and Insights as the four main sections.
 - Exact color values, type sizes, and detailed field/pricing rules described in [layout.md](../layout.md).
 - The new [Commission Details board](commission-details.md), including action placement and state-specific summaries.
+- [Commission payment history](payment-history.md) as a simple per-commission receipt list, separate from Insights; additional task-detail/custom-entry controls are deferred.
 - Lifecycle statuses: Queued, In progress, Completed, Cancelled.
 - Creative stages tracked independently from lifecycle and payments.
 - Payment records with received amounts and dates; monthly earnings calculated from them.
@@ -41,7 +43,7 @@ The intended technical stack in the proposal is Android Studio, Kotlin, XML/Mate
 
 1. Should Home show all unpaid balances, or only a monthly received-income summary?
 2. How should History divide payment transactions from completed commission history?
-3. Are tasks freely entered by the artist, generated from creative stages, or both?
+3. Which simple checklist labels are needed in the first version? Custom task management is deferred.
 4. Is queue order manual, based on deadlines, or based on planned start dates?
 5. Does Completed mean artwork finished, final files sent, or client acceptance?
 6. Should a client support multiple usernames/platforms?

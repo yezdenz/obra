@@ -35,7 +35,7 @@ Organize the form into sensible groups:
 3. **References:** attached images and captions, if needed.
 4. **Price and payment:** agreed total, optional add-ons, any payment received.
 5. **Schedule:** commission date, planned start if known, and deadline.
-6. **Notes/tasks:** additional instructions and initial checklist items.
+6. **Notes:** additional instructions. Custom task entry is deferred under the simplified checklist direction.
 
 The accepted intake wireframe direction in [layout.md](../layout.md) divides entry into four steps: Client details, Artwork brief, Price and dates, and Review commission. It specifies the proposed checks and destinations for Next/Back actions. Detailed validation and price rules remain open, and working transitions are outside the current phase.
 
@@ -58,9 +58,8 @@ Reuse the intake structure with existing values. Keep previously received paymen
 | View | Purpose |
 | --- | --- |
 | Record payment | Enter payment amount, date, method, and note |
-| Payment summary | Inspect a recorded payment and open its related commission |
-| All tasks / task details | Review unfinished tasks across commissions and inspect an individual task |
-| Task editor | Add or update a commission to-do and its due date |
+| [Commission payment history](payment-history.md) | Show a commission's initial and later payments, amounts, received dates, methods, notes, and balance |
+| All tasks | A simple list of unfinished checklist items with links to their commissions; no task-specific dates or extra detail screens |
 | Package manager/editor | Maintain offered services, prices, and turnaround estimates |
 | Image viewer | Inspect a reference or final artwork |
 | Date picker | Choose a commission, start, due, or payment date |
@@ -75,7 +74,7 @@ flowchart TD
     Home[Home: dashboard] --> List[Commissions]
     Home --> Add[Add commission]
     Home --> Detail[Commission details]
-    Home --> Tasks[Commission tasks]
+    Home --> Tasks[Unfinished checklist items]
     Home --> Insights[Insights]
     Home --> History[History]
     List --> Add
@@ -83,7 +82,6 @@ flowchart TD
     History --> Detail
     Detail --> Edit[Edit commission]
     Detail --> Payment[Record payment]
-    Detail --> Tasks
     Detail --> Image[Reference / final artwork viewer]
 ```
 

@@ -22,7 +22,8 @@ This roadmap describes the order of work. It does not claim that a feature is im
 - [ ] Draw the commission list.
 - [x] Draft Commission Details with current, queued, and completed states.
 - [ ] Review the Commission Details board.
-- [ ] Draw commission editing and supporting payment/progress/task views.
+- [ ] Draw commission editing and supporting payment-entry/progress/image views.
+- [x] Draft a commission-specific payment-history list and simplify the checklist to remove task dates/actions.
 - [ ] Draw payment history and previous-work views.
 - [ ] Draw Insights and choose clear graph labels.
 - [ ] Draw supporting forms and important empty/edge states.

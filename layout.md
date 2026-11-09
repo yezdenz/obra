@@ -101,7 +101,7 @@ Draw this light palette first. A dark theme has not been requested or specified.
 2. **Monthly earnings:** DynaPuff label, received-income amount, selected month.
 3. **Quick counts:** current work, unfinished tasks, queued commissions.
 4. **Current work:** two commission previews with image placeholders, title, username/platform, stage, and deadline.
-5. **Coming up:** a short task preview with DynaPuff task titles, related client, and due date.
+5. **Coming up:** a simple checklist preview with DynaPuff task titles, related client, and completion state; task-specific deadlines are removed.
 6. **Next in queue:** next accepted commission and planned start, when known.
 7. **Add commission:** one prominent yellow action.
 8. **Bottom navigation:** Home, Commissions, History, Insights.
@@ -118,7 +118,7 @@ The dashboard's data summaries do not require every entire card to be a button. 
 | In queue count | Open Commissions filtered to Queued |
 | Current work → View all | Open Commissions filtered to In progress |
 | Commission card | Open that commission's details |
-| Task title such as Finish lineart | Open the task's details and related commission context |
+| Dashboard task title such as Finish lineart | Open the related commission; no separate task-detail page is needed |
 | Task checkbox | Mark only that task complete; update task counts in the eventual app |
 | Next in queue preview | Open that queued commission's details; do not start it automatically |
 | Add commission | Open Step 1: Client details |
@@ -127,7 +127,7 @@ The dashboard's data summaries do not require every entire card to be a button. 
 | History | Open the payment timeline and access to previous work |
 | Insights | Open earnings summaries and graphs |
 
-Task title and checkbox have different purposes. Completing **Finish lineart** must not automatically mark the entire commission completed or record any payment. A task-detail view should offer an explicit **View commission** action to open the parent record.
+On the dashboard, a task title leads to its commission while its checkbox changes only the checklist item's completion state. Completing **Finish lineart** must not automatically mark the entire commission completed or record any payment. The checklist has no per-task due dates. The Send color preview row/action and additional task-detail/custom-entry controls are omitted from the simplified draft.
 
 ## 5. Add commission: Next button sequence
 
@@ -213,8 +213,7 @@ See [the Commission Details wireframe plan](docs/commission-details.md) for the 
 | Update stage | Open stage choices; Save stage applies the selected stage and returns to details |
 | Record payment | Open amount/date/method/note entry; Save payment records it and refreshes the balance |
 | Reference thumbnail | Open a full image view; Back returns to the same commission |
-| Add task | Open task entry; Save task adds a to-do to this commission |
-| Task row | Open task details; View commission returns to its parent record |
+| Checklist label | Display a task name; no extra task-detail button or date |
 | Mark task done | Complete only that task and refresh the unfinished-task count |
 | Mark commission complete | Review a confirmation, record the actual finish date, then mark the work Completed |
 | Cancel commission | Review a cancellation confirmation; confirmed cancellation changes lifecycle status while retaining history |
@@ -222,6 +221,8 @@ See [the Commission Details wireframe plan](docs/commission-details.md) for the 
 Completing a commission must not mark it paid automatically. If money is still owed, show the remaining balance on the completed record. Whether Completed means artwork finished, final files sent, or client acceptance still needs a project decision.
 
 Editing an agreed price must not silently erase payments. The handling of an edited price below the amount already received, refunds, and corrections remains open. A permanent Delete action is deferred until historical retention rules are agreed.
+
+**View payment history** opens [a dedicated payment list](docs/payment-history.md) for the selected commission. Show its initial deposit and later received payments with amounts, received dates, method, optional notes, and remaining balance. Entries display their details directly; they do not need another receipt-details screen. The commission's deadline and payment received dates stay; only per-task deadlines are removed.
 
 ## 7. History and Insights: next destinations
 
@@ -265,6 +266,7 @@ The board should communicate the planned behavior through labels, arrows, and se
 - [Dashboard](docs/dashboard.md)
 - [Add commission wireframe](docs/add-commission.md)
 - [Commission Details wireframe](docs/commission-details.md)
+- [Commission payment history](docs/payment-history.md)
 - [Screen inventory](docs/screens.md)
 - [Design direction](docs/design-direction.md)
 - [Requirements](docs/requirements.md)

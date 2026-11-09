@@ -67,7 +67,7 @@ These support the requested features but remain subject to review.
 | Separate payment records | Deposits and balance payments can happen on different dates and in different months |
 | Outstanding balance | Shows what a client still owes |
 | Upcoming/overdue indicators | Makes urgent work visible without reading every record |
-| Per-commission checklist | Gives unfinished tasks a concrete meaning beyond an unfinished project |
+| Per-commission checklist | Simple task names and completion checkboxes; no task-specific deadlines or Send color preview action |
 | Search and filters | Helps locate a client or project as records grow |
 | Package management | Lets the artist maintain service types, base prices, and turnaround estimates |
 | Add-on quotation | Supports extra characters, detailed backgrounds, or commercial usage charges |
@@ -76,6 +76,8 @@ These support the requested features but remain subject to review.
 | Final artwork attachment | Keeps the delivered result with the completed commission |
 
 Refund recording, advanced reporting, and previous-client recommendations should be discussed separately before becoming requirements.
+
+The owner requested removing task-specific dates and the Send color preview row/action to keep the scope manageable. The current draft uses a plain checklist. Additional task-detail/custom-entry screens are deferred. Overall commission deadlines and payment received dates remain part of the plan.
 
 ## Proposed terminology and behavior
 

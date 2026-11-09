@@ -24,7 +24,7 @@ The first two drawings are different scroll positions of the **same page**, not 
 - **Images:** references for active work; a final-artwork preview for completed work, with original references still accessible.
 - **Brief:** package/type, genre/style tags, pose instructions, and notes.
 - **Creative progress:** current work stage, distinct from the commission's overall lifecycle status.
-- **Tasks:** individual to-dos, completion indicators, due dates, and Add task.
+- **Checklist:** task names and completion checkboxes only; no per-task dates, detail arrows, or extra task actions in the simplified draft.
 - **Schedule:** commission date, planned start when relevant, due date, actual finish date after completion.
 - **Payments:** agreed total, amounts received, remaining balance, and access to the payment records.
 - **Actions:** depend on lifecycle/payment state, as described below.
@@ -37,7 +37,9 @@ The fictional **Fantasy portrait** belongs to `mika.draws` on Discord. It is a P
 
 Creative stages in this draft are **Sketch → Lineart → Colors → Finished**. Sketch is done, Lineart is current, and the later stages are pending. The exact package-specific stage rules remain open.
 
-The task list separately shows Finish sketch completed on November 4, Finish lineart due November 10, and Send color preview due November 12. Completing one task must not automatically complete the whole commission or record a payment.
+The simplified checklist shows Finish sketch checked and Finish lineart unchecked. The owner requested removing task-specific deadlines and the Send color preview row/action to reduce complexity. The current draft also omits task-detail arrows and Add task; it is a plain checklist. Completing a checklist item must not automatically complete the whole commission or record a payment.
+
+The overall commission deadline stays in Schedule. Custom task creation/detail screens and per-task scheduling are deferred rather than required by this wireframe.
 
 Example dates: commission November 1, planned start November 3, deadline November 14, 2026.
 
@@ -82,11 +84,10 @@ A fully paid completed variant should later show a zero balance and payment hist
 | Reference or final-artwork image | Larger image viewer; Back returns to the same record |
 | Update progress | Stage-selection view; save the stage without editing payments |
 | Finish/complete stage | Completion confirmation and actual finish date; do not automatically mark paid |
-| Task title | Task details; View commission returns to this record |
+| Checklist label | Display the task name without a separate task-detail destination |
 | Task checkbox | Change only that task's completion state |
-| Add task | Task editor with this commission already associated |
 | Record payment | Amount, received date, method, and optional note |
-| View payment history | Payment list filtered to this commission; a payment can open its summary |
+| View payment history | Open the dedicated payment-history list for this commission, with initial/later payments, received dates, methods, and notes visible on the entries |
 | Start commission | Explicitly move Queued work into In progress |
 | View in History | History/previous-work view associated with this record |
 | More options | Secondary record actions, including cancellation where relevant |
@@ -97,6 +98,8 @@ Cancelling needs a confirmation and must retain payment history. Permanent delet
 
 The owner accepted the four-step Add commission wireframe and the DynaPuff/Mali direction. **Commission Details is a new draft for review.** Its exact stage controls, completion meaning, cancellation behavior, and supporting sheets are still proposals.
 
-Next supporting wireframes can cover Record payment, Update progress/completion, task editing, a larger image view, a fully paid completed record, and overdue/empty-reference states.
+The [commission payment-history draft](payment-history.md) now shows the dedicated payment list reached from View payment history. It is separate from Insights and its earnings graphs.
+
+Next supporting wireframes can cover Record payment, Update progress/completion, a larger image view, a fully paid completed record, and overdue/empty-reference states. Task editing/detail screens are deferred under the simplified checklist direction.
 
 See [layout.md](../layout.md), [Add commission](add-commission.md), and the [screen inventory](screens.md).

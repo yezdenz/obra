@@ -18,7 +18,7 @@ The refined dashboard is the current visual reference for continuing screen plan
 | 2 | Monthly earnings | Amount received and clearly named month | Give a quick income summary |
 | 3 | Workload summary | Current work, unfinished task, and queue counts | Show the size of the workload |
 | 4 | Current work | A small preview of active commissions | Identify the next projects to work on |
-| 5 | Coming up | Unfinished tasks with deadlines | Identify specific actions needing attention |
+| 5 | Coming up | Unfinished checklist items and their related clients | Identify specific actions needing attention |
 | 6 | Queue preview | Next accepted commission and planned start, if set | Show what follows current work |
 | 7 | Add commission | One prominent action | Capture a new request |
 | 8 | Navigation | Home, Commissions, History, Insights | Reach the other main sections |
@@ -77,8 +77,8 @@ Current work                            View all
 [ Commission preview                           ]
 
 Coming up                               All tasks
-[ Task + client + due date                     ]
-[ Task + client + due date                     ]
+[ Checkbox + task + client                     ]
+[ Checkbox + task + client                     ]
 
 Next in queue                       Planned start
 

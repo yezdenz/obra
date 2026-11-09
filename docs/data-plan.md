@@ -60,9 +60,9 @@ Refunds and correction/audit behavior are suggestions to resolve before implemen
 
 - Associated commission.
 - Task description.
-- Due date, if needed.
-- Completion state and actual completion date.
-- Priority, if approved.
+- Completion state.
+
+The current checklist has no per-task deadlines or additional task-detail/custom-entry screens. The overall commission due date remains part of the commission. Priority, task dates, and custom task management are deferred to keep the initial scope simple.
 
 ### Genres and tags
 

@@ -17,7 +17,7 @@ A studio overview showing:
 
 - Payments received during the selected month.
 - Current commissions and their creative stages.
-- Unfinished tasks and upcoming deadlines.
+- Unfinished checklist items and upcoming commission deadlines.
 - Queued commissions and the next project to start.
 - A clear action for adding a commission.
 
@@ -69,6 +69,7 @@ This four-section navigation is a **proposal for review**, not an approved final
 | [Dashboard plan](docs/dashboard.md) | Dashboard sections, reading order, terminology, and states to design |
 | [Add commission wireframe](docs/add-commission.md) | Four static intake steps, reference images, dates, optional initial payment, and final review |
 | [Commission Details wireframe](docs/commission-details.md) | Current, queued, and completed records; scroll continuation; tasks, stages, dates, and balances |
+| [Commission payment history](docs/payment-history.md) | Initial deposit and later received payments for one commission, separate from earnings graphs |
 | [Screen plan](docs/screens.md) | Screen inventory and proposed navigation |
 | [Data plan](docs/data-plan.md) | General database information groups without a detailed schema |
 | [Design direction](docs/design-direction.md) | Guhit reference, fonts, shapes, device size, and wireframe format |
@@ -85,7 +86,7 @@ The initial concept is a workspace for the artist. It does not require a client-
 ## Immediate next steps
 
 1. Review the static Commission Details board and its lifecycle states.
-2. Draw supporting Record payment, Update progress, and task/image views.
+2. Review the commission payment-history draft and draw supporting Record payment, Update progress, and image views.
 3. Extend the accepted visual direction to commission lists, History, and Insights.
 4. Review important empty, overdue, partially paid, and completed states together.
 5. Finalize the data model and Android implementation plan afterward.

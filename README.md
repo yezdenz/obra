@@ -105,6 +105,7 @@ This five-section order is the current wireframe baseline. Add/edit and other co
 | [Roadmap](docs/roadmap.md) | Planning, wireframing, implementation, and validation phases |
 | [Decisions and open questions](docs/decisions.md) | Confirmed direction, proposals, and choices still to make |
 | [Contributing](CONTRIBUTING.md) | How to update the plan and distinguish decisions from suggestions |
+| [Auto-commit guidelines](AUTO_COMMIT.md) | Mandatory per-file commit standards and automated commit protocols |
 
 ## Intended technology direction
 

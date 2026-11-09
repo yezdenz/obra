@@ -4,7 +4,11 @@
 
 The owner selected [Guhit](https://app.guhit.app/) because of its **fonts, shapes, and simplicity**.
 
-Inspection of the reference identified Grandstander for headings/buttons and Andika for body text. The desired direction includes warm light backgrounds, dark readable text, rounded and subtly irregular shapes, restrained accent colors, and clear spacing.
+The owner has selected **[DynaPuff](https://fonts.google.com/specimen/DynaPuff)** for OBRA's playful interface text, including **Monthly earnings** and task titles such as **Finish lineart**. Use it for headings, summary labels, task/commission titles, and primary action labels. This is the selected font for the current draft.
+
+**Andika** is the proposed supporting font for usernames, descriptions, input text, dates, payment figures, and other reading-heavy details. The desired direction includes warm light backgrounds, dark readable text, rounded and subtly irregular shapes, restrained accent colors, and clear spacing.
+
+See [layout.md](../layout.md) for the typography assignments, proposed color values, spacing, and action-by-action screen behavior. The exact palette and Next-button flow are planning proposals rather than implemented behavior.
 
 This is inspiration for OBRA's own visual system. Do not copy Guhit's branding, illustrations, mascots, or page content. Font distribution and licensing must be checked if font files are eventually bundled.
 

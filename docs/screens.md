@@ -37,7 +37,7 @@ Organize the form into sensible groups:
 5. **Schedule:** commission date, planned start if known, and deadline.
 6. **Notes/tasks:** additional instructions and initial checklist items.
 
-One long scrolling form versus multiple form steps is an open design decision. No step transitions are needed in the current phase.
+The current interaction proposal in [layout.md](../layout.md) divides entry into four steps: Client details, Artwork brief, Price and dates, and Review commission. It specifies what each Next/Back action checks and where it leads. This is a proposal for static screen planning; one scrolling form versus multiple steps still needs agreement, and working transitions are outside the current phase.
 
 ### Commission details
 
@@ -54,6 +54,8 @@ Reuse the intake structure with existing values. Keep previously received paymen
 | View | Purpose |
 | --- | --- |
 | Record payment | Enter payment amount, date, method, and note |
+| Payment summary | Inspect a recorded payment and open its related commission |
+| All tasks / task details | Review unfinished tasks across commissions and inspect an individual task |
 | Task editor | Add or update a commission to-do and its due date |
 | Package manager/editor | Maintain offered services, prices, and turnaround estimates |
 | Image viewer | Inspect a reference or final artwork |

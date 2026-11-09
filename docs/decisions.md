@@ -8,6 +8,7 @@
 | Current task | Planning and static wireframes, dashboard first | Explicit owner correction and follow-up |
 | Device | Android Studio Medium Phone portrait reference | Owner request; local profile inspected |
 | Visual inspiration | Guhit's fonts, shapes, and simplicity | Explicit owner preference |
+| Selected playful font | DynaPuff, including Monthly earnings, Finish lineart, headings, and primary actions | Explicit owner preference |
 | Required areas | Dashboard, intake, commission records, history, financial summaries/graphs | Owner's updated feature list |
 | Client contacts | Manually recorded X or Discord usernames | Owner request |
 | Package examples | Full body, half body, chibi, portrait | Owner request |
@@ -17,6 +18,8 @@
 ## Working proposals to review
 
 - Home, Commissions, History, and Insights as the four main sections.
+- Andika for detailed text and monetary figures alongside DynaPuff.
+- The warm cream/yellow/sage palette and four-step commission-entry flow described in [layout.md](../layout.md).
 - Lifecycle statuses: Queued, In progress, Completed, Cancelled.
 - Creative stages tracked independently from lifecycle and payments.
 - Payment records with received amounts and dates; monthly earnings calculated from them.
@@ -45,5 +48,7 @@ The intended technical stack in the proposal is Android Studio, Kotlin, XML/Mate
 10. How should cancellation, refunds, payment corrections, and historical record deletion work?
 11. Are final artwork attachments needed in the first version?
 12. What currency rules apply? PHP is used for examples; multiple-currency conversion is not planned.
+13. Are the proposed color values and DynaPuff/Andika typography assignments ready to adopt?
+14. Should commission intake use the proposed four Next/Back steps, or a single scrolling form?
 
 Resolve these through planning as they become relevant. They do not block drafting the dashboard's static structure.

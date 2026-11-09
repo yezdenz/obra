@@ -6,7 +6,9 @@ Home is the artist's studio overview. It should communicate income, workload, un
 
 The current deliverable is a **static wireframe** of this screen at the Android Studio Medium Phone reference size. Illustrative amounts and fictional usernames are placeholders, not real data or final product copy.
 
-Use the owner's selected **DynaPuff** for headings, the **Monthly earnings** label, and task titles such as **Finish lineart**. Mali is proposed for details and numeric amounts. See [layout.md](../layout.md) for the exact typography plan, proposed color palette, and the destination/result of every dashboard action.
+Use the owner's selected **DynaPuff** for headings, the **Monthly earnings** label, and task titles such as **Finish lineart**. The owner accepted **Mali** for joyful supporting details and numeric amounts after reviewing the dashboard. See [layout.md](../layout.md) for the typography plan, proposed color palette, and the destination/result of every dashboard action.
+
+The refined dashboard is the current visual reference for continuing screen planning. The next screen set is [Add commission](add-commission.md).
 
 ## Proposed reading order
 

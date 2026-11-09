@@ -6,7 +6,7 @@ The owner selected [Guhit](https://app.guhit.app/) because of its **fonts, shape
 
 The owner has selected **[DynaPuff](https://fonts.google.com/specimen/DynaPuff)** for OBRA's playful interface text, including **Monthly earnings** and task titles such as **Finish lineart**. Use it for headings, summary labels, task/commission titles, and primary action labels. This is the selected font for the current draft.
 
-**Mali** is the proposed supporting font for usernames, descriptions, input text, dates, payment figures, and other reading-heavy details. The desired direction includes warm light backgrounds, dark readable text, rounded and subtly irregular shapes, restrained accent colors, and clear spacing.
+The owner accepted **Mali** as the joyful supporting font for usernames, descriptions, input text, dates, payment figures, links, and other details after reviewing the dashboard. Continue **DynaPuff + Mali** on the remaining screens. The desired direction includes warm light backgrounds, dark readable text, rounded and subtly irregular shapes, restrained accent colors, and clear spacing.
 
 See [layout.md](../layout.md) for the typography assignments, proposed color values, spacing, and action-by-action screen behavior. The exact palette and Next-button flow are planning proposals rather than implemented behavior.
 

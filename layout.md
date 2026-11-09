@@ -6,7 +6,7 @@ This document defines what to draw in the static wireframes, which fonts and col
 
 Start with the dashboard. Use the remaining flows to keep later screens consistent with it.
 
-**Confirmed font choice:** the owner selected **[DynaPuff](https://fonts.google.com/specimen/DynaPuff)** for playful interface text, specifically labels such as **Monthly earnings** and task titles such as **Finish lineart**. Its use extends beyond the OBRA name.
+**Confirmed font pairing:** the owner selected **[DynaPuff](https://fonts.google.com/specimen/DynaPuff)** for playful interface text, specifically labels such as **Monthly earnings** and task titles such as **Finish lineart**, and accepted **[Mali](https://fonts.google.com/specimen/Mali)** for dates, links, figures, and other supporting text after reviewing the dashboard.
 
 **Proposed details:** the color values, type sizes, four-step commission form, and individual button destinations below are a coherent first proposal for review. They are not all approved design decisions.
 
@@ -46,9 +46,9 @@ Use DynaPuff for the recognizable, playful parts of the interface:
 
 Use the font's normal/static appearance for these wireframes. Keep longer DynaPuff titles on multiple lines when necessary rather than squeezing them into narrow spaces.
 
-### Supporting font: Mali — joyful pairing under review
+### Supporting font: Mali — accepted joyful pairing
 
-The owner requested a joyful supporting font for **Due tomorrow**, **Due Nov 14**, **All tasks**, **Nov 10**, and all similarly styled text. The current static dashboard tries **[Mali](https://fonts.google.com/specimen/Mali)**, a handwritten direction, alongside DynaPuff. The joyful direction is requested; this particular font pairing is proposed for review.
+The owner requested a joyful supporting font for **Due tomorrow**, **Due Nov 14**, **All tasks**, **Nov 10**, and all similarly styled text, then accepted the dashboard using **Mali** alongside DynaPuff. Continue that pairing in the Add commission screens.
 
 Use Mali consistently for:
 
@@ -60,9 +60,9 @@ Use Mali consistently for:
 
 Proposed sizes are 14-16 sp for ordinary details, 16 sp for editable text, and 12-13 sp for short secondary captions. Use around 28-32 sp for the main earnings amount and 24-28 sp for workload counts. Keep financial figures in Mali, even when the label above them uses DynaPuff.
 
-Use Medium weight for small dates, links, and supporting labels, and SemiBold for prominent financial figures and counts. The current dashboard trial enlarges supporting labels to around 12-13 sp so the handwritten details remain legible.
+Use Medium weight for small dates, links, and supporting labels, and SemiBold for prominent financial figures and counts. The dashboard uses supporting labels around 12-13 sp so the handwritten details remain legible.
 
-Mali is the current supporting-font candidate; **DynaPuff is the owner's explicit selection**. Andika is replaced in this draft. Grandstander and Fredoka are not the selected fonts for this draft.
+**DynaPuff and Mali are the accepted pairing.** Individual sizes, spacing, and form layouts remain open to refinement.
 
 ## 3. Proposed color scheme
 
@@ -133,6 +133,8 @@ Task title and checkbox have different purposes. Completing **Finish lineart** m
 
 Propose four numbered steps so a long form can be reviewed in manageable groups. Show **Step 1 of 4** and a clear step heading. The four screens can be drawn side by side on the static board.
 
+See [the Add commission wireframe plan](docs/add-commission.md) for the current four-screen draft and its follow-up states. These screens keep the New commission header and Back/Close controls; main bottom navigation is omitted during entry.
+
 ### Step 1 — Client details
 
 **Show:** contact platform (X or Discord), username, optional display name.
@@ -140,7 +142,7 @@ Propose four numbered steps so a long form can be reviewed in manageable groups.
 **Action:** **Next: Artwork**.
 
 1. Check that a platform and a nonblank username are provided.
-2. If something is missing, stay on Step 1 and show an Mali helper/error message under the relevant field.
+2. If something is missing, stay on Step 1 and show a Mali helper/error message under the relevant field.
 3. If valid, keep the entered values in the draft and move to Step 2.
 
 This step does not sign in to X/Discord, contact the client, or create a saved commission.
@@ -259,6 +261,7 @@ The board should communicate the planned behavior through labels, arrows, and se
 ## Related plans
 
 - [Dashboard](docs/dashboard.md)
+- [Add commission wireframe](docs/add-commission.md)
 - [Screen inventory](docs/screens.md)
 - [Design direction](docs/design-direction.md)
 - [Requirements](docs/requirements.md)

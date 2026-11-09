@@ -39,6 +39,8 @@ Organize the form into sensible groups:
 
 The current interaction proposal in [layout.md](../layout.md) divides entry into four steps: Client details, Artwork brief, Price and dates, and Review commission. It specifies what each Next/Back action checks and where it leads. This is a proposal for static screen planning; one scrolling form versus multiple steps still needs agreement, and working transitions are outside the current phase.
 
+The [Add commission wireframe plan](add-commission.md) describes the current four-screen draft, including reference thumbnails, optional initial-payment entry, the Review screen, and Back/Close behavior. The form omits main bottom navigation and uses the accepted DynaPuff/Mali typography pairing.
+
 ### Commission details
 
 Show the complete client/request information, references, agreed price, payment timeline, outstanding balance, dates, lifecycle status, creative stage, and tasks. Previous records can also show the final artwork and actual finish date.

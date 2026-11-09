@@ -9,7 +9,17 @@ The name comes from the Filipino word *obra*, meaning a work of art.
 > **Current phase: wireframe review and frontend handoff.**
 > The repository includes saved visual boards and the [clickable phone wireframe](docs/wireframes/CLICKABLE.md), synchronized to **Home, Commissions, History, Insights, Reconnect**. The native Android frontend, real persistence/payment processing, and recommendation algorithm are not implemented by these review files.
 
-Start with [layout.md](layout.md), then download/open [the clickable HTML](docs/wireframes/clickable.html) using its [instructions](docs/wireframes/CLICKABLE.md). GitHub displays HTML source; the file runs after opening locally. No website deployment, build, or installation is needed.
+## Start here — team handoff guides
+
+| Guide | Who should read it | What it explains |
+| --- | --- | --- |
+| **[layout.md — frontend and wireframes](layout.md)** | Frontend implementers | All numbered screens, click sequences, navigation, scrolling, fonts, colors, and shared behavior |
+| **[database-guide.md — SQLite backend](database-guide.md)** | Backend implementers | Proposed tables, relationships, executable schema SQL, screen reads/writes, payment calculations, validation, and Android storage guidance |
+| **[reconnect-algo.md — recommendations](reconnect-algo.md)** | Algorithm implementers | Type-and-genre matching, proposed selection rules, query/pseudocode, result contract, tests, and the distinction from backtracking |
+
+These guides describe the implementation handoff; detailed defaults marked **proposed** still need the responsible teammates' review. They do not mean the native app or algorithm has been implemented.
+
+For the interactive screen reference, download/open [the clickable HTML](docs/wireframes/clickable.html) using its [instructions](docs/wireframes/CLICKABLE.md). GitHub displays HTML source; the file runs after opening locally. No website deployment, build, or installation is needed.
 
 ## What we want to build
 
@@ -72,6 +82,8 @@ This five-section order is the current wireframe baseline. Add/edit and other co
 | Document | Contents |
 | --- | --- |
 | [Frontend handoff and layout guide](layout.md) | WF-01–WF-20 catalogue, five-tab navigation, button routes, state/scroll contracts, style rules, and acceptance walkthrough |
+| [SQLite database guide](database-guide.md) | Proposed schema, field meanings, relationships, queries, transaction rules, Android integration, and backend acceptance cases |
+| [Reconnect algorithm guide](reconnect-algo.md) | Simple type/genre recommendation baseline, input/output contract, candidate query, deduplication, backtracking clarification, and test cases |
 | [Saved wireframe boards](docs/wireframes/README.md) | Current preview images, standalone static HTML exports, and editable source fragments |
 | [Clickable wireframe instructions](docs/wireframes/CLICKABLE.md) | How to open the single-file wireframe, explore screens, reset samples, and distinguish demo behavior from implementation |
 | [Reconnect handoff](docs/reconnect.md) | Recommendation UI, previous-artwork links, empty/loading/error states, and the boundary with the algorithm team |
@@ -96,7 +108,7 @@ This five-section order is the current wireframe baseline. Add/edit and other co
 
 ## Intended technology direction
 
-The original academic proposal names **Android Studio, Kotlin, XML layouts with Material components, and local SQLite storage**. These describe the intended eventual Android implementation. Specific libraries, versions, schema, and architecture will be chosen after the wireframes are agreed.
+The original academic proposal names **Android Studio, Kotlin, XML layouts with Material components, and local SQLite storage**. These describe the intended eventual Android implementation. The [database guide](database-guide.md) now proposes a concrete SQLite model for review; specific libraries, versions, and native architecture remain team decisions.
 
 The initial concept is a workspace for the artist. It does not require a client-facing portal, live X/Discord integration, cloud synchronization, or actual money transfers. Recording a username or payment does not connect to an external platform or process a transaction.
 
@@ -106,7 +118,7 @@ The initial concept is a workspace for the artist. It does not require a client-
 2. Review the detail/payment, progress/completion, edit, and image-viewer journeys in the clickable file.
 3. Review main History and Insights together for consistent received-income definitions.
 4. Review Reconnect with the algorithm team; review All tasks and remaining loading/error/edge states before implementation.
-5. Finalize the data model and Android implementation plan afterward.
+5. Review [database-guide.md](database-guide.md) and [reconnect-algo.md](reconnect-algo.md), resolve their marked proposals, and finalize the Android implementation plan.
 
 ## Repository status
 

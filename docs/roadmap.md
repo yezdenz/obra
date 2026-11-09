@@ -45,11 +45,14 @@ This roadmap describes the order of work. It does not claim that a feature is im
 
 **Exit condition:** the owner agrees on the screen contents, hierarchy, labels, and major flows. A working prototype is not required to finish this phase.
 
-## Phase 3: Technical design — later
+## Phase 3: Technical design — handoff draft started
+
+- [x] Draft [database-guide.md](../database-guide.md) with a proposed SQLite model, queries, write rules, and backend acceptance cases.
+- [x] Draft [reconnect-algo.md](../reconnect-algo.md) with the recommendation contract, simple baseline, and algorithm-team review points.
 
 - [ ] Confirm the Android project setup and compatible tooling.
 - [ ] Finalize Kotlin/XML/Material implementation choices.
-- [ ] Convert the general data plan into a detailed SQLite model.
+- [ ] Review/finalize the proposed SQLite model and its marked defaults with the backend team.
 - [ ] Decide image storage and access behavior.
 - [ ] Define quotation, payment, and reporting rules.
 - [ ] Resolve historical record retention and editing behavior.

@@ -44,9 +44,9 @@ The frontend supplies the selected current commission context and displays the r
 - Previous commission title, finished date, and a reference for opening its record.
 - Returned matched type/genre or a short reason the frontend can label accurately.
 
-Choose the result shape and identifiers with the implementation team; this is not a database schema. Keep genre distinct from style/lighting tags when mapping data. Image content, pose similarity, payment amount, budgets, engagement predictions, and image embeddings are not criteria in this requested feature.
+The proposed result shape, query, deduplication, and test cases are now in [reconnect-algo.md](../reconnect-algo.md), with shared SQLite fields in [database-guide.md](../database-guide.md). This screen guide remains the UI reference. Keep genre distinct from style/lighting tags when mapping data. Image content, pose similarity, payment amount, budgets, engagement predictions, and image embeddings are not criteria in this requested feature.
 
-Teammates must still decide the exact matching/backtracking procedure, partial-match policy, ordering, repeated-client handling, and whether clients with active work should be excluded. Do not invent percentage scores or present those policies as finalized UI requirements.
+The algorithm guide proposes exact type-and-primary-genre matching, one latest matching artwork per client, and recent-first ordering. Teammates must review these defaults, partial-match/exclusion policies, and any academic requirement for actual backtracking. Simple filtering is not itself backtracking. Do not invent percentage scores or present the proposed policies as finalized owner requirements.
 
 ## Sample fixture
 

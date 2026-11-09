@@ -1,6 +1,6 @@
 # General database plan
 
-This document names the information the app needs. It deliberately avoids a detailed schema, field IDs, SQL, and implementation choices during planning.
+This document is the general overview of the information the app needs. For the owner-requested detailed SQLite handoff, see [database-guide.md](../database-guide.md): proposed tables, fields, relationships, executable schema SQL, queries, and backend rules. Keeping this overview general preserves the earlier planning reference; the new guide marks unresolved technical choices as proposals.
 
 ## Information groups
 

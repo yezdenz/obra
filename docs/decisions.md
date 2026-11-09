@@ -19,7 +19,7 @@
 | Client contacts | Manually recorded X or Discord usernames | Owner request |
 | Package examples | Full body, half body, chibi, portrait | Owner request |
 | Reference material | Images, pose requests, genres, and notes | Owner request |
-| Data planning level | General information groups without detailed IDs | Explicit owner request |
+| Data handoff | General overview retained; detailed SQLite and recommendation guides now requested for backend/algorithm teammates | Earlier general-only request followed by owner request for database-guide.md and reconnect-algo.md |
 
 ## Working proposals to review
 
@@ -39,6 +39,8 @@
 - Payment records with received amounts and dates; monthly earnings calculated from them.
 - Simple per-commission checklist items with completion states; per-task dates and extra task-detail/custom-entry controls are excluded from the current draft.
 - Package management, add-on quotation, search, deadline warnings, and queue ordering.
+- [SQLite handoff](../database-guide.md): one local workspace, PHP integer-centavo amounts, exact platform/username client identity, one optional primary genre, quote snapshots, and append-only received payments. These make the proposed schema concrete; they do not resolve the open product policies automatically.
+- [Reconnect algorithm handoff](../reconnect-algo.md): exact type AND genre, completed history, exclude the selected client, deduplicate by client using latest matching artwork, recent-first order, and a proposed five-client limit. Filtering alone is not backtracking; confirm any academic algorithm requirement separately.
 
 These are recommendations captured for discussion. Inclusion in this repository does not make them approved implementation requirements.
 

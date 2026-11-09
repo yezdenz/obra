@@ -4,6 +4,8 @@
 
 This is the frontend handoff reference: screen numbers, navigation, button destinations, scrolling, form behavior, visual rules, and states to support. Updated November 10, 2026 to synchronize the clickable wireframe, saved boards, and the separate Reconnect section.
 
+**Companion implementation guides:** [database-guide.md](database-guide.md) maps these screens to proposed SQLite records, queries, and write transactions. [reconnect-algo.md](reconnect-algo.md) gives the recommendation team a simple type/genre matching baseline and the result contract for WF-19. Their marked technical defaults are proposals for team review, not extra approved wireframe features.
+
 **Start with the [clickable wireframe](docs/wireframes/clickable.html) and its [opening instructions](docs/wireframes/CLICKABLE.md), then use this guide while implementing.** GitHub shows HTML source: download the repository and open that file in a browser. No build, server, account, or installation is required. This is a clickable phone wireframe, not a deployed website or the native Android app.
 
 The numbered JPEG boards are static visual references. The clickable file demonstrates navigation, form steps, local demo changes, and supporting dialogs. Its data is fictional and session-only; Restart or reload restores the sample. Static boards can represent different workflow moments. Use the rules here for behavior rather than copying their counts as fixed values.

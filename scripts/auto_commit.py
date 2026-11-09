@@ -20,6 +20,7 @@ FILE_COMMIT_MAPPING = {
     "database-guide.md": "Define SQLite schema, table relationships, and payment calculation queries",
     "layout.md": "Detail five-tab navigation, screen inventory, and UI visual specifications",
     "reconnect-algo.md": "Formulate client recommendation algorithm with genre matching and cooldown rules",
+    "OBRA_Layout_and_Database_Guide.pdf": "Export compiled layout and database guide PDF document",
     ".gitignore": "Exclude Android build artifacts, local SQLite databases, and sensitive keystores",
     ".gitattributes": "Enforce cross-platform LF line endings and proper file encodings",
 
@@ -127,6 +128,8 @@ def derive_description(file_path: str) -> str:
         return f"Implement {cleaned_name} Android component for Obra"
     elif norm.startswith("app/"):
         return f"Configure Android app module configuration for {cleaned_name}"
+    elif ext == ".pdf":
+        return f"Export compiled {cleaned_name} PDF document"
     else:
         return f"Update {basename} to reflect latest project requirements"
 

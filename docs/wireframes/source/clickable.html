@@ -1,0 +1,562 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400;500;600&family=Mali:wght@400;500;600;700&display=swap">
+<div id="obra-clickable" class="viz-dotted-background">
+  <div class="wireframe-controls"><label class="sr-only" for="screen-picker">Screen library</label><select id="screen-picker" aria-label="Screen library"><option value="home">Dashboard</option></select><button id="reset-demo" type="button">Restart</button></div>
+  <div hidden><span id="screen-description"></span><span id="storage-note"></span></div>
+  <div class="phone-wrap"><section class="phone" aria-label="Clickable OBRA wireframe"><div class="status-bar" aria-hidden="true"><span>9:41</span><span>▂▄▆ &nbsp;◒ &nbsp;▰</span></div><div id="app"></div><div class="system-bar" aria-hidden="true"><span></span></div><div id="overlay"></div><div id="toast" role="status" aria-live="polite"></div></section></div>
+</div>
+<style>
+@scope (#obra-clickable) {
+:scope{--paper:#FFF8EF;--surface:#FFFDF9;--ink:#302C37;--muted:#6B6270;--outline:#746A76;--divider:#D8CEC4;--yellow:#FFD15B;--sage:#ECEBDC;--purple:#EDE4F4;--purple-ink:#5D4975;--green:#E7EEDB;--green-ink:#3E6040;--gold:#F6EBCB;--gold-ink:#725A20;--rose:#FAE1DE;--rose-ink:#A23D38;--chart:#6A507D;font-family:'Mali',sans-serif;color:var(--ink);background:#EDE8E2;color-scheme:light}
+*{box-sizing:border-box}:scope{margin:0}button,input,select,textarea{font:inherit;color:inherit}button,a,label{touch-action:manipulation}button{cursor:pointer}button:disabled{cursor:default;opacity:.48}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #8B6CA6;outline-offset:3px}h1,h2,h3,h4,p{margin:0}button{border:0;background:none}a{color:inherit}svg.ico{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}h1,h2,h3,h4,.primary,.secondary,.brand,.wordmark{font-family:'DynaPuff',sans-serif;font-weight:400}h1{font-size:27px;line-height:1.25;letter-spacing:-.5px}h2{font-size:20px;line-height:1.3}h3{font-size:17px;line-height:1.35}h4{font-size:16px;line-height:1.35}.workspace{min-height:100vh;display:flex;align-items:flex-start;justify-content:center;gap:65px;padding:40px 24px;background-image:radial-gradient(#BEB5AB 1px,transparent 1px);background-size:19px 19px}.guide{width:252px;padding-top:32px}.wordmark{font-size:45px;letter-spacing:-2px}.wordmark span{font-family:serif;font-size:23px;vertical-align:top;margin:9px 0 0 7px;display:inline-block}.eyebrow{font:600 10px/1.6 'Mali',sans-serif;letter-spacing:2px;margin:15px 0}.guide h1{font-size:27px;margin-bottom:16px}.guide>p{font-size:13px;line-height:1.8;color:var(--muted)}.guide label{font-size:12px;display:block;margin:25px 0 8px;font-weight:600}.guide select{width:100%;background:var(--surface);border:1px solid var(--outline);border-radius:12px;padding:11px 7px;font-size:12px}.guide .guide-note{font-size:11px;line-height:1.8;margin-top:12px}.guide-separator{border-top:1px solid #C6BDB3;margin-top:25px}.guide-reset{border:1px solid var(--outline);padding:10px 13px;border-radius:12px;margin-top:16px;font-size:12px;background:#FFF8EF}.phone-wrap{width:411px;max-width:100%}.phone{position:relative;width:411px;max-width:100%;height:914px;border:1px solid var(--outline);border-radius:30px;background:var(--paper);overflow:hidden;display:flex;flex-direction:column;box-shadow:0 12px 45px #302C3714}.status-bar{height:29px;flex-shrink:0;display:flex;justify-content:space-between;align-items:center;padding:6px 22px 0;font:600 11px system-ui,sans-serif}.system-bar{height:22px;display:flex;justify-content:center;align-items:center;flex-shrink:0}.system-bar span{height:4px;width:92px;border-radius:4px;background:var(--ink)}.device-caption{text-align:center;font-size:11px;color:var(--muted);padding-top:14px}#app{flex:1;min-height:0;display:flex;flex-direction:column;position:relative}.page-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 20px 10px;flex-shrink:0}.page-head .head-title{font:400 18px/1.35 'DynaPuff',sans-serif;flex:1;text-align:center}.page-head .head-spacer{width:40px}.page-head>.back,.icon-button{width:40px;height:40px;display:grid;place-items:center;border-radius:12px;flex-shrink:0}.icon-button:hover,.back:hover{background:#F0E7DC}.page-head .text-button{min-height:40px;min-width:40px}.scroll-body{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#D8CEC4 transparent;padding:9px 20px 20px;display:flex;flex-direction:column;gap:22px}.scroll-body:focus{outline:none}.section{display:flex;flex-direction:column;gap:12px}.section-head{display:flex;justify-content:space-between;align-items:center;gap:8px}.section-head .text-button{font-size:12px}.muted,.helper,.subtitle{color:var(--muted)}.subtitle{font-size:13px;line-height:1.6;margin-top:7px}.helper{font-size:12px;line-height:1.6}.small{font-size:12px}.text-button{padding:5px 0;text-align:left;display:inline-flex;align-items:center;gap:5px;text-decoration:none;font-size:13px}.text-button .ico{width:14px;height:14px}.primary,.secondary{display:flex;align-items:center;justify-content:center;gap:8px;min-height:49px;padding:11px 13px;border:1.4px solid var(--ink);border-radius:17px 22px 16px 20px;font-size:16px;text-align:center;width:100%}.primary{background:var(--yellow);box-shadow:0 2px 0 var(--ink)}.primary:hover{background:#FFDA78}.secondary{background:var(--surface)}.danger{background:var(--rose);color:var(--rose-ink)}.action-bar{padding:10px 20px 9px;display:flex;gap:9px;background:var(--paper);flex-shrink:0}.action-bar>button{flex:1;min-width:0}.action-bar.two>button{font-size:13px}.bottom-nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:3px;border-top:1px solid var(--divider);padding:9px 10px 0;flex-shrink:0;background:var(--paper)}.bottom-nav button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:8px 1px;border-radius:12px;font-size:11px;min-height:54px}.bottom-nav button.active{background:#F0E7DC}.badge{display:inline-flex;align-items:center;gap:4px;padding:4px 8px;border-radius:7px;font-size:11px;line-height:1.4;white-space:nowrap;background:var(--gold);color:var(--gold-ink)}.badge.purple{background:var(--purple);color:var(--purple-ink)}.badge.green{background:var(--green);color:var(--green-ink)}.badge.rose{background:var(--rose);color:var(--rose-ink)}.pill-row{display:flex;gap:6px;flex-wrap:wrap}.money{font-weight:600;font-variant-numeric:tabular-nums}.big-money{font:600 34px/1.25 'Mali',sans-serif}.row{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:13px}.row>span{color:var(--muted)}.surface{background:var(--surface);border:1px solid var(--outline);border-radius:19px 23px 17px 21px;padding:15px}.sage{background:var(--sage);border:0}.divider{border-top:1px solid var(--divider);padding-top:18px}.brand{font-size:38px;letter-spacing:-1.6px;display:flex;gap:8px;align-items:center}.brand .ico{width:23px;height:23px}.home-head{padding:12px 20px 4px;display:flex;justify-content:space-between;align-items:center}.home-date{font-size:11px;text-align:right;line-height:1.8}.home-date strong{display:block;font-size:14px}.earnings{display:flex;flex-direction:column;gap:10px;border-radius:22px 27px 20px 24px;padding:18px;background:var(--sage)}.earnings .section-head h2{font-size:18px}.earnings-footer{display:flex;justify-content:space-between;align-items:center;border-top:1px solid #D4D3C0;padding-top:8px}.counts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.counts button{text-align:center;padding:7px 0}.counts strong{display:block;font-size:27px;font-weight:600}.counts span{font-size:11px}.project-card{display:flex;flex-direction:column;gap:8px;width:100%;text-align:left}.project-card h3{font-size:16px}.project-card .row{font-size:12px}.project-card:hover{border-color:var(--ink)}.home-project{display:flex;gap:12px;align-items:center;text-align:left;width:100%;padding:11px;background:var(--surface);border:1px solid var(--outline);border-radius:18px 22px 16px 20px}.home-project>.project-info{flex:1;min-width:0}.home-project h3{font-size:16px}.home-project p{font-size:12px;color:var(--muted);margin:5px 0 7px}.home-project .row{font-size:11px}.mini-image{width:58px;height:67px;flex-shrink:0;background:#EDE5DC;border-radius:11px;display:grid;place-items:center;color:var(--muted)}.urgent{color:#8E452A}.next-queue{display:flex;align-items:center;gap:12px;width:100%;background:#F0E7DC;border-radius:16px 20px 15px 18px;padding:13px;text-align:left}.next-queue>div{flex:1}.next-queue h3{font-size:16px;margin-top:4px}.task-row{display:flex;align-items:center;gap:11px;min-height:48px}.task-row input{appearance:none;flex-shrink:0;width:23px;height:23px;margin:0;border:1.4px solid var(--outline);border-radius:7px;background:var(--surface);cursor:pointer}.task-row input:checked{background:var(--green);border-color:var(--green-ink)}.task-row input:checked:after{content:'✓';display:block;text-align:center;color:var(--green-ink);line-height:21px;font-weight:700}.task-row .task-label{flex:1;min-width:0;text-align:left;padding:7px 0}.task-row h3{font-size:16px}.task-row p{font-size:11px;color:var(--muted);margin-top:5px}.task-row.done h3{text-decoration:line-through;color:var(--muted)}.search-input,.field input:not([type=checkbox]):not([type=radio]):not([type=file]),.field textarea,.field select,.month-select{width:100%;border:1px solid var(--outline);border-radius:14px 17px 13px 16px;padding:12px 13px;background:var(--surface);font-size:15px;min-height:47px}.search-input{font-size:14px}.tabs{display:flex;gap:7px}.tabs button{flex:1;border:1px solid #B8ABAF;border-radius:12px 15px 11px 14px;padding:10px 4px;font-size:12px}.tabs button.active{background:var(--ink);border-color:var(--ink);color:var(--paper)}.list-meta{font-size:12px;display:flex;justify-content:space-between;gap:8px;color:var(--muted)}.stack{display:flex;flex-direction:column;gap:11px}.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;flex:1;text-align:center;padding:35px 8px}.empty>p{font-size:14px;line-height:1.8;color:var(--muted)}.empty>.primary,.empty>.secondary{width:auto;min-width:180px;font-size:14px}.empty-icon{width:74px;height:78px;display:grid;place-items:center;border-radius:24px 29px 22px 27px;background:var(--purple);color:var(--purple-ink)}.empty-icon .ico{width:32px;height:32px}.record-identity h1{font-size:27px}.record-identity>p{margin-top:7px;font-size:14px;color:var(--muted)}.record-meta{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:12px;font-size:12px}.references{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.image-tile{position:relative;background:#EDE5DC;border-radius:14px;min-width:0;display:flex;flex-direction:column;align-items:center;gap:8px;padding:8px;font-size:11px;color:var(--muted)}.image-tile img{width:100%;height:116px;object-fit:contain;border-radius:9px}.image-tile>span{max-width:100%;overflow-wrap:anywhere}.image-tile .remove-image{position:absolute;right:1px;top:1px;width:33px;height:33px;border-radius:50%;background:var(--surface);display:grid;place-items:center;z-index:1}.image-tile .remove-image .ico{width:14px;height:14px}.brief{font-size:14px;line-height:1.8;color:var(--muted);white-space:pre-wrap;overflow-wrap:anywhere}.stage-line{display:flex;align-items:center;gap:10px;font-size:14px;min-height:31px}.stage-dot{width:20px;height:20px;border:1.3px solid var(--outline);border-radius:50%;display:grid;place-items:center}.stage-dot .ico{width:13px;height:13px}.stage-line.current .stage-dot{border:5px solid var(--chart);background:var(--purple)}.stage-line.finished .stage-dot{background:var(--green);border-color:var(--green-ink);color:var(--green-ink)}.stage-line>span:nth-child(2){flex:1}.balance-row{border-top:1px solid var(--divider);padding-top:12px;margin-top:4px}.balance-row strong{font-size:24px}.receipt-preview{display:flex;gap:10px;align-items:center;padding-top:10px}.receipt-preview>div{flex:1}.receipt-preview p{font-size:11px;color:var(--muted);margin-top:4px}.payment-card{padding:15px;display:flex;flex-direction:column;gap:10px;border-radius:18px 22px 16px 20px;background:var(--sage)}.payment-card h2{font-size:17px}.field{display:flex;flex-direction:column;gap:8px;min-width:0}.field>label,.field>legend,.field-label{font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:space-between;gap:6px}.optional{font-size:11px;font-weight:500;color:var(--muted)}.field textarea{resize:vertical;min-height:105px;line-height:1.7}.field input[type=checkbox]{width:20px;height:20px;accent-color:var(--chart)}.two-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px}.two-fields input{font-size:13px!important;min-width:0;padding:12px 7px!important}.choices{display:grid;grid-template-columns:1fr 1fr;gap:8px}.choice{position:relative;min-height:43px;border:1px solid var(--outline);border-radius:13px 16px 12px 15px;background:var(--surface);display:flex;align-items:center;justify-content:center;padding:10px;font-size:13px;gap:6px;cursor:pointer}.choice input{position:absolute;opacity:0;width:1px;height:1px}.choice:has(input:checked){background:var(--purple);color:var(--purple-ink);border-color:var(--purple-ink)}.choice:focus-within{outline:3px solid #8B6CA6;outline-offset:2px}.step-indicator{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted)}.step-dots{display:flex;gap:4px;width:94px}.step-dots span{height:5px;flex:1;border-radius:4px;background:#E4DCD2}.step-dots .current{background:#AA7D1C}.step-dots .done{background:#83738C}.form-body{gap:21px}.form-intro h1{font-size:26px}.form-error{padding:12px;border:1px solid var(--rose-ink);background:var(--rose);color:var(--rose-ink);border-radius:12px;font-size:13px;line-height:1.7}.form-error:empty{display:none}.toggle-line{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 0;border-top:1px solid var(--divider)}.toggle-line p{margin-top:5px}.toggle-line>input{width:23px;height:23px;accent-color:var(--chart)}.quote{padding:15px;background:#F0E7DC;border-radius:15px;display:flex;flex-direction:column;gap:10px}.quote label{display:flex;align-items:center;gap:8px;font-size:12px}.quote input{accent-color:var(--chart)}.review-group{display:flex;flex-direction:column;gap:8px;border-bottom:1px solid var(--divider);padding-bottom:15px}.review-group h2{font-size:18px}.review-group .row{font-size:12px}.review-group p{font-size:13px}.review-group .text-button{font-size:12px}.review-group.sage{border:0;border-radius:17px;padding:15px}.change-summary{background:var(--green);color:var(--green-ink);border-radius:15px;padding:13px;display:flex;flex-direction:column;gap:10px;font-size:12px}.change-summary .change-row{display:flex;flex-direction:column;gap:4px;overflow-wrap:anywhere}.change-summary del{color:var(--muted)}.stage-option{display:flex;gap:12px;align-items:center;border:1px solid var(--divider);border-radius:16px 20px 15px 18px;background:var(--surface);padding:16px 13px;cursor:pointer}.stage-option:has(input:checked){border-color:var(--purple-ink);background:var(--purple)}.stage-option input{width:20px;height:20px;accent-color:var(--chart);flex-shrink:0}.stage-option>div{flex:1}.stage-option p{font-size:12px;color:var(--muted);margin-top:5px}.finish-intro{display:flex;flex-direction:column;align-items:center;text-align:center;gap:15px;padding:10px 0}.finish-intro h1{font-size:26px}.timeline-group{display:flex;flex-direction:column;gap:8px}.date-heading{font-size:12px;color:var(--muted)}.receipt{width:100%;display:flex;flex-direction:column;gap:7px;padding:13px;background:var(--surface);border:1px solid var(--divider);border-radius:15px 19px 14px 18px;text-align:left}.receipt h3{font-size:15px;overflow-wrap:anywhere}.receipt .row{align-items:flex-start}.receipt .money{color:var(--green-ink);white-space:nowrap}.receipt p,.receipt .small{font-size:12px;color:var(--muted)}.receipt .ico{width:13px;height:13px}.insight-metrics{display:grid;grid-template-columns:1fr 1fr;gap:10px}.insight-metrics>section{padding:13px 11px;border:1px solid var(--divider);border-radius:16px;background:var(--surface)}.insight-metrics h2{font-size:14px}.insight-metrics strong{display:block;font-size:25px;margin:8px 0}.insight-metrics .helper{font-size:11px}.trend{width:100%;height:185px;display:block;overflow:visible}.trend text{font-family:'Mali',sans-serif;fill:var(--muted);font-size:11px}.trend .value{fill:var(--ink);font-size:10px}.trend line{stroke:var(--divider);stroke-width:1}.trend rect{fill:var(--chart)}.type-row{display:flex;flex-direction:column;gap:7px}.type-track{height:8px;background:var(--purple);border-radius:5px}.type-track span{height:8px;display:block;background:var(--chart);border-radius:5px}.viewer-body{display:flex;flex-direction:column;gap:14px;padding:8px 20px 15px;flex:1;min-height:0;overflow:auto}.viewer-body h1{font-size:24px}.image-stage{position:relative;flex:1;min-height:230px;background:#EDE5DC;border-radius:15px;overflow:hidden;display:flex;align-items:center;justify-content:center;touch-action:none;cursor:grab}.image-stage img{width:100%;height:100%;object-fit:contain;user-select:none;pointer-events:none;transform-origin:center;position:absolute}.image-stage:active{cursor:grabbing}.viewer-controls{display:flex;align-items:center;gap:8px}.viewer-controls .secondary{width:auto;min-height:42px;padding:9px;font:500 12px 'Mali',sans-serif}.viewer-controls .helper{flex:1;text-align:center;font-size:11px}.viewer-controls .icon-button{border:1px solid var(--outline);background:var(--surface);width:39px;height:42px}.viewer-thumbs{display:flex;gap:8px;overflow:auto;justify-content:center;padding:3px}.viewer-thumbs button{width:80px;min-width:80px;border:1px solid var(--divider);border-radius:11px;background:#EDE5DC;padding:5px;font-size:10px}.viewer-thumbs button.selected{border:2px solid var(--purple-ink);background:var(--purple)}.viewer-thumbs img{width:100%;height:44px;object-fit:contain}.viewer-thumbs span{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.viewer-pager{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--divider);padding:7px 18px;font-size:12px;flex-shrink:0}.viewer-pager button{padding:10px 0;display:flex;align-items:center;gap:4px}.viewer-pager .ico{width:16px;height:16px}.viewer-filename{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px}.viewer-filename strong{overflow-wrap:anywhere}.image-error{z-index:2;text-align:center;padding:15px;background:var(--paper);font-size:13px}.image-error[hidden]{display:none}#overlay:empty{display:none}#overlay{position:absolute;inset:0;z-index:15;background:#302C375C;display:flex;align-items:center;justify-content:center;padding:22px}.dialog{width:100%;max-height:90%;overflow:auto;background:var(--paper);border:1px solid var(--outline);border-radius:23px;padding:23px;display:flex;flex-direction:column;gap:18px;box-shadow:0 15px 60px #302C3720}.dialog h2{font-size:23px}.dialog p{font-size:14px;line-height:1.8;color:var(--muted)}.dialog .secondary,.dialog .primary{font-size:14px}#toast:empty{display:none}#toast{position:absolute;z-index:20;left:18px;right:18px;bottom:96px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 15px;border-radius:14px;background:var(--ink);color:var(--paper);font-size:12px;box-shadow:0 4px 18px #302C3720}#toast button{font-weight:600;color:var(--yellow);padding:5px}.file-add{border:1px dashed var(--outline);border-radius:14px;background:var(--surface);min-height:60px;display:flex;align-items:center;justify-content:center;gap:7px;padding:12px;font-size:13px;cursor:pointer}.readonly-summary{padding:14px;border-radius:15px;background:var(--sage);display:flex;flex-direction:column;gap:9px}.readonly-summary .helper{font-size:11px}.completed-date{color:var(--green-ink)}.full-width{width:100%}.no-margin{margin:0!important}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.home-scroll{gap:10px;padding-bottom:9px}.home-scroll .earnings{padding:12px;gap:7px}.home-scroll .big-money{font-size:32px}.home-scroll .counts strong{font-size:25px}.home-scroll .counts button{padding:2px 0}.home-scroll .section{gap:8px}.home-scroll .section-head h2{font-size:18px}.home-scroll .home-project{padding:9px;gap:10px}.home-scroll .mini-image{width:51px;height:56px}.home-scroll .home-project p{margin:4px 0 5px}.home-scroll .task-row{min-height:43px}.home-scroll .task-label{padding:4px 0}.home-scroll .task-row h3{font-size:15px}.home-scroll .task-row p{margin-top:3px}.home-scroll .next-queue{padding:10px}.home-scroll>.primary{min-height:47px}
+@media(max-width:760px){.workspace{gap:25px;padding:22px 12px}.guide{width:200px}.guide h1{font-size:23px}.phone-wrap{flex-shrink:0}}@media(max-width:650px){.workspace{padding:0;display:block;min-height:100dvh;background:var(--paper)}.guide{width:100%;padding:9px 12px;display:flex;gap:8px;align-items:center;border-bottom:1px solid var(--divider)}.guide .wordmark,.guide .eyebrow,.guide h1,.guide>p,.guide label,.guide-separator{display:none}.guide select{flex:1;min-width:0;font-size:11px;padding:7px}.guide .guide-reset{font-size:10px;padding:7px;margin:0;white-space:nowrap}.phone-wrap{width:100%;max-width:411px;margin:auto}.phone{width:100%;height:calc(100dvh - 55px);min-height:580px;border-radius:0;border:0;box-shadow:none}.device-caption{display:none}.page-head{padding-top:9px}.scroll-body{padding-left:18px;padding-right:18px}.status-bar{height:25px}.two-fields{grid-template-columns:1fr}.two-fields input{font-size:15px!important}.viewer-controls{flex-wrap:wrap}}
+@media(prefers-reduced-motion:no-preference){button{transition:background-color .15s,border-color .15s}.dialog{animation:appear .15s ease-out}@keyframes appear{from{transform:translateY(8px);opacity:0}to{transform:translateY(0);opacity:1}}}
+
+:scope{display:block;max-width:411px;margin:auto;padding:12px 0;background-color:transparent}.wireframe-controls{display:flex;align-items:center;gap:8px;margin-bottom:12px}.wireframe-controls select{flex:1;min-width:0;padding:9px;border:1px solid #746A76;border-radius:12px;background:#FFF8EF;font:500 11px Mali,sans-serif}.wireframe-controls>button{border:1px solid #746A76;border-radius:12px;background:#FFF8EF;padding:9px;font-size:11px}.phone{height:914px!important;min-height:0!important;border:1px solid #746A76!important;border-radius:28px!important;width:100%;box-shadow:none!important}.phone-wrap{width:100%;margin:0}.status-bar{height:29px}[hidden]{display:none!important}
+}
+
+@scope (#obra-clickable) { .reconnect-section{scroll-margin-top:10px;gap:15px}.reconnect-context{display:flex;flex-direction:column;gap:8px;padding:13px;border-radius:14px;background:#F0E7DC}.reconnect-card{display:flex;flex-direction:column;gap:15px;padding:16px;border:1px solid #746A76;border-radius:18px 22px 17px 21px;background:#FFFDF9}.reconnect-client{font:600 17px/1.4 Mali,sans-serif}.reconnect-platform{font-size:12px;padding:4px 9px;background:#F0E7DC;border-radius:7px}.reconnect-card h3{margin:5px 0;font-size:17px}.reconnect-reason{display:flex;flex-direction:column;gap:9px;padding-top:13px;border-top:1px solid #D8CEC4}.reconnect-reason>span{display:flex;align-items:center;gap:6px;font-size:12px;color:#5D4975}.reconnect-reason .ico{width:15px;height:15px}.reconnect-card .secondary{font-size:14px;min-height:47px}.reconnect-empty{display:flex;flex-direction:column;align-items:center;text-align:center;gap:13px;padding:25px 13px;border-radius:16px;background:#F0E7DC}.reconnect-empty h3{font-size:19px}.reconnect-empty .empty-icon{width:58px;height:60px}.reconnect-empty .helper{max-width:285px} }
+
+@scope (#obra-clickable) { .bottom-nav{grid-template-columns:repeat(5,minmax(0,1fr));gap:2px;padding-left:7px;padding-right:7px}.bottom-nav button{min-width:0;padding-left:0;padding-right:0}.bottom-nav .nav-label-short{display:none}.reconnect-body>.reconnect-section{border:0;padding-top:0}.reconnect-body{padding-top:10px}.reconnect-body .reconnect-section{gap:17px}@media(max-width:360px){.bottom-nav .nav-label-long{display:none}.bottom-nav .nav-label-short{display:inline}.bottom-nav button{font-size:11px}.bottom-nav{padding-left:3px;padding-right:3px;gap:0}} }
+</style>
+<script>
+(function (root) {
+  'use strict';
+  const embeddedImages = {"cozy-cafe": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI3MDAiIGhlaWdodD0iOTAwIiB2aWV3Qm94PSIwIDAgNzAwIDkwMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJGaWN0aW9uYWwgZmluYWwgYXJ0d29yayBwbGFjZWhvbGRlciI+CiAgPHJlY3Qgd2lkdGg9IjcwMCIgaGVpZ2h0PSI5MDAiIGZpbGw9IiNFREU1REMiLz4KICA8cmVjdCB4PSI5MCIgeT0iMTY1IiB3aWR0aD0iNTIwIiBoZWlnaHQ9IjUwMCIgcng9IjYwIiBmaWxsPSIjRTdFRURCIi8+CiAgPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNzQ2QTc2IiBzdHJva2Utd2lkdGg9IjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHJlY3QgeD0iMjUwIiB5PSIzMjAiIHdpZHRoPSIyMDAiIGhlaWdodD0iMTg1IiByeD0iMTUiLz48Y2lyY2xlIGN4PSIzMDIiIGN5PSIzNzAiIHI9IjIwIi8+PHBhdGggZD0ibTI1MSA0NjkgNjctNzAgNDYgNDMgMzEtMjYgNTQgNTAiLz48L2c+CiAgPHRleHQgeD0iMzUwIiB5PSI3MzEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMzRTYwNDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjI2Ij5jb3p5LWNhZmUucG5nPC90ZXh0PgogIDx0ZXh0IHg9IjM1MCIgeT0iNzcyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNkI2MjcwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOCI+RGVtbyBmaW5hbCBhcnR3b3JrIHBsYWNlaG9sZGVyPC90ZXh0Pgo8L3N2Zz4K", "outfit": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MDAiIGhlaWdodD0iNzgwIiB2aWV3Qm94PSIwIDAgNjAwIDc4MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJGaWN0aW9uYWwgb3V0Zml0IHJlZmVyZW5jZSBwbGFjZWhvbGRlciI+CiAgPHJlY3Qgd2lkdGg9IjYwMCIgaGVpZ2h0PSI3ODAiIGZpbGw9IiNFREU1REMiLz4KICA8cmVjdCB4PSIxMDAiIHk9IjE1NSIgd2lkdGg9IjQwMCIgaGVpZ2h0PSI0MjAiIHJ4PSI1NSIgZmlsbD0iI0Y2RUJDQiIvPgogIDxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzc0NkE3NiIgc3Ryb2tlLXdpZHRoPSI4IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxyZWN0IHg9IjIxMCIgeT0iMjcwIiB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE3MCIgcng9IjE1Ii8+PGNpcmNsZSBjeD0iMjU3IiBjeT0iMzE3IiByPSIxOCIvPjxwYXRoIGQ9Im0yMTEgNDA2IDYxLTY1IDQzIDQxIDI4LTI1IDQ2IDQ4Ii8+PC9nPgogIDx0ZXh0IHg9IjMwMCIgeT0iNjM2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNzI1QTIwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNCI+b3V0Zml0LnBuZzwvdGV4dD4KICA8dGV4dCB4PSIzMDAiIHk9IjY3MyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzZCNjI3MCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTciPkRlbW8gcmVmZXJlbmNlIHBsYWNlaG9sZGVyPC90ZXh0Pgo8L3N2Zz4K", "pose": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MDAiIGhlaWdodD0iNzgwIiB2aWV3Qm94PSIwIDAgNjAwIDc4MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJGaWN0aW9uYWwgcG9zZSByZWZlcmVuY2UgcGxhY2Vob2xkZXIiPgogIDxyZWN0IHdpZHRoPSI2MDAiIGhlaWdodD0iNzgwIiBmaWxsPSIjRURFNURDIi8+CiAgPHJlY3QgeD0iMTAwIiB5PSIxNTUiIHdpZHRoPSI0MDAiIGhlaWdodD0iNDIwIiByeD0iNTUiIGZpbGw9IiNFREU0RjQiLz4KICA8ZyBmaWxsPSJub25lIiBzdHJva2U9IiM3NDZBNzYiIHN0cm9rZS13aWR0aD0iOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cmVjdCB4PSIyMTAiIHk9IjI3MCIgd2lkdGg9IjE4MCIgaGVpZ2h0PSIxNzAiIHJ4PSIxNSIvPjxjaXJjbGUgY3g9IjI1NyIgY3k9IjMxNyIgcj0iMTgiLz48cGF0aCBkPSJtMjExIDQwNiA2MS02NSA0MyA0MSAyOC0yNSA0NiA0OCIvPjwvZz4KICA8dGV4dCB4PSIzMDAiIHk9IjYzNiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzVENDk3NSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjQiPnBvc2UucG5nPC90ZXh0PgogIDx0ZXh0IHg9IjMwMCIgeT0iNjczIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNkI2MjcwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNyI+RGVtbyByZWZlcmVuY2UgcGxhY2Vob2xkZXI8L3RleHQ+Cjwvc3ZnPgo="};
+  const TODAY = '2026-11-10';
+  const TYPES = ['Full body', 'Half body', 'Chibi', 'Portrait', 'Full illustration', 'Character sheet', 'Icon'];
+  const STAGES = ['Sketch', 'Lineart', 'Colors', 'Finished'];
+  const METHODS = ['GCash', 'Bank transfer', 'PayPal', 'Cash', 'Other'];
+  const copy = value => JSON.parse(JSON.stringify(value));
+  const id = () => root.crypto?.randomUUID?.() || 'demo-' + Date.now() + '-' + Math.random().toString(36).slice(2);
+  const cents = value => Math.round(Number(value) * 100);
+  const sum = rows => rows.reduce((total, row) => total + cents(row.amount), 0) / 100;
+  function check(condition, message) { if (!condition) throw new Error(message); }
+  function validDate(value) {
+    return /^\d{4}-\d{2}-\d{2}$/.test(value || '') && !Number.isNaN(Date.parse(value)) && new Date(value).toISOString().slice(0, 10) === value;
+  }
+  function money(value, label) {
+    const number = Number(value);
+    check(Number.isFinite(number) && number > 0 && Math.abs(number * 100 - cents(number)) < 0.00001, `${label} must be positive, with up to two decimal places.`);
+    return cents(number) / 100;
+  }
+  const receipts = (db, commissionId) => db.payments.filter(p => p.commissionId === commissionId);
+  const received = (db, commissionId) => sum(receipts(db, commissionId));
+  const balance = (db, commissionId) => cents(db.commissions.find(c => c.id === commissionId)?.agreed || 0) / 100 - received(db, commissionId);
+  const find = (db, commissionId) => { const c = db.commissions.find(c => c.id === commissionId); check(c, 'Commission not found.'); return c; };
+  const newestFirst = (db, rows) => rows.sort((a, b) => b.date.localeCompare(a.date) || db.payments.indexOf(b) - db.payments.indexOf(a));
+  const monthlyPayments = (db, month) => newestFirst(db, db.payments.filter(p => p.date.slice(0, 7) === month));
+  const monthlyTotal = (db, month) => sum(monthlyPayments(db, month));
+  const allTimeTotal = db => sum(db.payments);
+  const outstanding = db => db.commissions.filter(c => c.status !== 'Cancelled' && balance(db, c.id) > 0).sort((a, b) => balance(db, b.id) - balance(db, a.id));
+  const openTasks = db => db.commissions.filter(c => c.status !== 'Cancelled').flatMap(c => c.tasks.filter(t => !t.done).map(task => ({ commission: c, task })));
+  function earningsTrend(db, month) {
+    const [year, m] = month.split('-').map(Number);
+    return Array.from({ length: 6 }, (_, i) => {
+      const date = new Date(Date.UTC(year, m - 6 + i, 1));
+      const key = date.toISOString().slice(0, 7);
+      return { month: key, amount: monthlyTotal(db, key) };
+    });
+  }
+  function monthlyByType(db, month) {
+    const values = {};
+    for (const p of monthlyPayments(db, month)) {
+      const type = find(db, p.commissionId).type;
+      values[type] = (values[type] || 0) + cents(p.amount);
+    }
+    return Object.entries(values).map(([type, amount]) => ({ type, amount: amount / 100 })).sort((a, b) => b.amount - a.amount);
+  }
+  function validatePayment(db, commission, data, totalReceived = received(db, commission.id)) {
+    const amount = money(data.amount, 'Payment amount');
+    check(cents(amount) <= cents(commission.agreed) - cents(totalReceived), 'The payment cannot exceed the remaining balance.');
+    check(validDate(data.date) && data.date >= commission.created && data.date <= TODAY, 'Choose a received date between the commission date and today.');
+    check(METHODS.includes(data.method), 'Choose a payment method.');
+    check(!db.payments.some(p => p.id === data.id), 'This payment has already been recorded.');
+    return { id: data.id || id(), commissionId: commission.id, amount, date: data.date, method: data.method, note: String(data.note || '').slice(0, 500), purpose: totalReceived === 0 ? 'Initial payment' : cents(totalReceived + amount) === cents(commission.agreed) ? 'Balance payment' : 'Partial payment' };
+  }
+  function addPayment(db, commissionId, data) {
+    const payment = validatePayment(db, find(db, commissionId), data);
+    db.payments.push(payment);
+    return payment;
+  }
+  function validateCommission(db, draft, editingId) {
+    check(['X', 'Discord'].includes(draft.platform), 'Choose X or Discord.');
+    check(String(draft.username || '').trim(), 'Enter the client username.');
+    check(String(draft.title || '').trim(), 'Give the commission a title.');
+    check(TYPES.includes(draft.type), 'Choose a commission type.');
+    const agreed = money(draft.agreed, 'Agreed total');
+    check(validDate(draft.created) && draft.created <= TODAY, 'Choose a commission date on or before today.');
+    check(validDate(draft.due) && draft.due >= draft.created, 'Due date must be on or after the commission date.');
+    check(!draft.start || (validDate(draft.start) && draft.start >= draft.created && draft.start <= draft.due), 'Planned start must fall between commission date and due date.');
+    if (editingId) {
+      const original = find(db, editingId);
+      check(cents(agreed) >= cents(received(db, editingId)), 'Agreed total cannot be below the amount already received.');
+      check(receipts(db, editingId).every(p => p.date >= draft.created), 'Commission date cannot be after an existing received payment.');
+      check(!original.finished || draft.created <= original.finished, 'Commission date cannot be after the finished date.');
+    }
+    return { platform: draft.platform, username: String(draft.username).trim().slice(0, 80), name: String(draft.name || '').trim().slice(0, 80), title: String(draft.title).trim().slice(0, 100), type: draft.type, tags: (draft.tags || []).map(t => String(t).trim()).filter(Boolean).slice(0, 8), brief: String(draft.brief || '').slice(0, 1200), images: copy(draft.images || []).slice(0, 6), agreed, created: draft.created, start: draft.start || '', due: draft.due };
+  }
+  function saveCommission(db, draft, editingId) {
+    const fields = validateCommission(db, draft, editingId);
+    if (editingId) { Object.assign(find(db, editingId), fields); return find(db, editingId); }
+    const commissionId = draft.id || id();
+    check(!db.commissions.some(c => c.id === commissionId), 'This commission has already been saved.');
+    const commission = { ...fields, id: commissionId, status: 'Queued', stage: 'Sketch', started: '', finished: '', finalImages: [], tasks: [{ id: id(), title: 'Finish sketch', done: false }, { id: id(), title: 'Finish lineart', done: false }] };
+    const payment = draft.initialEnabled ? validatePayment(db, commission, { ...draft.initial, id: draft.initial?.id || id() }, 0) : null;
+    db.commissions.push(commission);
+    if (payment) db.payments.push(payment);
+    return commission;
+  }
+  function startCommission(db, commissionId) { const c = find(db, commissionId); check(c.status === 'Queued', 'Only queued commissions can be started.'); c.status = 'In progress'; c.stage = 'Sketch'; c.started = TODAY; }
+  function setStage(db, commissionId, stage) { const c = find(db, commissionId); check(c.status === 'In progress', 'Start the commission before updating progress.'); check(STAGES.slice(0, 3).includes(stage), 'Review completion before marking artwork finished.'); c.stage = stage; }
+  function completeCommission(db, commissionId, date) { const c = find(db, commissionId); check(c.status === 'In progress', 'Only in-progress artwork can be completed.'); check(validDate(date) && date >= c.created && date <= TODAY, 'Finished date must be between the commission date and today.'); c.status = 'Completed'; c.stage = 'Finished'; c.finished = date; }
+  function cancelCommission(db, commissionId) { const c = find(db, commissionId); check(['Queued', 'In progress'].includes(c.status), 'This commission cannot be cancelled.'); c.status = 'Cancelled'; }
+  function toggleTask(db, commissionId, taskId) { const c = find(db, commissionId); const task = c.tasks.find(t => t.id === taskId); check(task, 'Checklist item not found.'); task.done = !task.done; return task.done; }
+  function newDemo() {
+    const image = name => ({ name: name + '.png', src: embeddedImages[name] });
+    const make = (key, title, username, platform, type, agreed, status, stage, created, start, due, finished = '') => ({ id: key, title, username, platform, name: username.split('.')[0], type, agreed, status, stage, created, start, due, finished, started: status === 'In progress' ? start : '', tags: ['Fantasy', 'Soft light'], brief: 'A relaxed over-the-shoulder pose, soft moonlight, and a lilac scarf.', images: [image('pose'), image('outfit')], finalImages: [], tasks: [] });
+    const commissions = [
+      make('kai', 'Half-body illustration', 'kai.inks', 'X', 'Half body', 1500, 'In progress', 'Lineart', '2026-11-01', '2026-11-02', '2026-11-10'),
+      make('fantasy', 'Fantasy portrait', 'mika.draws', 'Discord', 'Portrait', 1800, 'In progress', 'Lineart', '2026-11-01', '2026-11-03', '2026-11-14'),
+      make('sheet', 'Character sheet', 'jules.draws', 'Discord', 'Character sheet', 3200, 'In progress', 'Sketch', '2026-11-02', '2026-11-04', '2026-11-16'),
+      make('icon', 'Sunflower icon', 'sol.art', 'X', 'Icon', 500, 'In progress', 'Colors', '2026-09-15', '2026-11-05', '2026-11-18'),
+      make('moon', 'Moonlit portrait', 'luna.art', 'Discord', 'Half body', 2000, 'Queued', 'Sketch', '2026-11-09', '2026-11-12', '2026-11-20'),
+      make('forest', 'Forest chibi', 'ren.art', 'Discord', 'Chibi', 1200, 'Queued', 'Sketch', '2026-10-31', '2026-11-15', '2026-11-22'),
+      make('cafe', 'Cozy café illustration', 'bea.sketch', 'X', 'Full illustration', 4500, 'Completed', 'Finished', '2026-10-24', '2026-10-25', '2026-11-07', '2026-11-08'),
+      make('starlight', 'Starlight chibi', 'ren.art', 'Discord', 'Chibi', 1200, 'Completed', 'Finished', '2026-10-20', '2026-10-22', '2026-11-05', '2026-11-05'),
+      make('autumn', 'Autumn portrait', 'tala.arts', 'X', 'Portrait', 1800, 'Completed', 'Finished', '2026-10-10', '2026-10-12', '2026-10-30', '2026-10-30'),
+      make('archive', 'Studio studies collection', 'ari.studio', 'Discord', 'Full illustration', 13850, 'Completed', 'Finished', '2026-06-01', '2026-06-01', '2026-09-30', '2026-09-30')
+    ];
+    find({ commissions }, 'fantasy').name = 'Mika';
+    find({ commissions }, 'cafe').brief = 'A warm café interior with afternoon light and plenty of houseplants.';
+    find({ commissions }, 'cafe').finalImages = [image('cozy-cafe')];
+    for (const key of ['kai', 'fantasy']) find({ commissions }, key).tasks = [{ id: 'sketch', title: 'Finish sketch', done: true }, { id: 'lineart', title: 'Finish lineart', done: false }];
+    find({ commissions }, 'forest').tasks = [{ id: 'pose', title: 'Confirm pose', done: false }];
+    const raw = [
+      ['fantasy', 900, '2026-11-09', 'GCash', 'Balance payment', 'Remaining balance for the portrait.'],
+      ['cafe', 1000, '2026-11-07', 'Bank transfer', 'Partial payment', 'Second payment.'],
+      ['starlight', 900, '2026-11-05', 'GCash', 'Balance payment', 'Final balance.'],
+      ['kai', 750, '2026-11-03', 'GCash', 'Initial payment', 'Deposit.'],
+      ['fantasy', 900, '2026-11-02', 'GCash', 'Initial payment', 'Deposit.'],
+      ['cafe', 2500, '2026-10-24', 'Bank transfer', 'Initial payment', ''],
+      ['starlight', 300, '2026-10-20', 'GCash', 'Initial payment', ''],
+      ['autumn', 1800, '2026-10-30', 'GCash', 'Initial payment', 'Paid in full.'],
+      ['forest', 600, '2026-10-31', 'GCash', 'Initial payment', ''],
+      ['archive', 1800, '2026-06-15', 'Bank transfer', 'Initial payment', ''],
+      ['archive', 3000, '2026-07-15', 'Bank transfer', 'Partial payment', ''],
+      ['archive', 4200, '2026-08-15', 'Bank transfer', 'Partial payment', ''],
+      ['archive', 4850, '2026-09-30', 'Bank transfer', 'Balance payment', ''],
+      ['icon', 500, '2026-09-15', 'GCash', 'Initial payment', 'Paid before work started.']
+    ];
+    return { version: 1, commissions, payments: raw.map((p, i) => ({ id: 'seed-' + i, commissionId: p[0], amount: p[1], date: p[2], method: p[3], purpose: p[4], note: p[5] })) };
+  }
+  const api = { TODAY, TYPES, STAGES, METHODS, id, copy, validDate, cents, sum, find, receipts, received, balance, newestFirst, monthlyPayments, monthlyTotal, allTimeTotal, outstanding, openTasks, earningsTrend, monthlyByType, validateCommission, saveCommission, addPayment, startCommission, setStage, completeCommission, cancelCommission, toggleTask, newDemo };
+  if (typeof module !== 'undefined' && module.exports) module.exports = api;
+  root.ObraClickableModel = api;
+})(typeof globalThis !== 'undefined' ? globalThis : this);
+
+</script>
+<script>
+(() => {
+  'use strict';
+  const wireRoot = document.getElementById('obra-clickable');
+  const M = window.ObraClickableModel, KEY = 'obra-interactive-v1';
+  const $ = selector => wireRoot.querySelector(selector);
+  const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const pesos = n => '₱' + Number(n || 0).toLocaleString('en-PH', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+  const dateText = (s, year = true) => s ? new Date(s + 'T12:00:00Z').toLocaleDateString('en-US', { month: 'short', day: 'numeric', ...(year ? { year: 'numeric' } : {}), timeZone: 'UTC' }) : 'Not set';
+  const monthText = s => new Date(s + '-01T12:00:00Z').toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+  const icons = {
+    back:'<path d="m14 5-7 7 7 7M7 12h14"/>', close:'<path d="m6 6 12 12M18 6 6 18"/>', plus:'<path d="M12 5v14M5 12h14"/>', minus:'<path d="M5 12h14"/>', right:'<path d="m9 5 7 7-7 7"/>', left:'<path d="m15 5-7 7 7 7"/>', arrow:'<path d="M5 12h14m-6-6 6 6-6 6"/>', upRight:'<path d="M7 17 17 7M7 7h10v10"/>', down:'<path d="M12 4v16m-6-6 6 6 6-6"/>', incoming:'<path d="m18 6-12 12M6 7v11h11"/>', check:'<path d="m5 12 4 4L19 6"/>', house:'<path d="m3 10 9-7 9 7v11h-7v-7h-4v7H3Z"/>', layers:'<path d="m3 8 9-5 9 5-9 5Zm0 5 9 5 9-5M3 18l9 5 9-5"/>', history:'<path d="M3 12a9 9 0 1 0 3-6.7L3 8m0-5v5h5m4 0v5l3 2"/>', chart:'<path d="M4 20V10m5 10V5m5 15v-8m5 8V3M3 16l6-6 5 2 7-8"/>', image:'<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8" cy="8" r="1.5"/><path d="m3 17 6-6 4 4 3-3 5 5"/>', spark:'<path d="m12 3 2.4 6.6L21 12l-6.6 2.4L12 21l-2.4-6.6L3 12l6.6-2.4ZM20 2v4m-2-2h4"/>', calendar:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 10h18m-13 4h1m4 0h1m-6 4h1m4 0h1"/>', list:'<path d="M9 5h12M9 12h12M9 19h12M3 5h1m-1 7h1m-1 7h1"/>', fit:'<path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/>', party:'<path d="m3 21 5-15 10 10ZM10 3v2m6-1-2 4m7 1-4 2m3 8h2M9 11l4 4"/>', lock:'<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3m-4 4v3"/>'
+  };
+  const icon = name => `<svg class="ico" viewBox="0 0 24 24" aria-hidden="true">${icons[name] || icons.image}</svg>`;
+  let db, storageOK = true;
+  db = M.newDemo();
+  let route = { screen: 'home' }, stack = [], draft = null, originalDraft = '', paymentDraft = null, originalPayment = '', selectedStage = '', finishDate = M.TODAY;
+  const ui = { listTab: 'In progress', query: '', historyMonth: '2026-11', insightMonth: '2026-11', reconnectCommission: 'fantasy' };
+  let modalAction = null, modalOrigin = null, toastTimer, toastAction = null, renderScroll = 0, busy = false;
+  let zoom = 1, pan = { x: 0, y: 0 }, pointers = new Map(), previousPoint = null, pinchDistance = 0;
+  const cget = id => M.find(db, id);
+  const remaining = c => Math.max(0, M.balance(db, c.id));
+  const payState = c => remaining(c) === 0 ? 'Fully paid' : M.received(db, c.id) > 0 ? 'Partially paid' : 'Unpaid';
+  const badge = (text, kind = '') => `<span class="badge ${kind}">${esc(text)}</span>`;
+  const statusBadge = c => badge(c.status, c.status === 'In progress' ? 'purple' : c.status === 'Completed' ? 'green' : c.status === 'Cancelled' ? 'rose' : '');
+  const moneyRow = (name, amount, cls = '') => `<div class="row ${cls}"><span>${esc(name)}</span><strong class="money">${pesos(amount)}</strong></div>`;
+  const button = (label, action, cls = 'primary', attrs = '') => `<button type="button" class="${cls}" data-action="${action}" ${attrs}>${label}</button>`;
+  const link = (label, action, attrs = '') => button(label + icon('upRight'), action, 'text-button', attrs);
+  const header = (title, right = '', backAction = 'back') => `<header class="page-head">${button(icon('back'), backAction, 'back', 'aria-label="Back"')}<div class="head-title">${esc(title)}</div>${right || '<span class="head-spacer"></span>'}</header>`;
+  const nav = active => `<nav class="bottom-nav" aria-label="Main navigation">${[['home','house','Home'],['list','layers','Commissions'],['history','history','History'],['insights','chart','Insights'],['reconnect','spark','Reconnect']].map(([name, glyph, label]) => button(icon(glyph) + (name === 'list' ? '<span class="nav-label-long">Commissions</span><span class="nav-label-short">Work</span>' : `<span>${label}</span>`), 'nav', name === active ? 'active' : '', `data-screen="${name}" aria-label="${label}" ${name === active ? 'aria-current="page"' : ''}`)).join('')}</nav>`;
+  const body = (content, cls = '', id = '') => `<div class="scroll-body ${cls}" ${id ? `id="${id}"` : ''}>${content}</div>`;
+  const actions = (content, two = false) => `<div class="action-bar ${two ? 'two' : ''}">${content}</div>`;
+  function persist() {}
+  function toast(message, action) {
+    clearTimeout(toastTimer); toastAction = action || null;
+    $('#toast').innerHTML = `<span>${esc(message)}</span>${action ? button('Undo', 'undo', '') : ''}`;
+    toastTimer = setTimeout(() => { $('#toast').innerHTML = ''; toastAction = null; }, action ? 6500 : 3500);
+  }
+  function currentScroll() { return $('#app .scroll-body')?.scrollTop || 0; }
+  function go(next, push = true) {
+    if (push) stack.push({ route: M.copy(route), scroll: currentScroll() });
+    route = next; renderScroll = 0; render();
+  }
+  function back() {
+    const previous = stack.pop(); route = previous?.route || { screen: 'home' }; renderScroll = previous?.scroll || 0; render();
+  }
+  function resultRoute(next) {
+    if (stack.at(-1)?.route.screen === next.screen && stack.at(-1)?.route.id === next.id) stack.pop();
+    route = next; renderScroll = 0; render();
+  }
+  function mainNav(screen) { stack = []; route = { screen }; renderScroll = 0; render(); }
+  function dialog(title, message, confirmLabel, callback, destructive = false, cancelLabel = 'Keep editing') {
+    modalOrigin = document.activeElement; modalAction = callback;
+    $('#overlay').innerHTML = `<section class="dialog" role="dialog" aria-modal="true" aria-label="${esc(title)}"><h2>${esc(title)}</h2><p>${esc(message)}</p>${button(esc(confirmLabel), 'dialog-confirm', destructive ? 'primary danger' : 'primary')}${button(esc(cancelLabel), 'dialog-close', 'secondary')}</section>`;
+    $('#overlay .secondary').focus();
+  }
+  function closeDialog() { $('#overlay').innerHTML = ''; modalAction = null; modalOrigin?.focus?.(); }
+  function normalizedDraft(value) {
+    const normalized=M.copy(value); normalized.agreed=Number(normalized.agreed);
+    if(normalized.initial&&normalized.initial.amount!=='')normalized.initial.amount=Number(normalized.initial.amount);
+    return JSON.stringify(normalized);
+  }
+  const draftChanged = () => route.screen === 'form' || (route.screen==='viewer'&&stack.some(item=>item.route.screen==='form')) ? Boolean(draft && originalDraft && normalizedDraft(draft)!==normalizedDraft(JSON.parse(originalDraft))) : route.screen === 'payment' ? JSON.stringify(paymentDraft) !== originalPayment : route.screen === 'progress' ? selectedStage !== cget(route.id).stage : route.screen === 'complete';
+  function leaveForm(callback = back) {
+    if (!draftChanged()) { callback(); return; }
+    dialog('Discard changes?', 'Your saved commission and payments will stay as they are. Only these unsaved changes will be discarded.', 'Discard', callback, true);
+  }
+  function dueLabel(c) {
+    if (c.due === M.TODAY) return 'Due today';
+    const tomorrow = new Date(M.TODAY + 'T00:00:00Z'); tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
+    if (c.due === tomorrow.toISOString().slice(0,10)) return 'Due tomorrow';
+    return (c.due < M.TODAY ? 'Overdue · ' : 'Due ') + dateText(c.due, false);
+  }
+  function taskRow(c, t, home = false) {
+    return `<div class="task-row ${t.done ? 'done' : ''}"><input type="checkbox" aria-label="${esc(t.title + ' for ' + c.title)}" data-task="${esc(t.id)}" data-cid="${c.id}" ${t.done ? 'checked' : ''}>${home ? `<button type="button" class="task-label" data-action="details" data-id="${c.id}"><h3>${esc(t.title)}</h3><p>${esc(c.username)} · ${esc(c.type)}</p></button>` : `<label class="task-label"><h3>${esc(t.title)}</h3></label>`}</div>`;
+  }
+  function projectCard(c, compact = false) {
+    if (compact) return `<button type="button" class="home-project" data-action="details" data-id="${c.id}"><span class="mini-image">${icon('image')}</span><div class="project-info"><h3>${esc(c.title)}</h3><p>${esc(c.username)} · ${esc(c.platform)}</p><div class="row">${badge(c.stage,'purple')}<span class="${c.due <= M.TODAY ? 'urgent' : ''}">${dueLabel(c)}</span></div></div></button>`;
+    const date = c.status === 'Queued' ? `Starts ${dateText(c.start, false)}` : c.status === 'Completed' ? `Finished ${dateText(c.finished, false)}` : dueLabel(c);
+    return `<button type="button" class="surface project-card" data-action="details" data-id="${c.id}"><div class="section-head"><h3>${esc(c.title)}</h3>${icon('right')}</div><p class="small muted">${esc(c.username)} · ${esc(c.platform)}</p><div class="row">${badge(c.status === 'In progress' ? c.stage : c.type, c.status === 'Completed' ? 'green' : c.status === 'In progress' ? 'purple' : '')}<span class="${c.status === 'In progress' && c.due <= M.TODAY ? 'urgent' : ''}">${esc(date)}</span></div>${c.status === 'Queued' ? `<p class="helper">Due ${dateText(c.due)}</p>` : ''}<div class="row"><span>Agreed <strong class="money">${pesos(c.agreed)}</strong></span><span class="${remaining(c) === 0 ? 'completed-date' : ''}">${remaining(c) === 0 ? 'Fully paid' : pesos(remaining(c)) + ' left'}</span></div></button>`;
+  }
+  function homeScreen() {
+    const current = db.commissions.filter(c => c.status === 'In progress').sort((a,b) => a.due.localeCompare(b.due));
+    const queue = db.commissions.filter(c => c.status === 'Queued').sort((a,b) => (a.start || a.due).localeCompare(b.start || b.due));
+    const tasks = M.openTasks(db);
+    return `<div class="home-head"><div class="brand">obra${icon('spark')}</div><div class="home-date">TUESDAY<strong>NOV 10</strong></div></div>` + body(`
+      <section class="earnings"><div class="section-head"><h2>Monthly earnings</h2><span class="small">Nov 2026</span></div><strong class="big-money">${pesos(M.monthlyTotal(db,'2026-11'))}</strong><div class="earnings-footer"><span class="helper">Payments received</span>${link('View insights','home-insights')}</div></section>
+      <div class="counts">${[['current',current.length,'Current work'],['tasks',tasks.length,'Unfinished tasks'],['queue',queue.length,'In queue']].map(([action,n,label]) => button(`<strong>${n}</strong><span>${label}</span>`,action,'')).join('')}</div>
+      <section class="section"><div class="section-head"><h2>Current work</h2>${link('View all','current')}</div>${current.length ? current.slice(0,2).map(c=>projectCard(c,true)).join('') : '<p class="helper">No work in progress. Start a queued commission when you’re ready.</p>'}</section>
+      <section class="section"><div class="section-head"><h2>Coming up</h2>${link('All tasks','tasks')}</div>${tasks.length ? tasks.slice(0,2).map(({commission,task})=>taskRow(commission,task,true)).join('') : '<p class="helper">All caught up. Your checklist is clear.</p>'}</section>
+      ${queue[0] ? `<button class="next-queue" type="button" data-action="details" data-id="${queue[0].id}">${icon('list')}<div><p class="helper">Next in queue</p><h3>${esc(queue[0].title)}</h3></div>${icon('right')}</button>` : ''}
+      ${button(icon('plus')+'Add commission','add')}`,'home-scroll') + nav('home');
+  }
+  function listScreen() {
+    const list = route.emptyPreview ? [] : db.commissions.filter(c => c.status === ui.listTab && (c.title+' '+c.username+' '+c.platform).toLowerCase().includes(ui.query.toLowerCase())).sort((a,b) => ui.listTab === 'Completed' ? b.finished.localeCompare(a.finished) : (ui.listTab === 'Queued' ? a.start || a.due : a.due).localeCompare(ui.listTab === 'Queued' ? b.start || b.due : b.due));
+    const total = route.emptyPreview ? 0 : db.commissions.filter(c => c.status === ui.listTab).length;
+    return `<header class="page-head"><h1>Commissions</h1>${button(icon('plus')+'New','add','primary','style="width:auto;min-height:39px;font-size:13px"')}</header>` + body(`
+      <p class="subtitle no-margin">Your artwork, from request to finish.</p><label class="sr-only" for="commission-search">Search client or artwork</label><input id="commission-search" class="search-input" type="search" placeholder="Search client or artwork" value="${esc(ui.query)}">
+      <div class="tabs" role="group" aria-label="Commission status">${[['In progress','Current'],['Queued','Queued'],['Completed','Completed']].map(([value,label])=>button(label,'list-tab',ui.listTab===value?'active':'',`data-tab="${value}" aria-pressed="${ui.listTab===value}"`)).join('')}</div>
+      ${db.commissions.some(c=>c.status==='Cancelled')?button(`Cancelled (${db.commissions.filter(c=>c.status==='Cancelled').length})`,'list-tab','text-button','data-tab="Cancelled"'):''}
+      <div class="list-meta"><span>${list.length} ${ui.query ? 'matching ' : ''}commissions</span><span>${ui.listTab==='Completed'?'Newest first':ui.listTab==='Queued'?'Planned start ↑':'Due date ↑'}</span></div>
+      <div id="commission-results" class="stack">${list.length ? list.map(c=>projectCard(c)).join('') : empty(ui.query?'No matches yet':'A little room to create',ui.query?'Try a different client or artwork name.':route.emptyPreview?'No commissions yet. Start with your first request.':total?'Nothing in this view.':'No '+ui.listTab.toLowerCase()+' commissions here.',ui.query?button('Clear search','clear-search','secondary'):button(icon('plus')+'Add commission','add'))}</div>`) + nav('list');
+  }
+  function empty(title, message, action = '') { return `<section class="empty"><div class="empty-icon">${icon('spark')}</div><h2>${esc(title)}</h2><p>${esc(message)}</p>${action}</section>`; }
+  function imageTiles(images, source, editable = false) {
+    return `<div class="references">${images.map((im,i)=>`<div class="image-tile">${editable ? button(icon('close'),'remove-image','remove-image',`data-index="${i}" aria-label="Remove ${esc(im.name)}"`) : ''}<button type="button" class="full-width" data-action="view-image" data-source="${source}" data-index="${i}" aria-label="Preview ${esc(im.name)}"><img src="${esc(im.src)}" alt="${esc(im.name)}" loading="lazy"></button><span>${esc(im.name)}</span></div>`).join('')}</div>`;
+  }
+  function detailScreen() {
+    const c = cget(route.id), received = M.received(db,c.id), payments = M.newestFirst(db,M.receipts(db,c.id));
+    const stages = M.STAGES.map((s,i)=>`<div class="stage-line ${c.stage===s?'current':M.STAGES.indexOf(c.stage)>i?'finished':''}"><span class="stage-dot">${M.STAGES.indexOf(c.stage)>i?icon('check'):''}</span><span>${s}</span>${c.stage===s?badge('Current','purple'):''}</div>`).join('');
+    const final = c.status === 'Completed' && c.finalImages.length;
+    const controls = c.status === 'In progress' ? button('Record payment','record','secondary',remaining(c)?'':'disabled')+button('Update progress','progress') : c.status === 'Queued' ? button('Record payment','record','secondary',remaining(c)?'':'disabled')+button('Start commission','start') : remaining(c)>0 ? button('Payment history','payments','secondary')+button('Record payment','record') : button('Payment history','payments');
+    return header('Commission details',button('Edit','edit','text-button')) + body(`
+      <section class="record-identity"><h1>${esc(c.title)}</h1><p>${esc(c.username)} · ${esc(c.platform)}</p><div class="record-meta">${statusBadge(c)}<span>${c.status==='Completed'?'Finished '+dateText(c.finished,false):dueLabel(c)}</span></div></section>
+      <section class="section"><div class="section-head"><h2>${final?'Final artwork':'References'}</h2><span class="helper">${(final?c.finalImages:c.images).length} images</span></div>${(final?c.finalImages:c.images).length?imageTiles(final?c.finalImages:c.images,final?'final':'references'):'<p class="helper">No images attached.</p>'}${final&&c.images.length?link('View original references','original-references'):''}</section>
+      <section class="section"><div class="section-head"><h2>Artwork brief</h2><span class="helper">${esc(c.type)}</span></div><p class="brief">${esc(c.brief||'No additional instructions.')}</p><div class="pill-row">${c.tags.map(t=>badge(t,'purple')).join('')}</div></section>
+      ${c.status==='In progress'?`<section class="section"><div class="section-head"><h2>Creative progress</h2>${badge(c.stage,'purple')}</div><div class="stack">${stages}</div></section>`:''}
+      <section class="section divider"><div class="section-head"><h2>Checklist</h2><span class="helper">${c.tasks.filter(t=>!t.done).length} remaining</span></div>${c.tasks.length?c.tasks.map(t=>taskRow(c,t)).join(''):'<p class="helper">No checklist items for this artwork.</p>'}</section>
+      <section class="section divider"><h2>Schedule</h2><div class="row"><span>Commission date</span><strong>${dateText(c.created)}</strong></div><div class="row"><span>Planned start</span><strong>${dateText(c.start)}</strong></div><div class="row"><span>${c.status==='Completed'?'Original due date':'Due date'}</span><strong>${dateText(c.due)}</strong></div>${c.started?`<div class="row"><span>Work started</span><strong>${dateText(c.started)}</strong></div>`:''}${c.finished?`<div class="row"><span>Finished date</span><strong>${dateText(c.finished)}</strong></div>`:''}</section>
+      <section class="payment-card"><div class="section-head"><h2>Price & payment</h2>${badge(payState(c),remaining(c)?'':'green')}</div>${moneyRow('Agreed total',c.agreed)}${moneyRow('Received',received)}${moneyRow('Remaining',remaining(c),'balance-row')}${payments[0]?`<div class="receipt-preview">${icon('incoming')}<div><strong class="small">${esc(payments[0].purpose)}</strong><p>${dateText(payments[0].date)}</p></div><strong class="small money">+ ${pesos(payments[0].amount)}</strong></div>`:''}${link('View payment history','payments')}</section>
+      ${['Queued','In progress'].includes(c.status)?button('More options','more','text-button'):''}`) + actions(controls,['In progress','Queued'].includes(c.status)||remaining(c)>0);
+  }
+  function paymentsScreen() {
+    const c=cget(route.id), payments=M.newestFirst(db,M.receipts(db,c.id));
+    return header('Payment history')+body(`<section class="record-identity"><h1>${esc(c.title)}</h1><p>${esc(c.username)} · ${esc(c.platform)}</p><div class="record-meta">${statusBadge(c)}${badge(payState(c),remaining(c)?'':'green')}</div></section><section class="payment-card">${moneyRow('Agreed total',c.agreed)}${moneyRow('Total received',M.received(db,c.id))}${moneyRow('Remaining',remaining(c),'balance-row')}</section><section class="section"><h2>Received payments</h2>${payments.length?payments.map(p=>`<article class="receipt"><div class="row"><h3>${esc(p.purpose)}</h3><strong class="money">+ ${pesos(p.amount)}</strong></div><p>${dateText(p.date)} · ${esc(p.method)}</p>${p.note?`<p>${esc(p.note)}</p>`:''}</article>`).join(''):empty('No payments yet','The full balance is still to receive.')}</section>`)+actions(remaining(c)>0?button('Record payment','record'):button('Back to commission','back-commission','secondary'));
+  }
+  const field = (label,name,value,type='text',extra='',hint='') => `<div class="field"><label for="${name}">${label}</label><input id="${name}" name="${name}" type="${type}" value="${esc(value)}" ${extra}>${hint?`<span class="helper">${hint}</span>`:''}</div>`;
+  const errorBox = () => '<div class="form-error" id="form-error" role="alert"></div>';
+  const paymentMethods = (name,value) => `<div class="field"><label for="${name}">Payment method</label><select id="${name}" name="${name}" required>${M.METHODS.map(m=>`<option ${value===m?'selected':''}>${m}</option>`).join('')}</select></div>`;
+  function paymentScreen() {
+    const c=cget(route.id), p=paymentDraft;
+    return header('Record payment',button(icon('close'),'leave','icon-button','aria-label="Close"'),'leave')+`<form id="payment-form" class="scroll-body form-body">${errorBox()}<section class="record-identity"><h1>${esc(c.title)}</h1><p>${esc(c.username)} · ${esc(c.platform)}</p></section><section class="payment-card">${moneyRow('Current balance',remaining(c))}<p class="helper">Agreed ${pesos(c.agreed)} · Received ${pesos(M.received(db,c.id))}</p></section>${field('Amount received *','amount',p.amount,'number',`min="0.01" step="0.01" max="${remaining(c)}" required inputmode="decimal"`,'Up to '+pesos(remaining(c))+' for this commission.')}${field('Date received *','date',p.date,'date',`required min="${c.created}" max="${M.TODAY}"`)}${paymentMethods('method',p.method)}<div class="field"><label for="note">Note <span class="optional">Optional</span></label><textarea id="note" name="note" maxlength="500">${esc(p.note)}</textarea></div><section class="readonly-summary">${moneyRow('Balance after saving',Math.max(0,remaining(c)-Number(p.amount||0)))}<span class="helper" id="payment-preview">${Number(p.amount)===remaining(c)?'This payment clears the remaining balance.':'Work progress stays as it is.'}</span></section></form>`+actions('<button class="primary" type="submit" form="payment-form">'+icon('check')+'Save payment</button>');
+  }
+  function openDraft(mode, commissionId) {
+    const c=commissionId?cget(commissionId):null;
+    draft=c?M.copy(c):{id:M.id(),platform:'Discord',username:'',name:'',title:'',type:'Half body',tags:[],brief:'',images:[],agreed:1500,created:M.TODAY,start:'',due:'',initialEnabled:false,background:false,initial:{id:M.id(),amount:'',date:M.TODAY,method:'GCash',note:''}};
+    originalDraft=JSON.stringify(draft); go({screen:'form',mode,id:commissionId||draft.id,step:1});
+  }
+  function choices(name,values,current) { return `<div class="choices">${values.map(v=>`<label class="choice"><input type="radio" name="${name}" value="${esc(v)}" ${current===v?'checked':''}><span>${esc(v)}</span></label>`).join('')}</div>`; }
+  function stepContent(step) {
+    const edit=route.mode==='edit', c=edit?cget(route.id):null;
+    if(step===1)return `<div class="form-intro"><h1>Client details</h1><p class="subtitle">${edit?esc(c.title)+' · existing commission':'Who are we creating for?'}</p></div><div class="field"><span class="field-label">Contact platform *</span>${choices('platform',['X','Discord'],draft.platform)}</div>${field('Client username *','username',draft.username,'text','required maxlength="80" autocomplete="off"','Use their exact username.')}${field('Display name <span class="optional">Optional</span>','name',draft.name,'text','maxlength="80"')}${edit?`<div class="surface sage pill-row">${statusBadge(c)}${badge(c.stage,'purple')}</div>`:''}`;
+    if(step===2)return `<div class="form-intro"><h1>Artwork brief</h1><p class="subtitle">Give the request a little shape.</p></div>${field('Project title *','title',draft.title,'text','required maxlength="100"')}<div class="field"><span class="field-label">Commission type *</span>${choices('type',M.TYPES,draft.type)}</div>${field('Genre & style <span class="optional">Optional</span>','tags',draft.tags.join(', '),'text','maxlength="180"','Separate tags with commas, e.g. Fantasy, Soft light.')}<div class="field"><label for="brief">Pose & details</label><textarea name="brief" id="brief" maxlength="1200">${esc(draft.brief)}</textarea></div><div class="field"><span class="field-label">Reference images <span class="optional">${draft.images.length} of 6</span></span>${draft.images.length?imageTiles(draft.images,'draft',true):''}<label class="file-add" for="reference-files">${icon('plus')}Add image</label><input class="sr-only" id="reference-files" type="file" accept="image/*" multiple><span class="helper">Up to 6 images, 1 MB each. Stored only in this demo browser.</span></div>`;
+    if(step===3)return `<div class="form-intro"><h1>Price & dates</h1><p class="subtitle">${edit?'Adjust the agreement and schedule.':'A clear quote. A little breathing room.'}</p></div>${!edit?`<section class="quote"><div class="row"><span>${esc(draft.type)}</span><strong>${pesos(basePrice(draft.type))}</strong></div><label><input type="checkbox" name="background" ${draft.background?'checked':''}>Detailed background (+ ₱500)</label><div class="row balance-row"><span>Suggested quote</span><strong>${pesos(basePrice(draft.type)+(draft.background?500:0))}</strong></div></section>`:''}${field('Agreed total *','agreed',draft.agreed,'number','required min="0.01" step="0.01" inputmode="decimal"')}${edit?`<section class="readonly-summary">${moneyRow('Already received',M.received(db,c.id))}<div class="row"><span>Remaining</span><strong class="money" id="edit-balance">${pesos(Math.max(0,Number(draft.agreed)-M.received(db,c.id)))}</strong></div><p class="helper">Existing payments are kept in Payment history.</p></section>`:''}<div class="two-fields">${field('Commission date','created',draft.created,'date',`required max="${M.TODAY}"`)}${field('Due date *','due',draft.due,'date','required')}</div>${field('Planned start <span class="optional">Optional</span>','start',draft.start,'date')}${!edit?`<label class="toggle-line"><div><h3>Record initial payment</h3><p class="helper">Optional · already received</p></div><input type="checkbox" name="initialEnabled" ${draft.initialEnabled?'checked':''}></label>${draft.initialEnabled?`<section class="section">${field('Amount received *','initial.amount',draft.initial.amount,'number',`required min="0.01" step="0.01" max="${draft.agreed}"`)}${field('Date received *','initial.date',draft.initial.date,'date',`required max="${M.TODAY}"`)}${paymentMethods('initial.method',draft.initial.method)}${field('Payment note <span class="optional">Optional</span>','initial.note',draft.initial.note,'text','maxlength="500"')}</section>`:''}`:''}`;
+    return reviewContent(edit);
+  }
+  const basePrice = type => ({'Full body':2500,'Half body':1500,Chibi:1200,Portrait:1800,'Full illustration':4500,'Character sheet':3200,Icon:500}[type]||1500);
+  function changedFields() {
+    if(route.mode!=='edit')return [];
+    const old=cget(route.id), labels={platform:'Platform',username:'Username',name:'Display name',title:'Project title',type:'Commission type',brief:'Pose & details',agreed:'Agreed total',created:'Commission date',start:'Planned start',due:'Due date',tags:'Genre & style',images:'Reference images'};
+    const display=(key,value)=>['created','start','due'].includes(key)?dateText(value):key==='agreed'?pesos(value):key==='images'?value.map(im=>im.name).join(', ')||'None':Array.isArray(value)?value.join(', ')||'None':value||'Not set';
+    return Object.keys(labels).filter(key=>JSON.stringify(old[key])!==JSON.stringify(key==='agreed'?Number(draft[key]):draft[key])).map(key=>({label:labels[key],before:display(key,old[key]),after:display(key,draft[key])}));
+  }
+  function reviewContent(edit) {
+    const got=edit?M.received(db,route.id):draft.initialEnabled?Number(draft.initial.amount):0, changes=changedFields();
+    const editLink=step=>button('Edit','review-edit','text-button',`data-step="${step}"`);
+    return `<div class="form-intro"><h1>${edit?'Review changes':'One last look'}</h1><p class="subtitle">${edit?`${changes.length} ${changes.length===1?'change':'changes'} to ${esc(draft.title)}`:'Everything together before it joins your queue.'}</p></div>${edit?changes.length?`<section class="change-summary">${changes.map(change=>`<div class="change-row"><strong>${esc(change.label)}</strong><span><del>${esc(change.before)}</del> → ${esc(change.after)}</span></div>`).join('')}</section>`:'<p class="helper">There are no changes to save.</p>':''}
+      <section class="review-group"><div class="section-head"><h2>Client</h2>${editLink(1)}</div><strong>${esc(draft.name?draft.name+' · ':'')}${esc(draft.username)}</strong><p class="muted">${esc(draft.platform)}</p></section>
+      <section class="review-group"><div class="section-head"><h2>Artwork</h2>${editLink(2)}</div><strong>${esc(draft.title)}</strong><p class="muted">${esc([draft.type,...draft.tags].join(' · '))}</p><p class="brief">${esc(draft.brief||'No extra instructions.')}</p><p class="helper">${draft.images.length} reference images</p></section>
+      <section class="review-group"><div class="section-head"><h2>Schedule</h2>${editLink(3)}</div><div class="row"><span>Commission date</span><strong>${dateText(draft.created)}</strong></div><div class="row"><span>Planned start</span><strong>${dateText(draft.start)}</strong></div><div class="row"><span>Due date</span><strong>${dateText(draft.due)}</strong></div></section>
+      <section class="review-group sage"><div class="section-head"><h2>Price & payment</h2>${editLink(3)}</div>${moneyRow('Agreed total',draft.agreed)}${moneyRow('Already received',got)}${moneyRow('Remaining',Math.max(0,Number(draft.agreed)-got))}<div class="pill-row">${edit?statusBadge(cget(route.id)):badge('Saves as Queued')}${badge(got===Number(draft.agreed)?'Fully paid':got?'Partially paid':'Unpaid',got===Number(draft.agreed)?'green':'')}</div></section>`;
+  }
+  function formScreen() {
+    const step=route.step,edit=route.mode==='edit', labels=['Next: Artwork','Next: Price & dates',edit?'Review changes':'Review commission',edit?'Save changes':'Save commission'];
+    return header(edit?'Edit commission':'New commission',button(icon('close'),'leave','icon-button','aria-label="Close"'),'form-back')+`<form id="commission-form" class="scroll-body form-body" novalidate><div class="step-indicator"><span>Step ${step} of 4</span><span class="step-dots">${[1,2,3,4].map(n=>`<span class="${n===step?'current':n<step?'done':''}"></span>`).join('')}</span></div>${errorBox()}${stepContent(step)}</form>`+actions(`<button class="primary" type="submit" form="commission-form" ${step===4&&edit&&!changedFields().length?'disabled':''}>${step===4?icon('check'):''}${labels[step-1]}${step<4?icon('arrow'):''}</button>`);
+  }
+  function progressScreen() {
+    const c=cget(route.id), desc=['Shapes, pose & composition','Clean lines & details','Color, light & finishing touches','Ready to mark the artwork complete'];
+    return header('Update progress',button(icon('close'),'leave','icon-button','aria-label="Close"'),'leave')+body(`<section class="record-identity"><h1>${esc(c.title)}</h1><p>${esc(c.username)} · ${esc(c.platform)}</p><div class="record-meta">${statusBadge(c)}<span>${dueLabel(c)}</span></div></section><section class="section"><h2>Where are you now?</h2><p class="helper">Current stage: ${esc(c.stage)}</p>${M.STAGES.map((stage,i)=>`<label class="stage-option"><input type="radio" name="stage" value="${stage}" ${selectedStage===stage?'checked':''}><div><h3>${stage}</h3><p>${desc[i]}</p></div>${c.stage===stage?'<span class="helper">Current</span>':''}</label>`).join('')}</section><p class="helper">A little closer to the finish line.</p>`)+actions(button(selectedStage==='Finished'?'Review completion '+icon('arrow'):'Save progress','save-progress','primary',selectedStage===c.stage?'disabled':''));
+  }
+  function completeScreen() {
+    const c=cget(route.id);
+    return header('Complete commission',button(icon('close'),'leave','icon-button','aria-label="Close"'))+`<form id="complete-form" class="scroll-body form-body">${errorBox()}<section class="finish-intro"><div class="empty-icon">${icon('party')}</div><h1>Ready to call it done?</h1><p class="helper">The artwork will move to Completed.</p></section><section class="record-identity"><h2>${esc(c.title)}</h2><p>${esc(c.username)} · ${esc(c.platform)}</p><p class="helper">Due ${dateText(c.due)}</p></section>${field('Finished date','finished',finishDate,'date',`required min="${c.created}" max="${M.TODAY}"`,'The day you finished this artwork.')}<section class="payment-card"><div class="section-head"><h2>Payment check</h2>${badge(payState(c),remaining(c)?'':'green')}</div>${moneyRow('Agreed total',c.agreed)}${moneyRow('Received',M.received(db,c.id))}${moneyRow('Still to receive',remaining(c),'balance-row')}<p class="helper">${remaining(c)?'You can record the remaining payment later.':'All payments are already received.'}</p></section>${button('Keep working','back','text-button')}</form>`+actions('<button class="primary" type="submit" form="complete-form">Mark completed'+icon('check')+'</button>');
+  }
+  function historyScreen() {
+    const payments=M.monthlyPayments(db,ui.historyMonth), groups=new Map();
+    payments.forEach(p=>{if(!groups.has(p.date))groups.set(p.date,[]);groups.get(p.date).push(p);});
+    return '<header class="page-head"><h1>History</h1>'+icon('history')+'</header>'+body(`<p class="subtitle no-margin">Every payment, in one little place.</p><div class="field"><label class="sr-only" for="history-month">History month</label><input class="month-select" type="month" id="history-month" value="${ui.historyMonth}" max="${M.TODAY.slice(0,7)}"></div><section class="earnings"><h2>Total received</h2><strong class="big-money">${pesos(M.monthlyTotal(db,ui.historyMonth))}</strong><p class="helper">${monthText(ui.historyMonth)}</p></section><div class="list-meta"><span>${payments.length} payments</span><span>Newest first ↓</span></div>${payments.length?[...groups].map(([date,items])=>`<section class="timeline-group"><h2 class="date-heading">${dateText(date)}</h2>${items.map(p=>{const c=cget(p.commissionId);return `<button type="button" class="receipt" data-action="details" data-id="${c.id}"><div class="row"><h3>${esc(c.title)}</h3><strong class="money">+ ${pesos(p.amount)}</strong></div><p>${esc(c.username)} · ${esc(c.platform)}</p><div class="row"><span class="small">${esc(p.purpose)} · ${esc(p.method)}</span>${icon('right')}</div></button>`;}).join('')}</section>`).join(''):empty('A quiet month','No payments recorded for '+monthText(ui.historyMonth)+'.',button('Choose another month','choose-history-month'))}`)+nav('history');
+  }
+  function chart(rows) {
+    const max=Math.max(1000,Math.ceil(Math.max(...rows.map(r=>r.amount))/1000)*1000), width=345,left=32,plotWidth=310,step=plotWidth/6;
+    return `<svg class="trend" viewBox="0 0 ${width} 185" role="img" aria-label="Monthly received earnings in PHP: ${rows.map(r=>monthText(r.month)+' '+pesos(r.amount)).join('; ')}"><text x="0" y="12">PHP</text>${[0,.5,1].map(f=>`<line x1="${left}" x2="344" y1="${145-f*112}" y2="${145-f*112}"/><text x="0" y="${149-f*112}">${f?((max*f)/1000)+'k':'0'}</text>`).join('')}${rows.map((r,i)=>{const h=r.amount/max*112,x=left+i*step+12;return `<rect x="${x}" y="${145-h}" width="27" height="${h}" rx="4"/><text class="value" text-anchor="middle" x="${x+13.5}" y="${140-h}">${Number(r.amount).toLocaleString('en-US')}</text><text text-anchor="middle" x="${x+13.5}" y="166">${new Date(r.month+'-01T12:00:00Z').toLocaleDateString('en-US',{month:'short',timeZone:'UTC'})}${r.month===M.TODAY.slice(0,7)?'*':''}</text>`;}).join('')}</svg>`;
+  }
+  function recommendationsSection() {
+    const current = db.commissions.filter(c => c.status === 'In progress');
+    if (!current.length) return `<section class="section reconnect-section" id="reconnect-section"><h2>Clients to reconnect with</h2><p class="helper">Choose current work to find previous clients with similar interests.</p>${empty('No current work yet','Your suggestions will appear here when you have work in progress.',button('View commissions','current','secondary'))}</section>`;
+    const work = current.find(c => c.id === ui.reconnectCommission) || current[0];
+    ui.reconnectCommission = work.id;
+    // Wireframe fixtures only. The implementation team supplies genre/type recommendations.
+    const sampleResults = { fantasy: ['autumn'] };
+    const suggestions = (sampleResults[work.id] || []).map(id => db.commissions.find(c => c.id === id)).filter(Boolean);
+    return `<section class="section reconnect-section" id="reconnect-section">
+      <p class="subtitle no-margin">Past clients who ordered a similar type and genre.</p>
+      <div class="field"><label for="recommendation-work">Based on current work</label><select id="recommendation-work">${current.map(c => `<option value="${c.id}" ${c.id === work.id ? 'selected' : ''}>${esc(c.title)} · ${esc(c.username)}</option>`).join('')}</select></div>
+      <div class="reconnect-context"><span class="helper">Matching on</span><div class="pill-row">${badge(work.type,'purple')}${badge(work.tags[0] || 'Genre not set','purple')}</div></div>
+      <div class="list-meta"><span>${suggestions.length} suggested ${suggestions.length === 1 ? 'client' : 'clients'}</span><span>From completed work</span></div>
+      ${suggestions.length ? suggestions.map(previous => `<article class="reconnect-card">
+        <div class="section-head"><strong class="reconnect-client">${previous.platform === 'X' ? '@' : ''}${esc(previous.username)}</strong><span class="reconnect-platform">${esc(previous.platform)}</span></div>
+        <div><p class="helper">Previous commission</p><h3>${esc(previous.title)}</h3><p class="helper">Finished ${dateText(previous.finished)}</p></div>
+        <div class="reconnect-reason"><span>${icon('spark')}Same type & genre</span><div class="pill-row">${badge(previous.type,'purple')}${badge(previous.tags[0],'purple')}</div></div>
+        ${button('View previous commission '+icon('upRight'),'details','secondary',`data-id="${previous.id}"`)}
+      </article>`).join('') : `<div class="reconnect-empty"><div class="empty-icon">${icon('history')}</div><h3>No past clients to suggest yet</h3><p class="helper">Try another current commission, or build up your completed-work history.</p></div>`}
+    </section>`;
+  }
+  function reconnectScreen() {
+    return '<header class="page-head"><h1>Reconnect</h1>'+icon('spark')+'</header>'+body(recommendationsSection(),'reconnect-body')+nav('reconnect');
+  }
+  function insightsScreen() {
+    const month=ui.insightMonth, payments=M.monthlyPayments(db,month), owed=M.outstanding(db), types=M.monthlyByType(db,month), totalOwed=owed.reduce((n,c)=>n+M.cents(remaining(c)),0)/100;
+    return '<header class="page-head"><h1>Insights</h1>'+icon('chart')+'</header>'+body(`<p class="subtitle no-margin">Your art, in numbers.</p><div class="field"><label class="sr-only" for="insight-month">Insights month</label><input class="month-select" type="month" id="insight-month" value="${month}" max="${M.TODAY.slice(0,7)}"></div><section class="earnings"><h2>Monthly earnings</h2><strong class="big-money">${pesos(M.monthlyTotal(db,month))}</strong><p class="helper">${payments.length} payments · ${monthText(month)}${month===M.TODAY.slice(0,7)?' so far':''}</p><div class="earnings-footer">${link('View payments','insight-payments')}</div></section><div class="insight-metrics"><section><h2>Total earnings</h2><strong class="money">${pesos(M.allTimeTotal(db))}</strong><p class="helper">All time · received</p></section><section><h2>Still to receive</h2><strong class="money">${pesos(totalOwed)}</strong><p class="helper">${owed.length} commissions · today</p>${button('See balances '+icon('down'),'see-balances','text-button')}</section></div><section class="section"><h2>Earnings over time</h2><p class="helper">Last 6 months · received payments</p>${chart(M.earningsTrend(db,month))}${month===M.TODAY.slice(0,7)?`<p class="helper">*November so far · through ${dateText(M.TODAY,false)}</p>`:''}</section><section class="section divider"><h2>By commission type</h2><p class="helper">${monthText(month)} · received payments</p>${types.length?types.map(t=>`<div class="type-row"><div class="row"><span>${esc(t.type)}</span><strong class="money">${pesos(t.amount)}</strong></div><div class="type-track"><span style="width:${t.amount/types[0].amount*100}%"></span></div></div>`).join(''):'<p class="helper">No received payments to break down this month.</p>'}</section><section class="section divider" id="balances-section"><div class="section-head"><h2>Still to receive</h2><strong class="money">${pesos(totalOwed)}</strong></div><p class="helper">As of ${dateText(M.TODAY)}</p>${owed.length?owed.map(c=>`<button class="receipt" type="button" data-action="details" data-id="${c.id}"><div class="row"><h3>${esc(c.title)}</h3><strong class="money">${pesos(remaining(c))}</strong></div><div class="row"><span class="small">${esc(c.username)} · ${esc(c.status)}</span>${icon('right')}</div></button>`).join(''):empty('All settled','No outstanding balances. Your received earnings stay recorded.')}</section>`)+nav('insights');
+  }
+  function tasksScreen() {
+    const tasks=M.openTasks(db), commissions=[...new Map(tasks.map(t=>[t.commission.id,t.commission])).values()];
+    return header('All tasks')+body(`<p class="helper">${tasks.length} unfinished ${tasks.length===1?'item':'items'} across your commissions</p>${tasks.length?commissions.map(c=>`<section class="section"><div class="section-head">${link(esc(c.title),'details',`data-id="${c.id}"`)}</div><p class="helper">${esc(c.username)} · ${esc(c.status)}</p>${c.tasks.filter(t=>!t.done).map(t=>taskRow(c,t)).join('')}</section>`).join(''):empty('All caught up','Nothing left on your checklist. Your commissions are still here when you need them.',button('Back to Home','task-home'))}`);
+  }
+  function viewerScreen() {
+    const images=route.images, image=images[route.index];
+    if(!image)return header('Image preview')+body(empty('No image available','Go back to the commission and try another image.'));
+    return header('Image preview',images.length>1?`<span class="helper">${route.index+1} of ${images.length}</span>`:'')+`<div class="viewer-body"><section><h1>${esc(route.title)}</h1><p class="subtitle">${esc(route.client)}</p></section><div class="image-stage" id="image-stage"><img id="preview-image" src="${esc(image.src)}" alt="${esc(image.name)}" draggable="false"><div class="image-error" id="image-error" hidden>Couldn’t load this image.<br>${button('Retry','image-retry','text-button')}</div></div><div class="viewer-filename"><strong>${esc(image.name)}</strong>${badge(route.kind,route.kind==='Reference'?'purple':'green')}</div><div class="viewer-controls">${button(icon('fit')+'Fit image','fit-image','secondary')}<span class="helper">Pinch to zoom</span>${button(icon('minus'),'zoom-out','icon-button','aria-label="Zoom out"')}${button(icon('plus'),'zoom-in','icon-button','aria-label="Zoom in"')}</div>${images.length>1?`<div class="viewer-thumbs">${images.map((im,i)=>`<button type="button" class="${route.index===i?'selected':''}" data-action="image-index" data-index="${i}" aria-label="View ${esc(im.name)}" aria-pressed="${route.index===i}"><img src="${esc(im.src)}" alt=""><span>${esc(im.name)}</span></button>`).join('')}</div>`:''}</div>${images.length>1?`<div class="viewer-pager">${button(icon('left')+'Previous','image-prev','',route.index===0?'disabled':'')}<span>${route.index+1} of ${images.length} images</span>${button('Next'+icon('right'),'image-next','',route.index===images.length-1?'disabled':'')}</div>`:''}`;
+  }
+  const screenOptions = [
+    ['home','WF-01 · Dashboard'],['current','WF-02A · Current commissions'],['queue','WF-02B · Queued commissions'],['completed','WF-02C · Completed artwork'],['empty-list','WF-02D · Empty list'],
+    ['add-1','WF-03 · Add: Client'],['add-2','WF-04 · Add: Artwork'],['add-3','WF-05 · Add: Price & dates'],['add-4','WF-06 · Add: Review'],['details','WF-07A · Current Details'],['details-lower','WF-07B · Details, lower view'],['queued-detail','WF-07Q · Queued Details'],['completed-detail','WF-07C · Completed Details'],['payments','WF-08 · Commission payments'],['payment','WF-09 · Record payment'],['progress','WF-10 · Update progress'],['complete','WF-11 · Completion review'],['history','WF-12A · Main History'],['empty-history','WF-12B · Empty month'],['insights','WF-13A · Insights'],['insights-lower','WF-13B · Insights, lower view'],['edit-1','WF-14 · Edit: Client'],['edit-2','WF-15 · Edit: Artwork'],['edit-3','WF-16 · Edit: Price & dates'],['edit-4','WF-17 · Edit: Review'],['viewer','WF-18A · Reference viewer'],['final-viewer','WF-18B · Final artwork viewer'],['reconnect','WF-19 · Reconnect'],['tasks','WF-20 · All tasks']
+  ];
+  $('#screen-picker').innerHTML=screenOptions.map(([value,label])=>`<option value="${value}">${label}</option>`).join('');
+  function routeLabel() { return route.screen==='form'?`${route.mode==='edit'?'Edit':'Add'} commission · Step ${route.step} of 4`:({home:'Dashboard',list:'Commissions',details:'Commission Details',payments:'Commission payment history',payment:'Record payment',progress:'Update progress',complete:'Completion confirmation',history:'Main History',insights:'Insights',reconnect:'Reconnect',viewer:'Image preview',tasks:'All tasks'}[route.screen]||''); }
+  function render() {
+    busy=false;
+    const screens={home:homeScreen,list:listScreen,details:detailScreen,payments:paymentsScreen,payment:paymentScreen,form:formScreen,progress:progressScreen,complete:completeScreen,history:historyScreen,insights:insightsScreen,reconnect:reconnectScreen,tasks:tasksScreen,viewer:viewerScreen};
+    $('#app').innerHTML=(screens[route.screen]||homeScreen)();
+    $('#screen-description').textContent=routeLabel()+' · Medium Phone';
+    const scroll=$('#app .scroll-body'); if(scroll)scroll.scrollTop=renderScroll;
+    renderScroll=0;
+    if(route.screen==='viewer') { applyZoom(); $('#preview-image')?.addEventListener('error',()=>{$('#image-error').hidden=false;}); }
+  }
+  function formError(error) { const target=$('#form-error'); if(target){target.textContent=error.message||String(error);target.scrollIntoView({block:'nearest'});}else toast(error.message||String(error)); }
+  function syncField(el) {
+    const name=el.name;if(!name)return;
+    const value=el.type==='checkbox'?el.checked:el.value;
+    if(route.screen==='form') {
+      if(name.startsWith('initial.'))draft.initial[name.slice(8)]=value;
+      else draft[name]=name==='tags'?String(value).split(',').map(s=>s.trim()).filter(Boolean):value;
+      if(name==='agreed'&&route.mode==='edit'&&$('#edit-balance'))$('#edit-balance').textContent=pesos(Math.max(0,Number(value)-M.received(db,route.id)));
+    }else if(route.screen==='payment') {
+      paymentDraft[name]=value;
+      if(name==='amount') { const n=Math.max(0,remaining(cget(route.id))-Number(value||0)); const valueEl=$('#payment-form .readonly-summary strong'); if(valueEl)valueEl.textContent=pesos(n); }
+    }else if(route.screen==='complete'&&name==='finished')finishDate=value;
+  }
+  function submitCommission(event) {
+    event.preventDefault();if(busy)return;
+    try {
+      if(route.step===1){if(!draft.username.trim())throw new Error('Enter the client username.');}
+      if(route.step===2){if(!draft.title.trim())throw new Error('Give the commission a title.');}
+      if(route.step>=3){M.validateCommission(db,draft,route.mode==='edit'?route.id:undefined);if(route.mode==='add'&&draft.initialEnabled){const trial=M.copy(db);M.saveCommission(trial,draft);}}
+      if(route.step<4){route.step++;render();return;}
+      busy=true;const edit=route.mode==='edit',saved=M.saveCommission(db,draft,edit?route.id:undefined);persist();draft=null;
+      if(stack.at(-1)?.route.emptyPreview)delete stack.at(-1).route.emptyPreview;
+      resultRoute({screen:'details',id:saved.id});toast(edit?'Commission updated':'Commission added to your queue');
+    }catch(error){busy=false;formError(error);}
+  }
+  function openPayment() { const c=cget(route.id);if(!remaining(c)){toast('This commission is already fully paid.');return;} paymentDraft={id:M.id(),amount:remaining(c),date:M.TODAY,method:'GCash',note:''};originalPayment=JSON.stringify(paymentDraft);go({screen:'payment',id:c.id}); }
+  function openViewer(source,index=0) {
+    const c=route.screen==='form'?draft:cget(route.id),images=source==='draft'?draft.images:source==='final'?c.finalImages:c.images;
+    if(!images.length){toast('No images attached.');return;}
+    zoom=1;pan={x:0,y:0};go({screen:'viewer',id:c.id,images:M.copy(images),index,title:c.title||'New commission',client:(c.username||'Client')+' · '+c.platform,kind:source==='final'?'Final artwork':'Reference'});
+  }
+  function applyZoom() { const image=$('#preview-image');if(image)image.style.transform=`translate(${pan.x}px,${pan.y}px) scale(${zoom})`;const minus=$('[data-action="zoom-out"]');if(minus)minus.disabled=zoom<=1;const plus=$('[data-action="zoom-in"]');if(plus)plus.disabled=zoom>=4; }
+  function zoomTo(value) {zoom=Math.max(1,Math.min(4,value));if(zoom===1)pan={x:0,y:0};applyZoom();}
+  function selectImage(index) { route.index=index;zoom=1;pan={x:0,y:0};render(); }
+  function demoJump(value) {
+    closeDialog();stack=[];ui.query='';
+    if(value.startsWith('add-')){openDraft('add');Object.assign(draft,{username:'luna.art',name:'Luna',title:'Moonlit portrait',type:'Half body',tags:['Fantasy','Soft light'],brief:'Relaxed pose, looking over the shoulder. Soft moonlight and a detailed background.',images:M.copy(cget('moon').images),agreed:2000,due:'2026-11-20',start:'2026-11-12'});originalDraft=JSON.stringify(draft);route.step=Number(value.at(-1));render();return;}
+    if(value.startsWith('edit-')){route={screen:'details',id:'fantasy'};openDraft('edit','fantasy');if(value==='edit-4')draft.due='2026-11-16';route.step=Number(value.at(-1));render();return;}
+    if(['current','queue','completed','empty-list'].includes(value)){ui.listTab=value==='queue'?'Queued':value==='completed'?'Completed':'In progress';ui.query='';route={screen:'list',emptyPreview:value==='empty-list'};render();return;}
+    if(['details','details-lower','queued-detail','completed-detail','payments','payment','progress','complete','viewer','final-viewer'].includes(value)){
+      const cid=value==='queued-detail'?'moon':value==='completed-detail'||value==='final-viewer'?'cafe':['payment','payments'].includes(value)?'kai':'fantasy';route={screen:'details',id:cid};
+      if(value==='details-lower'){render();$('#app .scroll-body').scrollTop=480;return;}
+      if(value==='payment'){openPayment();return;}
+      if(value==='progress'||value==='complete'){selectedStage=value==='complete'?'Finished':cget(cid).stage;stack.push({route:M.copy(route),scroll:0});route={screen:'progress',id:cid};if(value==='complete'){stack.push({route:M.copy(route),scroll:0});route={screen:'complete',id:cid};finishDate=M.TODAY;}render();return;}
+      if(value==='payments'){go({screen:'payments',id:cid});return;}
+      if(value==='viewer'||value==='final-viewer'){openViewer(value==='viewer'?'references':'final');return;}
+      render();return;
+    }
+    if(value==='empty-history'){ui.historyMonth='2026-01';route={screen:'history'};render();return;}
+    if(value==='history')ui.historyMonth='2026-11';
+    if(value==='insights-lower'){route={screen:'insights'};render();$('#balances-section').scrollIntoView({block:'start'});return;}
+    route={screen:value};render();
+  }
+  wireRoot.addEventListener('click',event=>{
+    const el=event.target.closest('[data-action]');if(!el||el.disabled)return;
+    const action=el.dataset.action;
+    try {
+      if(action==='dialog-close'){closeDialog();return;}
+      if(action==='dialog-confirm'){const fn=modalAction;closeDialog();fn?.();return;}
+      if(action==='undo'){const fn=toastAction;$('#toast').innerHTML='';toastAction=null;fn?.();return;}
+      if(action==='nav'){mainNav(el.dataset.screen);return;}
+      if(action==='back'){back();return;}
+      if(action==='leave'){leaveForm(route.screen==='complete'?()=>{while(stack.at(-1)?.route.screen==='progress')stack.pop();back();}:back);return;}
+      if(action==='form-back'){if(route.step>1){route.step--;render();}else leaveForm();return;}
+      if(action==='add'){openDraft('add');return;}
+      if(action==='edit'){openDraft('edit',route.id);return;}
+      if(action==='details'){go({screen:'details',id:el.dataset.id});return;}
+      if(action==='current'||action==='queue'){ui.listTab=action==='queue'?'Queued':'In progress';ui.query='';go({screen:'list'});return;}
+      if(action==='tasks'){go({screen:'tasks'});return;}
+      if(action==='task-home'){mainNav('home');return;}
+      if(action==='list-tab'){ui.listTab=el.dataset.tab;ui.query='';render();return;}
+      if(action==='clear-search'){ui.query='';render();return;}
+      if(action==='home-insights'){ui.insightMonth='2026-11';go({screen:'insights'});return;}
+      if(action==='payments'){go({screen:'payments',id:route.id});return;}
+      if(action==='record'){openPayment();return;}
+      if(action==='back-commission'){if(stack.at(-1)?.route.screen==='details')back();else resultRoute({screen:'details',id:route.id});return;}
+      if(action==='progress'){selectedStage=cget(route.id).stage;go({screen:'progress',id:route.id});return;}
+      if(action==='save-progress'){if(selectedStage==='Finished'){finishDate=M.TODAY;go({screen:'complete',id:route.id});}else{M.setStage(db,route.id,selectedStage);persist();back();toast('Progress updated');}return;}
+      if(action==='start'){const cid=route.id;dialog('Start this commission?','This moves the artwork into Current and starts at Sketch. Payments stay as they are.','Start commission',()=>{M.startCommission(db,cid);persist();render();toast('Commission started');},false,'Not yet');return;}
+      if(action==='more'){const cid=route.id;dialog('Cancel this commission?','The artwork will move out of your active queue. Its details and received-payment history are kept.','Cancel commission',()=>{M.cancelCommission(db,cid);persist();render();toast('Commission cancelled');},true,'Keep commission');return;}
+      if(action==='review-edit'){route.step=Number(el.dataset.step);render();return;}
+      if(action==='view-image'){openViewer(el.dataset.source,Number(el.dataset.index));return;}
+      if(action==='original-references'){openViewer('references');return;}
+      if(action==='remove-image'){draft.images.splice(Number(el.dataset.index),1);renderScroll=currentScroll();render();return;}
+      if(action==='image-next'){selectImage(route.index+1);return;}
+      if(action==='image-prev'){selectImage(route.index-1);return;}
+      if(action==='image-index'){selectImage(Number(el.dataset.index));return;}
+      if(action==='zoom-in'){zoomTo(zoom+.5);return;}
+      if(action==='zoom-out'){zoomTo(zoom-.5);return;}
+      if(action==='fit-image'){pan={x:0,y:0};zoomTo(1);return;}
+      if(action==='image-retry'){$('#image-error').hidden=true;$('#preview-image').src=route.images[route.index].src;return;}
+      if(action==='insight-payments'){ui.historyMonth=ui.insightMonth;go({screen:'history'});return;}
+      if(action==='see-balances'){$('#balances-section').scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});return;}
+      if(action==='choose-history-month'){$('#history-month').focus();try{$('#history-month').showPicker();}catch{}return;}
+    }catch(error){formError(error);}
+  });
+  wireRoot.addEventListener('input',event=>{
+    const el=event.target;
+    if(el.id==='commission-search'){
+      const start=el.selectionStart,end=el.selectionEnd;ui.query=el.value;render();const search=$('#commission-search');search.focus();search.setSelectionRange(start,end);return;
+    }
+    syncField(el);
+  });
+  wireRoot.addEventListener('change',async event=>{
+    const el=event.target;
+    if(el.dataset.task){const cid=el.dataset.cid,tid=el.dataset.task;M.toggleTask(db,cid,tid);persist();renderScroll=currentScroll();render();toast(el.checked?'Task completed':'Task reopened',()=>{M.toggleTask(db,cid,tid);persist();renderScroll=currentScroll();render();});return;}
+    if(el.id==='recommendation-work'){ui.reconnectCommission=el.value;render();return;}
+    if(el.id==='history-month'||el.id==='insight-month'){
+      if(!/^\d{4}-\d{2}$/.test(el.value))return;
+      if(el.id==='history-month')ui.historyMonth=el.value;else ui.insightMonth=el.value;render();return;
+    }
+    if(el.id==='reference-files'){
+      try{
+        const files=Array.from(el.files||[]);if(files.length+draft.images.length>6)throw new Error('Keep up to 6 reference images.');
+        if(files.some(file=>!file.type.startsWith('image/')||file.size>1024*1024))throw new Error('Choose image files no larger than 1 MB each.');
+        const loaded=await Promise.all(files.map(file=>new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve({name:file.name,src:reader.result});reader.onerror=()=>reject(new Error('This image could not be read.'));reader.readAsDataURL(file);})));draft.images.push(...loaded);renderScroll=currentScroll();render();
+      }catch(error){formError(error);}return;
+    }
+    syncField(el);
+    if(route.screen==='form'&&['type','background','initialEnabled'].includes(el.name)){
+      if(route.mode==='add'&&el.name!=='initialEnabled')draft.agreed=basePrice(draft.type)+(draft.background?500:0);
+      renderScroll=currentScroll();render();
+    }
+    if(route.screen==='progress'&&el.name==='stage'){selectedStage=el.value;render();}
+  });
+  wireRoot.addEventListener('submit',event=>{
+    if(event.target.id==='commission-form'){submitCommission(event);return;}
+    if(event.target.id==='payment-form'){
+      event.preventDefault();if(busy)return;try{busy=true;M.addPayment(db,route.id,paymentDraft);persist();resultRoute({screen:'payments',id:route.id});toast('Payment recorded');}catch(error){busy=false;formError(error);}return;
+    }
+    if(event.target.id==='complete-form'){
+      event.preventDefault();if(busy)return;try{busy=true;const cid=route.id;M.completeCommission(db,cid,finishDate);persist();while(stack.at(-1)?.route.screen==='progress')stack.pop();resultRoute({screen:'details',id:cid});toast('Commission completed');}catch(error){busy=false;formError(error);}
+    }
+  });
+  wireRoot.addEventListener('keydown',event=>{
+    if($('#overlay').children.length){if(event.key==='Escape'){event.preventDefault();closeDialog();}if(event.key==='Tab'){const items=[...$('#overlay').querySelectorAll('button')];if(event.shiftKey&&document.activeElement===items[0]){event.preventDefault();items.at(-1).focus();}else if(!event.shiftKey&&document.activeElement===items.at(-1)){event.preventDefault();items[0].focus();}}return;}
+    if(route.screen==='viewer'&&event.key==='Escape'){back();}
+  });
+  wireRoot.addEventListener('pointerdown',event=>{
+    if(!event.target.closest('#image-stage'))return;
+    const stage=$('#image-stage');stage.setPointerCapture(event.pointerId);pointers.set(event.pointerId,{x:event.clientX,y:event.clientY});previousPoint={x:event.clientX,y:event.clientY};if(pointers.size===2){const p=[...pointers.values()];pinchDistance=Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y);}
+  });
+  wireRoot.addEventListener('pointermove',event=>{
+    if(!pointers.has(event.pointerId))return;
+    const next={x:event.clientX,y:event.clientY};pointers.set(event.pointerId,next);
+    if(pointers.size===2){const p=[...pointers.values()],dist=Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y);if(pinchDistance)zoomTo(zoom*dist/pinchDistance);pinchDistance=dist;}
+    else if(zoom>1&&previousPoint){const box=$('#image-stage').getBoundingClientRect(),maxX=box.width*(zoom-1)/2,maxY=box.height*(zoom-1)/2;pan.x=Math.max(-maxX,Math.min(maxX,pan.x+next.x-previousPoint.x));pan.y=Math.max(-maxY,Math.min(maxY,pan.y+next.y-previousPoint.y));applyZoom();}previousPoint=next;
+  });
+  ['pointerup','pointercancel'].forEach(name=>wireRoot.addEventListener(name,event=>{pointers.delete(event.pointerId);previousPoint=null;pinchDistance=0;}));
+  $('#screen-picker').addEventListener('change',event=>{const value=event.target.value;if(draftChanged())dialog('Discard changes?','Jumping to another wireframe will leave these unsaved edits.','Discard and switch',()=>demoJump(value),true);else demoJump(value);});
+  $('#reset-demo').addEventListener('click',()=>dialog('Reset demo data?','This replaces only the fictional prototype data in this browser. Your saved wireframe documents are unchanged.','Reset demo',()=>{db=M.newDemo();draft=null;paymentDraft=null;ui.listTab='In progress';ui.query='';ui.historyMonth='2026-11';ui.insightMonth='2026-11';ui.reconnectCommission='fantasy';persist();mainNav('home');$('#screen-picker').value='home';toast('Demo reset');},true,'Keep demo'));
+  // Invoke local form handlers directly; the conversation sandbox does not submit forms.
+  wireRoot.addEventListener('click', event => {
+    const submitButton = event.target.closest('button[type="submit"][form]');
+    if (!submitButton || submitButton.disabled) return;
+    event.preventDefault();
+    const form = wireRoot.querySelector('#' + submitButton.getAttribute('form'));
+    form?.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+  });
+  wireRoot.addEventListener('keydown', event => {
+    if (event.key !== 'Enter' || event.target.tagName !== 'INPUT' || event.target.type === 'file') return;
+    const form = event.target.closest('form');
+    if (!form) return;
+    event.preventDefault();
+    form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+  });
+  persist();route={screen:'reconnect'};render();$('#screen-picker').value='reconnect';
+})();
+</script>

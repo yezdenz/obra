@@ -1,0 +1,42 @@
+# Android and Gradle generated/local files
+.gradle/
+**/build/
+captures/
+.cxx/
+.externalNativeBuild/
+local.properties
+*.apk
+*.aab
+*.ap_
+*.dex
+
+# IDE and operating-system files
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
+Desktop.ini
+.vscode/
+
+# Secrets and signing material
+.env
+.env.*
+!.env.example
+*.jks
+*.keystore
+keystore.properties
+secrets.properties
+google-services.json
+
+# Runtime databases, private sample data, and local exports
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+private-data/
+local-exports/
+
+# Temporary tooling output
+tmp/
+*.log

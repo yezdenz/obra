@@ -25,7 +25,9 @@ This roadmap describes the order of work. It does not claim that a feature is im
 - [ ] Review the Commission Details board.
 - [x] Draft Update progress and completion confirmation with an unchanged outstanding balance.
 - [ ] Review the progress/completion draft and completion meaning.
-- [ ] Draw commission editing and supporting image views.
+- [x] Draft four-step Edit commission with prefilled values, changed-date review, and preserved payment/work state.
+- [ ] Review edit validation, price/history implications, and discard behavior.
+- [ ] Draw the supporting image viewer.
 - [x] Draft Record payment and its saved history state.
 - [x] Draft a commission-specific payment-history list and simplify the checklist to remove task dates/actions.
 - [x] Organize all existing boards in layout.md with numbered pages, button routes, scroll/state explanations, and saved previews/sources.

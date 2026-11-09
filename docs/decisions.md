@@ -30,6 +30,7 @@
 - [Update progress and completion](update-progress.md): WF-10 full-page stage selection; Finished opens WF-11 to confirm actual finished date; completion returns to the same record and retains its payment/checklist states. This is a new draft, not an accepted completion definition.
 - [Main History](main-history.md): WF-12 shows individual received payments grouped by received date, a month/year selector, full-period received total/count, links to commission records, and an empty month. This is a new static draft for review; the picker remains undrawn.
 - [Insights](insights.md): WF-13 is one scrolling page with monthly earnings, all-time received earnings, current balances, a six-month trend, and type breakdown. View payments carries its month to History; See balances scrolls within Insights. A new draft for review; all-time/current metrics retain their scopes when selecting a past month.
+- [Edit commission](edit-commission.md): WF-14–WF-17 reuse the four-step intake with prefilled values and before/after review. Save changes updates the same record, preserves work/checklist states and receipt records, and omits initial-payment entry. A total below already received money is proposed to be blocked; historical restrictions and refund/correction flows remain open. New static draft for review.
 - Lifecycle statuses: Queued, In progress, Completed, Cancelled.
 - Creative stages tracked independently from lifecycle and payments.
 - Payment records with received amounts and dates; monthly earnings calculated from them.

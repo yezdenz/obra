@@ -2,7 +2,7 @@
 
 The screens below are a planning inventory. The dashboard's visual direction, DynaPuff/Mali pairing, and four-step intake wireframe have been reviewed and accepted as references. New screen drafts and the remaining grouping/navigation decisions still need review. Static wireframes come before executable navigation.
 
-Use [layout.md](../layout.md) as the master numbered guide. It embeds every current board and assigns WF-01–WF-13 to existing page/step layouts, with separate labels for filters, saved states, and scroll positions. Remaining undrawn destinations start at P-05; former P-01–P-04 are now WF-10–WF-13.
+Use [layout.md](../layout.md) as the master numbered guide. It embeds every current board and assigns WF-01–WF-17 to existing page/step layouts, with separate labels for filters, saved states, and scroll positions. Remaining undrawn destinations start at P-06; former P-01–P-04 are WF-10–WF-13 and former P-05 is WF-14–WF-17.
 
 ## Main sections
 
@@ -53,7 +53,7 @@ See [Commission Details](commission-details.md) for the current static draft: fi
 
 ### Edit commission
 
-Reuse the intake structure with existing values. Keep previously received payments intact and independently editable through an appropriate payment-record flow. Decide how agreed-price changes should be recorded before implementation.
+The [Edit commission draft](edit-commission.md), WF-14–WF-17, reuses the intake structure with existing values and a before/after review. Save changes updates the same artwork and returns to WF-07. Previously received payments are read-only in this form, with no initial-payment toggle. Work status/stage and checklist states are retained. A total below received money is proposed to be blocked; refund/correction and historical pricing/date restrictions still need review.
 
 ## Supporting screens or sheets
 

@@ -114,4 +114,6 @@ The owner accepted the four-step static wireframe direction after reviewing the 
 
 The next board, [Commission Details](commission-details.md), shows the queued record reached after Save, along with in-progress and completed examples.
 
+Editing an existing record now has its own [four-step static draft](edit-commission.md), WF-14–WF-17. It preserves this intake structure but removes the initial-payment toggle, shows existing received money read-only, reviews changed values, and finishes with Save changes to the same commission.
+
 See [layout.md](../layout.md) for the full action specification and [screen plan](screens.md) for the wider application context.

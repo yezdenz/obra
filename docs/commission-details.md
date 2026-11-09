@@ -100,6 +100,8 @@ The owner accepted the four-step Add commission wireframe and the DynaPuff/Mali 
 
 The [commission payment-history draft](payment-history.md) now shows the dedicated payment list reached from View payment history. It is separate from Insights and its earnings graphs.
 
-Next supporting wireframes can cover Record payment, Update progress/completion, a larger image view, a fully paid completed record, and overdue/empty-reference states. Task editing/detail screens are deferred under the simplified checklist direction.
+The [Record payment draft](record-payment.md) now shows the form and updated history after saving. A Fully paid summary does not change the commission's work status.
+
+Next supporting wireframes can cover Update progress/completion, a larger image view, a fully paid completed record, and overdue/empty-reference states. Task editing/detail screens are deferred under the simplified checklist direction.
 
 See [layout.md](../layout.md), [Add commission](add-commission.md), and the [screen inventory](screens.md).

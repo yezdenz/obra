@@ -70,6 +70,7 @@ This four-section navigation is a **proposal for review**, not an approved final
 | [Add commission wireframe](docs/add-commission.md) | Four static intake steps, reference images, dates, optional initial payment, and final review |
 | [Commission Details wireframe](docs/commission-details.md) | Current, queued, and completed records; scroll continuation; tasks, stages, dates, and balances |
 | [Commission payment history](docs/payment-history.md) | Initial deposit and later received payments for one commission, separate from earnings graphs |
+| [Record payment wireframe](docs/record-payment.md) | Amount/date/method/note entry, balance preview, Save behavior, and updated history |
 | [Screen plan](docs/screens.md) | Screen inventory and proposed navigation |
 | [Data plan](docs/data-plan.md) | General database information groups without a detailed schema |
 | [Design direction](docs/design-direction.md) | Guhit reference, fonts, shapes, device size, and wireframe format |
@@ -86,7 +87,7 @@ The initial concept is a workspace for the artist. It does not require a client-
 ## Immediate next steps
 
 1. Review the static Commission Details board and its lifecycle states.
-2. Review the commission payment-history draft and draw supporting Record payment, Update progress, and image views.
+2. Review the payment-history and Record payment drafts, then draw Update progress and image views.
 3. Extend the accepted visual direction to commission lists, History, and Insights.
 4. Review important empty, overdue, partially paid, and completed states together.
 5. Finalize the data model and Android implementation plan afterward.

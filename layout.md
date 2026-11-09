@@ -211,7 +211,7 @@ See [the Commission Details wireframe plan](docs/commission-details.md) for the 
 | Save changes | Save the edited commission and return to its details; retain existing payment records |
 | Start commission | Change a queued record to In progress after an explicit start action; show its initial creative stage |
 | Update stage | Open stage choices; Save stage applies the selected stage and returns to details |
-| Record payment | Open amount/date/method/note entry; Save payment records it and refreshes the balance |
+| Record payment | Open the [payment-entry form](docs/record-payment.md) showing context, amount/date/method/note, and after-save balance; Save returns to updated commission payment history |
 | Reference thumbnail | Open a full image view; Back returns to the same commission |
 | Checklist label | Display a task name; no extra task-detail button or date |
 | Mark task done | Complete only that task and refresh the unfinished-task count |
@@ -223,6 +223,8 @@ Completing a commission must not mark it paid automatically. If money is still o
 Editing an agreed price must not silently erase payments. The handling of an edited price below the amount already received, refunds, and corrections remains open. A permanent Delete action is deferred until historical retention rules are agreed.
 
 **View payment history** opens [a dedicated payment list](docs/payment-history.md) for the selected commission. Show its initial deposit and later received payments with amounts, received dates, method, optional notes, and remaining balance. Entries display their details directly; they do not need another receipt-details screen. The commission's deadline and payment received dates stay; only per-task deadlines are removed.
+
+The [Record payment draft](docs/record-payment.md) has a single Save payment action. Its example clears the remaining balance and returns to Fully paid history while the artwork stays In progress. Validate a positive amount within the outstanding balance, a received date, and a method. The date defaults to today and can be changed; notes are optional. Back/Close use Keep editing / Discard if the form has unsaved changes.
 
 ## 7. History and Insights: next destinations
 
@@ -267,6 +269,7 @@ The board should communicate the planned behavior through labels, arrows, and se
 - [Add commission wireframe](docs/add-commission.md)
 - [Commission Details wireframe](docs/commission-details.md)
 - [Commission payment history](docs/payment-history.md)
+- [Record payment wireframe](docs/record-payment.md)
 - [Screen inventory](docs/screens.md)
 - [Design direction](docs/design-direction.md)
 - [Requirements](docs/requirements.md)

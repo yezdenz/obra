@@ -39,8 +39,9 @@ Insights and the history views use the same payment records. Opening history or 
 ## Planned actions
 
 - **Back:** return to Commission Details.
-- **Record payment:** open amount, received date, method, and optional note entry; its detailed layout is a later static wireframe.
-- **Save payment in that future entry view:** validate the record, save it once, return to the list, and update its summary.
+- **Record payment:** open the [Record payment form](record-payment.md), with amount, received date, method, optional note, and an after-save balance preview.
+- **Save payment:** validate the record, save it once, return to the list, and update its summary. The new static board shows the form and this saved result.
+- **No remaining balance:** show Fully paid and a return-to-commission action; do not invite another ordinary payment when nothing is owed.
 
 Payment received dates stay in the records because they determine monthly earnings. They are distinct from the commission's due date. Removing task-specific deadlines does not remove commission deadlines or payment dates.
 

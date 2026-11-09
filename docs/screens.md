@@ -57,7 +57,7 @@ Reuse the intake structure with existing values. Keep previously received paymen
 
 | View | Purpose |
 | --- | --- |
-| Record payment | Enter payment amount, date, method, and note |
+| [Record payment](record-payment.md) | Enter amount, received date, method, and optional note; preview remaining balance; Save opens updated commission payment history |
 | [Commission payment history](payment-history.md) | Show a commission's initial and later payments, amounts, received dates, methods, notes, and balance |
 | All tasks | A simple list of unfinished checklist items with links to their commissions; no task-specific dates or extra detail screens |
 | Package manager/editor | Maintain offered services, prices, and turnaround estimates |

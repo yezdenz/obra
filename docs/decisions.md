@@ -25,10 +25,11 @@
 - Exact color values, type sizes, and detailed field/pricing rules described in [layout.md](../layout.md).
 - The new [Commission Details board](commission-details.md), including action placement and state-specific summaries.
 - [Commission payment history](payment-history.md) as a simple per-commission receipt list, separate from Insights; additional task-detail/custom-entry controls are deferred.
+- [Record payment](record-payment.md): a short amount/date/method/note form, positive amount within the remaining balance, and return to updated history after Save.
 - Lifecycle statuses: Queued, In progress, Completed, Cancelled.
 - Creative stages tracked independently from lifecycle and payments.
 - Payment records with received amounts and dates; monthly earnings calculated from them.
-- Per-commission tasks with completion states and due dates.
+- Simple per-commission checklist items with completion states; per-task dates and extra task-detail/custom-entry controls are excluded from the current draft.
 - Package management, add-on quotation, search, deadline warnings, and queue ordering.
 
 These are recommendations captured for discussion. Inclusion in this repository does not make them approved implementation requirements.

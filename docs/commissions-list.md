@@ -10,7 +10,7 @@ The current proposal separates **artwork records** from **payment transactions**
 
 An artwork appears once as a commission record, but can have several payment entries. For example, one artwork with a deposit and a balance payment is one commission card and two transaction entries. Opening a transaction's related commission returns to that same record.
 
-Completed artwork belongs under **Commissions → Completed**. The main History list does not need to duplicate the artwork archive. This split is the working recommendation in response to the owner's question; the global transaction-history wireframe is still to be drawn.
+Completed artwork belongs under **Commissions → Completed**. The main History list does not need to duplicate the artwork archive. This split is the working recommendation in response to the owner's question; the [main transaction History draft](main-history.md) now shows received-payment entries and links back to their artwork records.
 
 ## Static board
 

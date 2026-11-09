@@ -31,7 +31,7 @@ Method names are manually recorded labels. This view does not connect to GCash, 
 | View | Scope |
 | --- | --- |
 | Commission payment history | Actual payments for one specific commission, including its deposit and balance payments |
-| Main History section | Individual received-payment transactions across commissions, with links to the related artwork |
+| [Main History section](main-history.md) | WF-12: individual received-payment transactions across commissions, selected by received month, with links to the related artwork |
 | Commissions → Completed | The archive of finished artwork, including work with an outstanding balance |
 | Insights | Total/monthly earnings, outstanding-balance summaries, and graphs across the selected reporting period |
 

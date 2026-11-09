@@ -2,7 +2,7 @@
 
 The screens below are a planning inventory. The dashboard's visual direction, DynaPuff/Mali pairing, and four-step intake wireframe have been reviewed and accepted as references. New screen drafts and the remaining grouping/navigation decisions still need review. Static wireframes come before executable navigation.
 
-Use [layout.md](../layout.md) as the master numbered guide. It embeds every current board and assigns WF-01–WF-11 to existing page/step layouts, with separate labels for filters, saved states, and scroll positions. Remaining undrawn destinations start at P-03; former P-01/P-02 are now WF-10/WF-11.
+Use [layout.md](../layout.md) as the master numbered guide. It embeds every current board and assigns WF-01–WF-12 to existing page/step layouts, with separate labels for filters, saved states, and scroll positions. Remaining undrawn destinations start at P-04; former P-01/P-02/P-03 are now WF-10/WF-11/WF-12.
 
 ## Main sections
 
@@ -20,7 +20,7 @@ Queued records represent accepted work that has not started. Planned start dates
 
 The current recommendation is a chronological view of individual payment transactions across commissions, including deposits and later balance payments. Show the client, related artwork, received amount, received date, and recorded method. Previous artwork itself belongs under Commissions → Completed. A transaction links to the same parent commission and its full dates/details.
 
-One artwork can have multiple payment transactions. Main History should not duplicate the completed-artwork list. The global History wireframe is still pending; the per-commission payment-history draft already exists.
+One artwork can have multiple payment transactions. Main History should not duplicate the completed-artwork list. The [main History draft](main-history.md), WF-12, now shows month selection, received totals, dated receipt rows, and an empty month. Tapping a payment opens its commission; Back restores the selected month and list position. The commission-specific payment-history page remains WF-08.
 
 ### Insights
 

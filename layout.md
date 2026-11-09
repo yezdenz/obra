@@ -14,12 +14,13 @@ Use the reviewed dashboard and accepted four-step Add commission layout as the v
 
 ## Read the numbering first
 
-- **WF-01 through WF-11** identify the eleven existing page/step layouts. They are reference numbers, not a requirement to visit every screen in that order.
+- **WF-01 through WF-12** identify the twelve existing page/step layouts. They are reference numbers, not a requirement to visit every screen in that order.
 - A suffix such as **WF-02A** identifies a filter/state of the same page.
 - **WF-07A and WF-07B are two scroll positions of one Commission Details page.** No Next button connects them.
 - **WF-08B is the same Payment history page after saving a payment**, not a separate success screen.
 - **WF-10A/B** are alternative selections on one Update progress page. **WF-11** is its completion confirmation.
-- **P-03 onward** identifies remaining planned wireframes. Former P-01/P-02 are now drawn as WF-10/WF-11.
+- **WF-12A/B** are populated/empty-month states of the main History page.
+- **P-04 onward** identifies remaining planned wireframes. Former P-01/P-02/P-03 are now drawn as WF-10/WF-11/WF-12.
 - Every visual board is embedded below. Open an image at full size when reviewing its small labels. [Saved boards and editable sources](docs/wireframes/README.md) are also in the repository.
 
 ## Existing wireframes: sequential index
@@ -37,6 +38,7 @@ Use the reviewed dashboard and accepted four-step Add commission layout as the v
 | [WF-09](#wf09) | Record payment | WF-07 or WF-08 → Record payment | Separate short form; can scroll with keyboard/notes |
 | [WF-10](#wf10) | Update progress | WF-07 → Update progress | Separate stage-selection page; content can scroll on smaller displays |
 | [WF-11](#wf11) | Completion confirmation | WF-10 → Finished → Review completion | Separate short review page with finished date; can scroll |
+| [WF-12](#wf12) | Main transaction History | History in main navigation | One scrolling timeline across commissions; selected-month and empty-month states |
 
 Dashboard styling, the DynaPuff/Mali pairing, and the four-step intake direction have been accepted. The other drawings are current drafts for review; having a preview does not mean the app has been implemented or every behavior finalized.
 
@@ -53,6 +55,9 @@ flowchart TD
     Review -->|Save commission| Detail[WF-07 Commission Details]
     List -->|Project card| Detail
     Home -->|Project / queue card| Detail
+    Home -->|History navigation| History[WF-12 Main History]
+    List -->|History navigation| History
+    History -->|Payment row| Detail
     Detail -->|View payment history| Payments[WF-08 Payment history]
     Detail -->|Record payment| Entry[WF-09 Record payment]
     Payments -->|Record payment| Entry
@@ -83,7 +88,7 @@ Read top to bottom: header/date → monthly received earnings → workload count
 | All tasks / unfinished-task count | P-07, simple global checklist list; not drawn yet |
 | View insights / Insights navigation | P-04, Insights; not drawn yet |
 | Commissions navigation | WF-02, normally Current |
-| History navigation | P-03, main transaction History; not drawn yet |
+| History navigation | WF-12, main transaction History |
 
 Task-specific dates and the Send color preview action are removed. Commission deadlines and payment received dates remain.
 
@@ -207,7 +212,7 @@ Show project/client context, agreed price, total received, balance, and the actu
 - **Back** returns to WF-07 for the same commission and previous position.
 - **WF-08B:** this same page after a successful save, including a fully paid state. It appears on the **right of the Record payment board in WF-09**.
 
-This page is distinct from the still-undrawn main History tab: WF-08 shows one commission's money; P-03 will show transactions across commissions. P-04 Insights is the separate reporting/graphs page.
+This page is distinct from the main History tab: WF-08 shows one commission's money; WF-12 shows transactions across commissions. P-04 Insights is the separate reporting/graphs page and is still undrawn.
 
 ![Left: WF-07B simplified record context; right: WF-08A commission-specific payment history with initial deposit](docs/wireframes/payment-history.jpg)
 
@@ -271,13 +276,40 @@ Completion currently means the artist marks the artwork finished. Whether delive
 
 ![Top left WF-10A Colors selection; top right WF-10B Finished selection; bottom left WF-11 confirmation; bottom right existing WF-07C completed record with unpaid balance](docs/wireframes/update-progress.jpg)
 
+<a id="wf12"></a>
+## WF-12 — Main transaction History
+
+**Enter:** History in main navigation. **Type:** a main page, distinct from WF-08 commission-specific Payment history. **Scroll:** the timeline scrolls vertically; main navigation remains reachable. The drawing shows one viewport rather than every receipt compressed into one phone.
+
+| Board position | Reference | What it represents |
+| --- | --- | --- |
+| Left | WF-12A | November 2026: five payments totaling ₱4,450; newest four visible, one earlier receipt below |
+| Right | WF-12B | Same page with January 2026 selected: zero payments and Choose another month |
+
+Read top to bottom: History → month/year selector → received total for that month → receipt count/newest-first label → received-date groups → payment rows → main navigation with History selected.
+
+Each row shows artwork, received amount, username/platform, payment purpose, and method. A deposit and a later balance payment remain two entries even when linked to the same artwork. Quotes and outstanding balances do not appear as receipts; commission due dates remain in WF-07.
+
+| Click / action | Destination or result |
+| --- | --- |
+| Month selector / Choose another month | Month/year chooser, then update this same page; chooser is not drawn yet |
+| Payment row / chevron | WF-07 for that commission; Back restores this month and timeline position |
+| Home / Commissions navigation | WF-01 / WF-02 |
+| History navigation | Remain on WF-12, preserving context |
+| Insights navigation | P-04, still undrawn |
+
+First entry defaults to the current month. Summary/count cover the full selected month, including offscreen receipts. For the mock November, amounts are ₱900 + ₱1,000 + ₱900 + ₱750 + ₱900 = ₱4,450; the final ₱900 initial payment, received Nov 2, is below the viewport. No new payment-details or global payment-entry page is added. Use WF-07 → WF-08 to see notes and all receipts for one artwork, or WF-09 to record another payment.
+
+The two phones are states, not a Next/Back sequence. This is a new static draft for review. See [the main History plan](docs/main-history.md) for routes, sample receipts, and remaining states.
+
+![WF-12A main History with received payments on the left; WF-12B the same page with an empty month on the right](docs/wireframes/main-history.jpg)
+
 ## Planned next wireframes — not drawn yet
 
 These entries explain destinations already mentioned by buttons. They are not hidden existing designs.
 
 | Planned number | Wireframe | Entry button / context | Expected type |
 | --- | --- | --- | --- |
-| P-03 | Main transaction History | Main navigation → History | Main scrolling payment timeline across commissions |
 | P-04 | Insights | Main navigation → Insights, or dashboard View insights | Main financial-summary/graph page |
 | P-05 | Edit Commission | WF-07 → Edit | Prefilled version of the four-step intake; final action Save changes |
 | P-06 | Image viewer | Reference / final-artwork thumbnail | Larger image view; exact page/modal format undecided |
@@ -285,7 +317,7 @@ These entries explain destinations already mentioned by buttons. They are not hi
 
 Additional **states/dialogs**, rather than automatically separate main pages, still need drawings: WF-05 initial-payment fields expanded; form validation; no search matches; empty categories; discard changes; any start/cancel confirmation; save failure; and date/method pickers if a custom layout is needed. Cancelled-record list access remains a later proposal.
 
-**Next suggested design task: P-03 main transaction History, then P-04 Insights.** WF-10/WF-11 are new static drafts for review.
+**Next suggested design task: P-04 Insights.** WF-10/WF-11 and WF-12 are static drafts for review.
 
 ## Shared design and detailed behavior reference
 
@@ -405,7 +437,7 @@ The dashboard's data summaries do not require every entire card to be a button. 
 | Add commission | Open Step 1: Client details |
 | Home | Return to the dashboard |
 | Commissions | Open WF-02, initially showing the Current filter; other status filters remain available |
-| History | Open individual payment transactions across commissions; previous artwork is under Commissions → Completed |
+| History | Open WF-12, individual payment transactions across commissions; previous artwork is under Commissions → Completed |
 | Insights | Open earnings summaries and graphs |
 
 On the dashboard, a task title leads to its commission while its checkbox changes only the checklist item's completion state. Completing **Finish lineart** must not automatically mark the entire commission completed or record any payment. The checklist has no per-task due dates. The Send color preview row/action and additional task-detail/custom-entry controls are omitted from the simplified draft.
@@ -518,9 +550,9 @@ The [Record payment draft](docs/record-payment.md) has a single Save payment act
 - **Payment entry:** show amount, received date, method, note, and related commission directly, without requiring a separate receipt-details screen.
 - **View commission:** open the parent commission, even if completed or cancelled.
 - **Previous commission row:** open its complete record, including due date, actual finish date, and amounts received.
-- **Month/status filter:** update the displayed history without changing the stored records.
+- **Month selector:** update WF-12 receipts, count, and received total by payment received date, without changing stored records; no work-status filter in this draft.
 
-The current recommendation separates payment transactions in History from previous artwork in Commissions → Completed. The main History screen is still to be drawn, while the Commissions list and per-commission payment-history drafts exist.
+The current recommendation separates payment transactions in History from previous artwork in Commissions → Completed. The [main History draft](docs/main-history.md) now shows WF-12 populated and empty-month states, alongside the existing Commissions list and commission-specific payment-history drafts.
 
 ### Insights
 
@@ -536,7 +568,7 @@ Changing a report filter never edits commissions or payments. Detailed graphs be
 
 Keep the numbered catalogue and saved previews in sync when a design changes. Preserve the distinction between a new page, a same-page state, and a scroll continuation. Do not add an extra page number for a payment success banner, selected filter, or checklist toggle.
 
-The existing boards cover the standard dashboard, four-step intake, list filters/empty list, current/queued/completed detail variants, payment history, and payment entry with its saved result. Additional empty/error/urgent/dialog states are listed as pending above rather than presented as completed drawings.
+The existing boards cover the standard dashboard, four-step intake, list filters/empty list, current/queued/completed detail variants, commission payment history, payment entry with its saved result, progress/completion, and main History with populated/empty months. Additional empty/error/urgent/dialog states are listed as pending above rather than presented as completed drawings.
 
 Use DynaPuff for **Monthly earnings**, **Finish lineart**, and the other specified titles in every state. Place notes such as **Next: Artwork → Step 2** outside the phone frames when a control's destination needs explanation.
 
@@ -549,6 +581,7 @@ The board should communicate the planned behavior through labels, arrows, and se
 - [Add commission wireframe](docs/add-commission.md)
 - [Commission Details wireframe](docs/commission-details.md)
 - [Commission payment history](docs/payment-history.md)
+- [Main transaction History](docs/main-history.md)
 - [Record payment wireframe](docs/record-payment.md)
 - [Screen inventory](docs/screens.md)
 - [Design direction](docs/design-direction.md)

@@ -19,7 +19,8 @@ This roadmap describes the order of work. It does not claim that a feature is im
 - [x] Review the refined dashboard as the visual reference.
 - [x] Draw the dashboard at Medium Phone proportions.
 - [x] Draw and review the four-step Add commission wireframe.
-- [ ] Draw the commission list.
+- [x] Draft the Commissions list with Current, Queued, Completed, and empty states.
+- [ ] Review the Commissions list and transaction-only main History split.
 - [x] Draft Commission Details with current, queued, and completed states.
 - [ ] Review the Commission Details board.
 - [ ] Draw commission editing and supporting progress/image views.

@@ -7,7 +7,7 @@ OBRA brings commission requests, reference images, deadlines, creative progress,
 The name comes from the Filipino word *obra*, meaning a work of art.
 
 > **Current phase: planning and static wireframing.**
-> This repository currently contains the project plan. The dashboard and four-step Add commission direction have been reviewed; Commission Details is the current static wireframe draft. An Android app, working navigation, transitions, database, and payment processing have not been implemented.
+> This repository currently contains the project plan. The dashboard and four-step Add commission direction have been reviewed; Commission Details, payment views, and the Commissions list have static drafts. An Android app, working navigation, transitions, database, and payment processing have not been implemented.
 
 ## What we want to build
 
@@ -31,9 +31,9 @@ Record a client's username and whether they use X or Discord, then describe thei
 
 Review individual **queued, current, and previous commissions**. Each record should keep its client, brief, references, pricing, payment history, dates, and progress together. Updating progress must not overwrite payment information.
 
-### 4. Transaction and commission history
+### 4. Payment transaction history
 
-Review previous work and the money received for it. Keep the agreed price, individual payments, original deadline, and actual finish date distinguishable. A completed commission may still have an unpaid balance.
+The current section proposal uses History for received payments across commissions, including deposits and later balance payments. Previous artwork stays under Commissions → Completed. Each payment can lead back to its related commission, including that project's original deadline and actual finish date. A completed commission may still have an unpaid balance.
 
 ### 5. Earnings and insights
 
@@ -54,11 +54,11 @@ Show total earnings, monthly earnings, outstanding balances, and earnings graphs
 | Section | Purpose |
 | --- | --- |
 | Home | Dashboard with earnings, workload, tasks, and queue previews |
-| Commissions | Queued, in-progress, completed, and cancelled records; individual details |
-| History | Chronological payment records and access to previous commissions |
+| Commissions | Artwork records under Current, Queued, and Completed; individual details. Cancelled access remains a later proposal |
+| History | Individual payment transactions across commissions, linked to their artwork records |
 | Insights | Total/monthly earnings, balances, and data graphs |
 
-This four-section navigation is a **proposal for review**, not an approved final layout. Add/edit commission screens open from these sections. Package management and task details can be supporting screens or sheets after the main screen plan is agreed.
+This four-section navigation and the transaction-only History split are **proposals for review**, not approved final layouts. Add/edit commission screens open from these sections. Package management remains optional; extra task-detail/custom-entry screens are deferred under the simplified checklist direction.
 
 ## Documentation
 
@@ -67,6 +67,7 @@ This four-section navigation is a **proposal for review**, not an approved final
 | [Layout and interaction plan](layout.md) | DynaPuff usage, proposed color palette, dashboard actions, and step-by-step Next/Back button flows |
 | [Feature requirements](docs/requirements.md) | Requested features, supporting suggestions, boundaries, and expected behavior |
 | [Dashboard plan](docs/dashboard.md) | Dashboard sections, reading order, terminology, and states to design |
+| [Commissions list](docs/commissions-list.md) | Current, Queued, Completed, and empty states; the distinction between artwork records and payment History |
 | [Add commission wireframe](docs/add-commission.md) | Four static intake steps, reference images, dates, optional initial payment, and final review |
 | [Commission Details wireframe](docs/commission-details.md) | Current, queued, and completed records; scroll continuation; tasks, stages, dates, and balances |
 | [Commission payment history](docs/payment-history.md) | Initial deposit and later received payments for one commission, separate from earnings graphs |
@@ -86,9 +87,9 @@ The initial concept is a workspace for the artist. It does not require a client-
 
 ## Immediate next steps
 
-1. Review the static Commission Details board and its lifecycle states.
-2. Review the payment-history and Record payment drafts, then draw Update progress and image views.
-3. Extend the accepted visual direction to commission lists, History, and Insights.
+1. Review the Commissions list and its Current, Queued, and Completed filters.
+2. Review the detail/payment drafts, then draw Update progress and image views.
+3. Extend the accepted visual direction to the main transaction History and Insights.
 4. Review important empty, overdue, partially paid, and completed states together.
 5. Finalize the data model and Android implementation plan afterward.
 

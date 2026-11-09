@@ -22,6 +22,7 @@
 ## Working proposals to review
 
 - Home, Commissions, History, and Insights as the four main sections.
+- [Commissions list](commissions-list.md) with Current, Queued, and Completed artwork filters; main History reserved for individual payment transactions, avoiding a duplicate artwork archive.
 - Exact color values, type sizes, and detailed field/pricing rules described in [layout.md](../layout.md).
 - The new [Commission Details board](commission-details.md), including action placement and state-specific summaries.
 - [Commission payment history](payment-history.md) as a simple per-commission receipt list, separate from Insights; additional task-detail/custom-entry controls are deferred.
@@ -43,7 +44,7 @@ The intended technical stack in the proposal is Android Studio, Kotlin, XML/Mate
 ## Open choices
 
 1. Should Home show all unpaid balances, or only a monthly received-income summary?
-2. How should History divide payment transactions from completed commission history?
+2. Review the proposed split: artwork archive under Commissions → Completed, individual received-payment transactions under main History.
 3. Which simple checklist labels are needed in the first version? Custom task management is deferred.
 4. Is queue order manual, based on deadlines, or based on planned start dates?
 5. Does Completed mean artwork finished, final files sent, or client acceptance?

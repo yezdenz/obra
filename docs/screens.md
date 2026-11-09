@@ -10,15 +10,15 @@ Monthly earnings, current work, unfinished tasks, queue preview, and Add commiss
 
 ### Commissions
 
-A list of commission records grouped or filtered by Queued, In progress, Completed, and Cancelled. Proposed search can locate a username or project. Selecting a commission eventually opens its details.
+A list of artwork records with Current (In progress), Queued, and Completed filters. Search locates a username or project within the selected group. Selecting a commission opens its details. See the [Commissions list draft](commissions-list.md) for these states and the empty list. Cancelled-record access remains a later proposal.
 
 Queued records represent accepted work that has not started. Planned start dates are useful when known, but their required/optional status is still to be decided.
 
 ### History
 
-A chronological view of payment records with the related client, commission, amount, and payment date. Previous commissions should also remain easy to access, including their due dates and actual finish dates.
+The current recommendation is a chronological view of individual payment transactions across commissions, including deposits and later balance payments. Show the client, related artwork, received amount, received date, and recorded method. Previous artwork itself belongs under Commissions → Completed. A transaction links to the same parent commission and its full dates/details.
 
-The final decision between separate Payments and Completed work tabs, a combined history view, or completed work living only under Commissions is still open. Avoid creating duplicate copies of the underlying commission.
+One artwork can have multiple payment transactions. Main History should not duplicate the completed-artwork list. The global History wireframe is still pending; the per-commission payment-history draft already exists.
 
 ### Insights
 

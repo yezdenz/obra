@@ -124,7 +124,7 @@ The dashboard's data summaries do not require every entire card to be a button. 
 | Add commission | Open Step 1: Client details |
 | Home | Return to the dashboard |
 | Commissions | Open the commission list, initially showing In progress; status filters remain available |
-| History | Open the payment timeline and access to previous work |
+| History | Open individual payment transactions across commissions; previous artwork is under Commissions → Completed |
 | Insights | Open earnings summaries and graphs |
 
 On the dashboard, a task title leads to its commission while its checkbox changes only the checklist item's completion state. Completing **Finish lineart** must not automatically mark the entire commission completed or record any payment. The checklist has no per-task due dates. The Send color preview row/action and additional task-detail/custom-entry controls are omitted from the simplified draft.
@@ -228,14 +228,18 @@ The [Record payment draft](docs/record-payment.md) has a single Save payment act
 
 ## 7. History and Insights: next destinations
 
-### History
+### Commissions and History
 
-- **Payment row:** open a payment summary showing its amount, received date, method, note, and related commission.
+- **Commissions:** artwork records filtered by Current, Queued, or Completed. See [the list wireframe](docs/commissions-list.md).
+- **Completed:** previous/finished artwork, including commissions with a balance still owed.
+- **History:** individual deposits and later payments across commissions. One artwork may have several entries here.
+
+- **Payment entry:** show amount, received date, method, note, and related commission directly, without requiring a separate receipt-details screen.
 - **View commission:** open the parent commission, even if completed or cancelled.
 - **Previous commission row:** open its complete record, including due date, actual finish date, and amounts received.
 - **Month/status filter:** update the displayed history without changing the stored records.
 
-The division between payment transactions and previous-work history is still a layout choice. Keep both concepts clearly labeled in any proposed tabs or sections.
+The current recommendation separates payment transactions in History from previous artwork in Commissions → Completed. The main History screen is still to be drawn, while the Commissions list and per-commission payment-history drafts exist.
 
 ### Insights
 
@@ -266,6 +270,7 @@ The board should communicate the planned behavior through labels, arrows, and se
 ## Related plans
 
 - [Dashboard](docs/dashboard.md)
+- [Commissions list](docs/commissions-list.md)
 - [Add commission wireframe](docs/add-commission.md)
 - [Commission Details wireframe](docs/commission-details.md)
 - [Commission payment history](docs/payment-history.md)

@@ -44,9 +44,9 @@ The exact required fields and how long forms are divided remain planning decisio
 
 ### History
 
-- Show previous commissions and transaction/payment records.
+- The current layout proposal keeps previous artwork under Commissions → Completed and individual received-payment transactions under History.
 - Display amounts received and their associated commissions.
-- Display commission deadlines and finished dates.
+- Display commission deadlines and finished dates on the artwork records, accessible from Completed cards or related payment entries.
 - Preserve the difference between quoted value, paid amounts, and unpaid balances.
 
 ### Financial insights

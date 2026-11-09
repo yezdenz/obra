@@ -71,7 +71,7 @@ The fictional **Cozy café illustration** for `bea.sketch` on X shows a final-ar
 - Received: PHP 3,500.
 - Still to receive: PHP 1,000.
 
-The lifecycle status is **Completed**, and the payment status remains **Partially paid**. The primary action is **Record payment**; **View in History** opens the previous-work/history context. Receiving the remaining balance changes the payment summary, not the completed work status.
+The lifecycle status is **Completed**, and the payment status remains **Partially paid**. The primary action is **Record payment**; **Payment history** opens this commission's receipts. Previous artwork is found under Commissions → Completed; the main History section is proposed for payment transactions. Receiving the remaining balance changes the payment summary, not the completed work status.
 
 A fully paid completed variant should later show a zero balance and payment history without suggesting another payment is required. Completed work retains its references, tasks, notes, and financial history even when the first viewport prioritizes final artwork and summary information.
 
@@ -89,7 +89,7 @@ A fully paid completed variant should later show a zero balance and payment hist
 | Record payment | Amount, received date, method, and optional note |
 | View payment history | Open the dedicated payment-history list for this commission, with initial/later payments, received dates, methods, and notes visible on the entries |
 | Start commission | Explicitly move Queued work into In progress |
-| View in History | History/previous-work view associated with this record |
+| Payment history | This commission's deposit and later payment records; the completed artwork remains under Commissions → Completed |
 | More options | Secondary record actions, including cancellation where relevant |
 
 Cancelling needs a confirmation and must retain payment history. Permanent deletion is deferred until retention rules are agreed. Editing prices must not erase or rewrite received payments.

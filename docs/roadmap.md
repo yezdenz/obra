@@ -8,13 +8,13 @@ This roadmap describes the order of work. It does not claim that a feature is im
 - [x] Record the requested dashboard, intake, history, detail, and reporting features.
 - [x] Choose Medium Phone as the sizing reference.
 - [x] Record Guhit as the visual reference.
-- [x] Establish static planning as the current scope.
+- [x] Establish static boards as the visual references; subsequently add the requested clickable wireframe for frontend handoff.
 - [x] Describe the general database information groups.
 - [ ] Agree on definitions for current work, queue, and unfinished tasks.
 - [ ] Review suggested supporting features and explicitly accept or defer them.
 - [ ] Agree on the main section names and navigation.
 
-## Phase 2: Static wireframe board — current
+## Phase 2: Wireframes and frontend handoff — current
 
 - [x] Review the refined dashboard as the visual reference.
 - [x] Draw the dashboard at Medium Phone proportions.
@@ -36,7 +36,11 @@ This roadmap describes the order of work. It does not claim that a feature is im
 - [ ] Review the main History draft, period selection, and return navigation.
 - [x] Draft Insights with monthly/all-time received earnings, six-month trend, type breakdown, and current balances.
 - [ ] Review Insights scopes, partial-month labels, scroll continuation, and links to History/commission records.
-- [ ] Draw supporting forms and important empty/edge states.
+- [x] Synchronize five-tab navigation across saved main boards and the clickable file.
+- [x] Add the separate Reconnect board and document the frontend/algorithm-team boundary.
+- [x] Export the single-file clickable wireframe and frontend handoff guide.
+- [x] Connect All tasks and core supporting dialogs in the clickable demo.
+- [ ] Finish separate static All tasks and remaining loading/error/edge-state drawings.
 - [ ] Review the screens together as one consistent static board.
 
 **Exit condition:** the owner agrees on the screen contents, hierarchy, labels, and major flows. A working prototype is not required to finish this phase.
@@ -71,4 +75,4 @@ These are intended implementation milestones, not authorization to begin coding 
 - [ ] Prepare the course's required test cases and documented improvements when implementation exists.
 - [ ] Document what was built, remaining limitations, and how AI assistance was reviewed.
 
-No automated application tests or build checks exist during the documentation-only phase.
+The clickable wireframe has browser-level interaction/layout checks and fictional session-only state. No native Android application tests or Android build checks exist yet.

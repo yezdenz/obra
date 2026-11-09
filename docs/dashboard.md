@@ -84,7 +84,7 @@ Next in queue                       Planned start
 
 [               Add commission                 ]
 
-Home       Commissions       History       Insights
+Home       Commissions       History       Insights       Reconnect
 ```
 
 ## Review checklist

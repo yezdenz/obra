@@ -5,7 +5,9 @@
 | Topic | Direction | Basis |
 | --- | --- | --- |
 | Product | OBRA, a personal workspace for freelance artist commissions | Original proposal and planning conversation |
-| Current task | Planning and static wireframes, dashboard first | Explicit owner correction and follow-up |
+| Current task | Synchronize saved boards, clickable phone wireframe, and frontend handoff; native Android remains later | Owner authorization, November 10, 2026 |
+| Main navigation | Home, Commissions, History, Insights, Reconnect | Owner requested a separate recommendation section to keep Insights focused |
+| Recommendation scope | Commission type and genre only; algorithm handled by designated teammates | Explicit owner request; no image processing |
 | Device | Android Studio Medium Phone portrait reference | Owner request; local profile inspected |
 | Visual inspiration | Guhit's fonts, shapes, and simplicity | Explicit owner preference |
 | Selected playful font | DynaPuff, including Monthly earnings, Finish lineart, headings, and primary actions | Explicit owner preference |
@@ -21,7 +23,7 @@
 
 ## Working proposals to review
 
-- Home, Commissions, History, and Insights as the four main sections.
+- Detailed spacing and platform implementation for the five-section navigation baseline; small clickable layouts shorten Commissions to Work without changing its route.
 - [Commissions list](commissions-list.md) with Current, Queued, and Completed artwork filters; main History reserved for individual payment transactions, avoiding a duplicate artwork archive.
 - Exact color values, type sizes, and detailed field/pricing rules described in [layout.md](../layout.md).
 - The new [Commission Details board](commission-details.md), including action placement and state-specific summaries.
@@ -42,7 +44,7 @@ These are recommendations captured for discussion. Inclusion in this repository 
 
 ## Original proposal items requiring reconciliation
 
-The original proposal also described a tag-based previous-client recommendation feature and artwork logging. The latest requested feature list focuses on commission management and financial summaries. Keep recommendation/artwork-library features deferred until the owner confirms whether they still belong in the project.
+The owner has now explicitly restored previous-client recommendations as Reconnect, using genre and commission type. The UI uses fixtures while the assigned teammates handle the algorithm. A separate artwork-library feature remains deferred.
 
 The intended technical stack in the proposal is Android Studio, Kotlin, XML/Material, and SQLite. Its detailed architecture and schedule have not been reconfirmed during the current planning phase.
 
@@ -61,6 +63,7 @@ The intended technical stack in the proposal is Android Studio, Kotlin, XML/Mate
 11. Are final artwork attachments needed in the first version?
 12. What currency rules apply? PHP is used for examples; multiple-currency conversion is not planned.
 13. Should the exact color values, type sizes, and spacing be finalized beyond the accepted DynaPuff/Mali pairing?
-14. How should the expanded initial-payment and invalid-input states fit within the accepted four-step intake layout?
+14. Review the expanded initial-payment and invalid-input states demonstrated by the clickable file.
+15. Recommendation teammates must decide matching/backtracking details, ordering, partial matches, duplicate clients, and clients with active work; the frontend only displays returned results/reasons.
 
 Resolve these through planning as they become relevant. They do not block drafting the dashboard's static structure.

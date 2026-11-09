@@ -97,3 +97,8 @@ Fantasy portrait is fully paid in this workflow snapshot and therefore absent fr
 - Period chooser and cancelling a selection: retain current filters if dismissed; exact picker layout remains pending.
 
 The graph marks and controls are static. No report calculations, click handling, transitions, database, export, or payment processing are implemented by these drawings.
+
+
+## Relation to Reconnect
+
+Recommendations live in the separate fifth main section, [Reconnect](reconnect.md), not within this financial report. Reconnect navigation opens WF-19 and retains its own current-work selection, independently of the reporting month.

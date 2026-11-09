@@ -1,8 +1,8 @@
 # Screen and navigation plan
 
-The screens below are a planning inventory. The dashboard's visual direction, DynaPuff/Mali pairing, and four-step intake wireframe have been reviewed and accepted as references. New screen drafts and the remaining grouping/navigation decisions still need review. Static wireframes come before executable navigation.
+The screens below are a planning inventory. The dashboard's visual direction, DynaPuff/Mali pairing, and four-step intake wireframe have been reviewed and accepted as references. New screen drafts and the remaining grouping/navigation decisions still need review. The saved boards and clickable wireframe now form the frontend handoff reference; native Android implementation is still separate.
 
-Use [layout.md](../layout.md) as the master numbered guide. It embeds every current board and assigns WF-01–WF-18 to existing page/step layouts, with separate labels for filters, saved states, and scroll positions. P-07 All checklist items remains undrawn; former P-01–P-04 are WF-10–WF-13, former P-05 is WF-14–WF-17, and former P-06 is WF-18.
+Use [layout.md](../layout.md) as the master numbered guide. It covers WF-01–WF-20, with labels for filters, saved states, and scroll positions. WF-19 is the separate Reconnect page; WF-20 All tasks is available in the clickable file, with its static board pending. Use [the clickable opening guide](wireframes/CLICKABLE.md).
 
 ## Main sections
 
@@ -26,6 +26,10 @@ One artwork can have multiple payment transactions. Main History should not dupl
 
 The [Insights draft](insights.md), WF-13, shows monthly received earnings, an all-time received total, current outstanding balances, a six-month earnings trend, and selected-month earnings by commission type. Two phone views show the overview and lower scroll content of one page. View payments opens WF-12 for the same month; See balances scrolls to the current balances, whose rows open WF-07. Completed-work counts remain a possible later addition.
 
+### Reconnect
+
+The fifth main tab opens [WF-19 Reconnect](reconnect.md), with current-work selection, type/genre context, suggested-client cards, and links to previous completed artwork. It is separate from financial Insights. Recommendations use fixed wireframe fixtures; the designated teammates implement the algorithm/backtracking. No image processing or automatic outreach.
+
 ## Main workflow screens
 
 ### Add commission
@@ -39,7 +43,7 @@ Organize the form into sensible groups:
 5. **Schedule:** commission date, planned start if known, and deadline.
 6. **Notes:** additional instructions. Custom task entry is deferred under the simplified checklist direction.
 
-The accepted intake wireframe direction in [layout.md](../layout.md) divides entry into four steps: Client details, Artwork brief, Price and dates, and Review commission. It specifies the proposed checks and destinations for Next/Back actions. Detailed validation and price rules remain open, and working transitions are outside the current phase.
+The accepted intake wireframe direction in [layout.md](../layout.md) divides entry into four steps: Client details, Artwork brief, Price and dates, and Review commission. It specifies the proposed checks and destinations for Next/Back actions. Detailed validation and price rules remain open; demo transitions are available in the clickable file.
 
 The [Add commission wireframe plan](add-commission.md) describes the current four-screen draft, including reference thumbnails, optional initial-payment entry, the Review screen, and Back/Close behavior. The form omits main bottom navigation and uses the accepted DynaPuff/Mali typography pairing.
 
@@ -62,7 +66,7 @@ The [Edit commission draft](edit-commission.md), WF-14–WF-17, reuses the intak
 | [Record payment](record-payment.md) | Enter amount, received date, method, and optional note; preview remaining balance; Save opens updated commission payment history |
 | [Commission payment history](payment-history.md) | Show a commission's initial and later payments, amounts, received dates, methods, notes, and balance |
 | [Update progress and completion](update-progress.md) | WF-10 stage-selection page; Finished opens WF-11 full-page review with actual finished date and unchanged payment totals |
-| All tasks | A simple list of unfinished checklist items with links to their commissions; no task-specific dates or extra detail screens |
+| All tasks, WF-20 | Clickable grouped unfinished checklist, commission links, completion/Undo, and empty state; no task dates/editors |
 | Package manager/editor | Maintain offered services, prices, and turnaround estimates |
 | [Image viewer](image-viewer.md) | WF-18 dedicated preview page for reference/final images, zoom/pan, collection selection, and Back preserving the originating form/record |
 | Date picker | Choose a commission, start, due, or payment date |
@@ -80,6 +84,8 @@ flowchart TD
     Home --> Tasks[Unfinished checklist items]
     Home --> Insights[Insights]
     Home --> History[History]
+    Home --> Reconnect[Reconnect]
+    Reconnect --> Detail
     List --> Add
     List --> Detail
     History --> Detail
@@ -91,7 +97,7 @@ flowchart TD
     Detail --> Image[Reference / final artwork viewer]
 ```
 
-This diagram describes relationships between planned views. It is not a working prototype or a finalized Activity architecture.
+This diagram describes the handoff routes. The clickable file demonstrates these relationships; the diagram does not prescribe Android Activities.
 
 ## Required states across the screen set
 

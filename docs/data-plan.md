@@ -95,6 +95,9 @@ The dashboard, History, and Insights use the stored records rather than separate
 | Unfinished task count | Tasks not yet completed |
 | Previous work | Completed/cancelled records according to the selected view |
 | Earnings graphs | Payments grouped by reporting period |
+| Reconnect suggestions | Current work type/genre and prior commission/client context supplied through the recommendation provider |
+
+Reconnect adds no requirement for image analysis or duplicated commission records. Coordinate the genre/type fields, returned client/reason data, and previous-record links with the algorithm/data teammates; keep genre distinct from style tags when mapping their output. The frontend does not define the matching algorithm or database schema here.
 
 ## Rules to preserve
 

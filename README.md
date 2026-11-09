@@ -6,8 +6,10 @@ OBRA brings commission requests, reference images, deadlines, creative progress,
 
 The name comes from the Filipino word *obra*, meaning a work of art.
 
-> **Current phase: planning and static wireframing.**
-> This repository currently contains the project plan. The dashboard and four-step Add commission direction have been reviewed; Commission Details, payment views, the Commissions list, progress/completion, main History, Insights, Edit commission, and the image viewer have static drafts. An Android app, working navigation, transitions, database, and payment processing have not been implemented.
+> **Current phase: wireframe review and frontend handoff.**
+> The repository includes saved visual boards and the [clickable phone wireframe](docs/wireframes/CLICKABLE.md), synchronized to **Home, Commissions, History, Insights, Reconnect**. The native Android frontend, real persistence/payment processing, and recommendation algorithm are not implemented by these review files.
+
+Start with [layout.md](layout.md), then download/open [the clickable HTML](docs/wireframes/clickable.html) using its [instructions](docs/wireframes/CLICKABLE.md). GitHub displays HTML source; the file runs after opening locally. No website deployment, build, or installation is needed.
 
 ## What we want to build
 
@@ -39,10 +41,14 @@ The current section proposal uses History for received payments across commissio
 
 Show total earnings, monthly earnings, outstanding balances, and earnings graphs. Earnings are based on recorded payments received, not the total value of all accepted requests. These are income summaries; expense tracking and profit calculations are not part of the initial plan.
 
+### 6. Reconnect with previous clients
+
+A separate recommendations section uses current commission type and genre to suggest previous clients and link to their completed artwork. The frontend displays supplied suggestions; the assigned teammates implement the algorithm/backtracking. The wireframe uses fixed sample results, with no image processing or automatic outreach.
+
 ## Planning rules
 
 - **Plan first:** agree on content, layout, terminology, and screen hierarchy before implementation.
-- **Static wireframes:** use a board of simple phone screens, placeholders, and labels. Working buttons and transitions are outside the current phase.
+- **Wireframe handoff:** keep static boards for visual review and use the clickable phone wireframe for navigation/state examples. This does not begin native Android implementation.
 - **Dashboard first:** settle its structure before detailing the remaining screens.
 - **Medium Phone reference:** portrait, 1080 x 2400 physical pixels at 420 dpi, approximately **411 x 914 dp**, based on the local Android Studio emulator profile.
 - **Visual direction:** use [Guhit](https://app.guhit.app/) as inspiration for typography, rounded shapes, warmth, and simplicity. Build OBRA's own interface and assets.
@@ -54,18 +60,21 @@ Show total earnings, monthly earnings, outstanding balances, and earnings graphs
 | Section | Purpose |
 | --- | --- |
 | Home | Dashboard with earnings, workload, tasks, and queue previews |
-| Commissions | Artwork records under Current, Queued, and Completed; individual details. Cancelled access remains a later proposal |
+| Commissions | Artwork records under Current, Queued, and Completed; individual details. The clickable demo includes Cancelled access while final cancellation policy remains open |
 | History | Individual payment transactions across commissions, linked to their artwork records |
 | Insights | Total/monthly earnings, balances, and data graphs |
+| Reconnect | Previous-client suggestions using commission type and genre, with links to prior artwork |
 
-This four-section navigation and the transaction-only History split are **proposals for review**, not approved final layouts. Add/edit commission screens open from these sections. Package management remains optional; extra task-detail/custom-entry screens are deferred under the simplified checklist direction.
+This five-section order is the current wireframe baseline. Add/edit and other contextual screens open from these sections and return using Back. Package management remains optional; extra task-detail/custom-entry screens are deferred under the simplified checklist direction.
 
 ## Documentation
 
 | Document | Contents |
 | --- | --- |
-| [Numbered layout and interaction guide](layout.md) | All existing wireframes with embedded previews, WF-01–WF-18 page order, entry/exit buttons, scrolling/state explanations, pending destinations, fonts, and palette |
+| [Frontend handoff and layout guide](layout.md) | WF-01–WF-20 catalogue, five-tab navigation, button routes, state/scroll contracts, style rules, and acceptance walkthrough |
 | [Saved wireframe boards](docs/wireframes/README.md) | Current preview images, standalone static HTML exports, and editable source fragments |
+| [Clickable wireframe instructions](docs/wireframes/CLICKABLE.md) | How to open the single-file wireframe, explore screens, reset samples, and distinguish demo behavior from implementation |
+| [Reconnect handoff](docs/reconnect.md) | Recommendation UI, previous-artwork links, empty/loading/error states, and the boundary with the algorithm team |
 | [Feature requirements](docs/requirements.md) | Requested features, supporting suggestions, boundaries, and expected behavior |
 | [Dashboard plan](docs/dashboard.md) | Dashboard sections, reading order, terminology, and states to design |
 | [Commissions list](docs/commissions-list.md) | Current, Queued, Completed, and empty states; the distinction between artwork records and payment History |
@@ -94,13 +103,13 @@ The initial concept is a workspace for the artist. It does not require a client-
 ## Immediate next steps
 
 1. Review the Commissions list and its Current, Queued, and Completed filters.
-2. Review the detail/payment and progress/completion drafts; draw image views later.
+2. Review the detail/payment, progress/completion, edit, and image-viewer journeys in the clickable file.
 3. Review main History and Insights together for consistent received-income definitions.
-4. Review Edit commission and the image viewer; draw All tasks, then review important empty, overdue, partially paid, and completed states together.
+4. Review Reconnect with the algorithm team; review All tasks and remaining loading/error/edge states before implementation.
 5. Finalize the data model and Android implementation plan afterward.
 
 ## Repository status
 
-Planning documentation and static wireframe assets only. There is no Android application build or automated app test suite yet. Example clients and money amounts in planning materials must remain fictional.
+Planning documents, saved visual boards, and a clickable in-memory phone wireframe. There is no native Android application build or Android test suite yet. Clients, artwork, and money amounts in review files are fictional.
 
 No software license has been selected. No third-party branding, illustrations, font files, proposal PDF, personal client records, or credentials are included.

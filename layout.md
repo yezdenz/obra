@@ -1,20 +1,40 @@
-# OBRA wireframe sequence and layout guide
+# OBRA frontend handoff and wireframe guide
 
 ## Purpose and current scope
 
-This is the master guide to every current wireframe: its number, position on the visual board, entry button, next destination, and intended scrolling behavior. The shared font/color rules and detailed validation notes follow the numbered guide.
+This is the frontend handoff reference: screen numbers, navigation, button destinations, scrolling, form behavior, visual rules, and states to support. Updated November 10, 2026 to synchronize the clickable wireframe, saved boards, and the separate Reconnect section.
 
-**All previews are static planning drawings.** Buttons, filters, saving, and scrolling described here are intended app behavior; they are not implemented in the exported previews. Example clients, dates, and prices are fictional snapshots of different moments in the workflow.
+**Start with the [clickable wireframe](docs/wireframes/clickable.html) and its [opening instructions](docs/wireframes/CLICKABLE.md), then use this guide while implementing.** GitHub shows HTML source: download the repository and open that file in a browser. No build, server, account, or installation is required. This is a clickable phone wireframe, not a deployed website or the native Android app.
+
+The numbered JPEG boards are static visual references. The clickable file demonstrates navigation, form steps, local demo changes, and supporting dialogs. Its data is fictional and session-only; Restart or reload restores the sample. Static boards can represent different workflow moments. Use the rules here for behavior rather than copying their counts as fixed values.
 
 Use the reviewed dashboard and accepted four-step Add commission layout as the visual references. The detail, list, and payment drawings continue that direction; keep their fonts, surfaces, and button hierarchy consistent.
 
 **Confirmed font pairing:** the owner selected **[DynaPuff](https://fonts.google.com/specimen/DynaPuff)** for playful interface text, specifically labels such as **Monthly earnings** and task titles such as **Finish lineart**, and accepted **[Mali](https://fonts.google.com/specimen/Mali)** for dates, links, figures, and other supporting text after reviewing the dashboard.
 
-**Review status:** the four-step Add commission wireframe direction and DynaPuff/Mali pairing have been accepted. Exact color values, type sizes, detailed validation/pricing rules, and new Commission Details controls remain subject to refinement.
+**Handoff baseline:** retain the selected DynaPuff/Mali direction and four-step intake. Use five main sections: **Home, Commissions, History, Insights, Reconnect**. Reconnect is separate from the financial Insights page by owner request. The current layouts and button routes form the implementation reference; algorithm policy, historical corrections, and the specifically marked open decisions still require the responsible teammates' decisions.
+
+## Implementer: read these rules first
+
+| Topic | Frontend contract |
+| --- | --- |
+| Main navigation | The same five tabs, in the same order, on WF-01, WF-02, WF-12, WF-13, and WF-19; selected tab is visibly active |
+| Contextual pages | Details, forms, payment history, progress/completion, image preview, and All tasks use Back rather than main navigation |
+| Back and context | Restore the originating commission/list/report, filter/month, and scroll position; image preview preserves an unsaved form draft |
+| Form steps | Next/Review retain draft values; only final Save commits; Add and Edit have different final effects |
+| Work versus money | Queued/In progress/Completed and creative stage are independent of Unpaid/Partially paid/Fully paid |
+| Shared values | Home, History, Insights, and Details must derive totals and counts from the same records; never hardcode screenshot numbers |
+| Earnings | Count actual received payments by received date; do not add quoted amounts or unpaid balances to earnings |
+| Tasks | Task names and checkboxes only; no task-specific dates, Send color preview action, task-detail page, or custom task editor |
+| Reconnect | Display teammates' recommendations using commission type and genre; keep this page independent of the Insights month filter |
+| Images | Reference/final-image preview is a viewing action; it does not save, delete, pay for, or complete the commission |
+| Device and text | Medium Phone approximately 411 × 914 dp including system areas; allow vertical scrolling, insets, keyboard, and larger text |
+
+Read the numbered entries for exact routes, then sections A–H for shared style and detailed field rules. Screen numbers describe layouts/steps, not a required Android Activity count. Map them to your chosen frontend navigation structure without adding extra pages for a scroll position, success message, or selected filter.
 
 ## Read the numbering first
 
-- **WF-01 through WF-18** identify the eighteen existing page/step layouts. They are reference numbers, not a requirement to visit every screen in that order.
+- **WF-01 through WF-20** identify the current page/step layouts. They are reference numbers, not a requirement to visit every screen in that order.
 - A suffix such as **WF-02A** identifies a filter/state of the same page.
 - **WF-07A and WF-07B are two scroll positions of one Commission Details page.** No Next button connects them.
 - **WF-08B is the same Payment history page after saving a payment**, not a separate success screen.
@@ -23,7 +43,9 @@ Use the reviewed dashboard and accepted four-step Add commission layout as the v
 - **WF-13A/B** are first/lower scroll views of one Insights page, with no Next action between them.
 - **WF-14–WF-17** are the four Edit commission steps. They reuse the intake structure but update an existing record.
 - **WF-18A/B** show the same image viewer with reference/final-artwork collections.
-- **P-07** identifies the remaining planned All checklist items page. Former P-01–P-04 are WF-10–WF-13; former P-05 is WF-14–WF-17; former P-06 is WF-18.
+- **WF-19A/B** are matching/no-match states of the separate Reconnect page.
+- **WF-20** is the All tasks page in the clickable file; a separate static board is still pending.
+- Former P-01–P-04 are WF-10–WF-13; P-05 is WF-14–WF-17; P-06 is WF-18; P-07 is now WF-20. Reconnect was added as WF-19.
 - Every visual board is embedded below. Open an image at full size when reviewing its small labels. [Saved boards and editable sources](docs/wireframes/README.md) are also in the repository.
 
 ## Existing wireframes: sequential index
@@ -48,8 +70,10 @@ Use the reviewed dashboard and accepted four-step Add commission layout as the v
 | [WF-16](#wf16) | Edit commission: Price & dates | WF-15 → Next: Price & dates | Edit Step 3 of 4; received payments read-only; form can scroll |
 | [WF-17](#wf17) | Edit commission: Review changes | WF-16 → Review changes | Edit Step 4 of 4; before/after summary and full review; can scroll |
 | [WF-18](#wf18) | Image viewer | Reference/final-artwork thumbnail in Details, intake, or editing | Dedicated preview page; image zoom/pan and same-page image selection; no main navigation |
+| [WF-19](#wf19) | Reconnect | Reconnect in main navigation | Separate main page, selected current work and suggested-client list; scrolls |
+| [WF-20](#wf20) | All tasks | WF-01 → All tasks / unfinished-task count | Contextual scrolling checklist, grouped by parent commission; Back to origin |
 
-Dashboard styling, the DynaPuff/Mali pairing, and the four-step intake direction have been accepted. The other drawings are current drafts for review; having a preview does not mean the app has been implemented or every behavior finalized.
+The clickable file and saved boards are UI handoff references. Their presence does not mean the native Android app, real persistence, or the recommendation algorithm has been implemented.
 
 ## The normal click sequence
 
@@ -86,6 +110,10 @@ flowchart TD
     Detail -->|Reference / final artwork| Viewer[WF-18 Image preview]
     Artwork -->|Reference thumbnail| Viewer
     EditArtwork -->|Reference thumbnail| Viewer
+    Home -->|All tasks| Tasks[WF-20 All tasks]
+    Tasks -->|Parent commission link| Detail
+    Home -->|Reconnect navigation| Reconnect[WF-19 Reconnect]
+    Reconnect -->|View previous commission| Detail
 ```
 
 Saving a new commission opens **WF-07Q, Queued**. Starting it later changes the same record to **WF-07A, In progress**. Paying its balance changes its payment state; it does not complete the artwork.
@@ -105,10 +133,11 @@ Read top to bottom: header/date → monthly received earnings → workload count
 | Current project or next-in-queue card | WF-07 for that project |
 | Checklist title | WF-07 for its related project |
 | Checklist checkbox | Change only that item's completion; stay on this page |
-| All tasks / unfinished-task count | P-07, simple global checklist list; not drawn yet |
+| All tasks / unfinished-task count | WF-20, grouped unfinished checklist |
 | View insights / Insights navigation | WF-13, Insights; Home shortcut carries the selected month |
 | Commissions navigation | WF-02, normally Current |
 | History navigation | WF-12, main transaction History |
+| Reconnect navigation | WF-19, past-client suggestions |
 
 Task-specific dates and the Send color preview action are removed. Commission deadlines and payment received dates remain.
 
@@ -317,6 +346,7 @@ Each row shows artwork, received amount, username/platform, payment purpose, and
 | Home / Commissions navigation | WF-01 / WF-02 |
 | History navigation | Remain on WF-12, preserving context |
 | Insights navigation | WF-13 |
+| Reconnect navigation | WF-19 |
 
 First entry defaults to the current month. Summary/count cover the full selected month, including offscreen receipts. For the mock November, amounts are ₱900 + ₱1,000 + ₱900 + ₱750 + ₱900 = ₱4,450; the final ₱900 initial payment, received Nov 2, is below the viewport. No new payment-details or global payment-entry page is added. Use WF-07 → WF-08 to see notes and all receipts for one artwork, or WF-09 to record another payment.
 
@@ -342,7 +372,7 @@ Month selection updates monthly earnings/count, the trend's six-month window end
 | View payments | WF-12 with the same reporting month selected |
 | See balances | Scroll directly to the lower Still to receive section, WF-13B; no new page |
 | Outstanding commission row | WF-07 for that record; Back restores Insights selection/position |
-| Home / Commissions / History navigation | WF-01 / WF-02 / WF-12; ordinary History navigation restores its own prior month |
+| Home / Commissions / History / Reconnect navigation | WF-01 / WF-02 / WF-12 / WF-19; ordinary History navigation restores its own prior month |
 | Insights navigation | Stay here and preserve context |
 | Chart bars / type rows / Total earnings | Display only in this draft; no extra edit or detail page |
 
@@ -421,17 +451,72 @@ Previous is unavailable at the first image; Next is unavailable at the last. A s
 
 ![WF-18A reference-image preview on the left and WF-18B single final-artwork preview on the right, both variants of one viewer](docs/wireframes/image-viewer.jpg)
 
-## Planned next wireframes — not drawn yet
+<a id="wf19"></a>
+## WF-19 — Reconnect
 
-These entries explain destinations already mentioned by buttons. They are not hidden existing designs.
+**Enter:** Reconnect in main navigation. **Type:** a separate main section, not part of Insights. **Scroll:** yes, as suggested clients grow; five-tab navigation stays reachable.
 
-| Planned number | Wireframe | Entry button / context | Expected type |
-| --- | --- | --- | --- |
-| P-07 | All checklist items | WF-01 → All tasks / unfinished-task count | Simple scrolling checklist across commissions, with parent-commission links; no task dates or task-editor pages |
+Read top to bottom: Reconnect header → short explanation → Based on current work selector → commission type/genre context → suggested-client count → cards showing username/platform, previous commission, finish date, match reasons, and View previous commission.
 
-Additional **states/dialogs**, rather than automatically separate main pages, still need drawings: WF-05 initial-payment fields expanded; form validation; no search matches; empty categories; discard changes; any start/cancel confirmation; save failure; and date/method pickers if a custom layout is needed. Cancelled-record list access remains a later proposal.
+| State / action | Intended behavior |
+| --- | --- |
+| WF-19A, left board | Fantasy portrait / Portrait / Fantasy context; sample past client @tala.arts, Autumn portrait |
+| WF-19B, right board | Selected Half-body illustration / Half body / Fantasy context with no suggestions |
+| Based on current work | Select an In-progress commission; show the corresponding type and genre; ask the recommendation provider for suggestions |
+| View previous commission | Open that previous artwork in WF-07, using its current record state |
+| Back from previous artwork | Restore WF-19 with selected current work and scroll position |
+| No current work | Explain the requirement and offer View commissions → WF-02A |
+| No matches | Keep the selector/context visible and invite another selection; do not fabricate clients |
+| Other main tabs | Open their main pages; returning to Reconnect retains its selection during the session |
 
-**Next suggested design task: P-07 All checklist items.** The four main sections, edit flow, and image viewer now have static drafts; continue reviewing them alongside supporting states.
+**Algorithm boundary:** the owner requested a simple recommendation based only on **commission type and genre**. The algorithm/backtracking implementation belongs to the assigned teammates. The clickable file uses fixed sample results; it does not implement matching, ranking, scores, image processing, or automatic outreach. The frontend displays the current-work context and returned clients/reasons and opens their previous commissions. See [Reconnect](docs/reconnect.md) for the display contract and remaining decisions.
+
+The reporting month affects WF-13 finances, not Reconnect. No contact is sent automatically. The user manually decides whether/how to approach a suggested client using the displayed X/Discord username.
+
+![WF-19A Reconnect with a sample matching client, and WF-19B the same page with no matches](docs/wireframes/reconnect.jpg)
+
+<a id="wf20"></a>
+## WF-20 — All tasks
+
+**Enter:** Dashboard → All tasks / unfinished-task count. **Where to review:** choose WF-20 in the clickable file; no separate static board yet. **Type:** contextual list, not a sixth main tab. **Scroll:** vertically; Back returns to origin.
+
+Group unfinished checklist items by parent commission and show task names with checkboxes. The parent artwork link opens WF-07; Back restores the list. Checking an item updates the same checklist and unfinished counts used by Home/Details, removes it from this unfinished view, and offers Undo. Finishing tasks does not advance the creative stage, finish the artwork, or record money. Empty state: All caught up with Back to Home.
+
+The demo includes unfinished items on non-cancelled commissions, including Completed artwork when an item was left unchecked; commission completion never silently clears tasks. Task labels/templates for the actual product remain a team decision. No task dates, task-detail screens, or custom task-creation UI are added.
+
+## State coverage and remaining implementation work
+
+| State | Review reference | Frontend obligation |
+| --- | --- | --- |
+| Current/Queued/Completed/empty artwork list | Static board + clickable selector | Preserve selected filter; opening a card does not start work |
+| Search has no matches | Clickable search | Explain no results and allow clearing the query |
+| Initial payment enabled | Clickable Add Step 3 | Reveal amount/date/method/note; save the receipt once with the commission |
+| Invalid form/payment/date/price | Clickable validation | Show clear errors without losing draft values |
+| Discard / start / cancel | Clickable dialogs | Confirm the specific action; preserve records when dismissed |
+| Fully paid / completed but owed money | Detail/payment boards + clickable records | Keep money status independent of artwork lifecycle |
+| Reconnect matched / no matches | WF-19 board + clickable | Display supplied genre/type reasons; preserve selected source work |
+| No current work / recommendation loading or failure | Behavior specified; not all states drawn | Show distinct no-work/loading/error/retry states, not a false zero-result success |
+| Image missing/corrupted | Viewer behavior specified | Show retry/back feedback; do not treat blank content as a loaded image |
+| Empty All tasks | Clickable checklist | Show All caught up; Back to Home works |
+| Real persistence/save failure | Not supplied by the wireframe | Retain draft, avoid success feedback/duplicate records, allow retry |
+| Custom date/month/method picker visuals | Browser-native controls in clickable | Use suitable native Android controls or design a custom dialog without inventing another main page |
+
+Cancelled records are reachable in the clickable demo through a Cancelled link after cancellation. Final cancellation/refund and historical-edit rules remain open; do not treat the demo's handling as a completed business policy.
+
+## Frontend acceptance walkthrough
+
+1. From Home, open every main tab and verify the same five destinations and correct active state.
+2. Add a commission across WF-03–WF-06; Back keeps input, Close offers discard when changed, Save opens one Queued record.
+3. Add an optional initial receipt; verify Details, History, and Insights count that received money once.
+4. Start Queued work explicitly, save a non-final stage, then review/confirm Finished. Payment totals and unchecked tasks stay unchanged.
+5. Record a partial or final payment; show it in commission history and main History and update the corresponding reporting month/balance.
+6. Edit an existing deadline through WF-14–WF-17; show old/new values, preserve lifecycle/stage/receipts, and return to the same record.
+7. Open an image from Details or a form, change/zoom/fit it, and return without losing context or unsaved input.
+8. In Reconnect, change current work, display supplied suggestions or a no-match message, open previous artwork, and return to the same selection.
+9. Check a task and Undo; verify shared counts and that no payment/stage change occurs.
+10. Test long text, keyboard, system insets, empty results, larger text, and errors at Medium Phone proportions.
+
+The standalone clickable is a behavior reference with fictional session-only data and a fixed Nov 10, 2026 demo clock. Use actual device dates and your real state/persistence layer in implementation. Its restart/screen-picker controls are review tools outside the product UI.
 
 ## Shared design and detailed behavior reference
 
@@ -531,7 +616,7 @@ Draw this light palette first. A dark theme has not been requested or specified.
 5. **Coming up:** a simple checklist preview with DynaPuff task titles, related client, and completion state; task-specific deadlines are removed.
 6. **Next in queue:** next accepted commission and planned start, when known.
 7. **Add commission:** one prominent yellow action.
-8. **Bottom navigation:** Home, Commissions, History, Insights.
+8. **Bottom navigation:** Home, Commissions, History, Insights, Reconnect.
 
 The dashboard's data summaries do not require every entire card to be a button. Use a clear **View insights** label on the earnings panel and explicitly labeled **View all** actions on list sections.
 
@@ -553,6 +638,7 @@ The dashboard's data summaries do not require every entire card to be a button. 
 | Commissions | Open WF-02, initially showing the Current filter; other status filters remain available |
 | History | Open WF-12, individual payment transactions across commissions; previous artwork is under Commissions → Completed |
 | Insights | Open WF-13 earnings summaries and graphs |
+| Reconnect | Open WF-19 current-work context and previous-client suggestions |
 
 On the dashboard, a task title leads to its commission while its checkbox changes only the checklist item's completion state. Completing **Finish lineart** must not automatically mark the entire commission completed or record any payment. The checklist has no per-task due dates. The Send color preview row/action and additional task-detail/custom-entry controls are omitted from the simplified draft.
 
@@ -679,6 +765,10 @@ The current recommendation separates payment transactions in History from previo
 
 Changing a report filter never edits commissions or payments. All-time earnings and current balances keep their stated current scopes when a past reporting month is selected. See [the Insights draft](docs/insights.md); detailed graphs belong here rather than filling the dashboard.
 
+### Reconnect
+
+See [WF-19](#wf19) and [the Reconnect handoff](docs/reconnect.md). This separate section consumes genre/type recommendations supplied by the algorithm team. The clickable fixtures do not implement the algorithm.
+
 ## H. Maintaining the static board
 
 Keep the numbered catalogue and saved previews in sync when a design changes. Preserve the distinction between a new page, a same-page state, and a scroll continuation. Do not add an extra page number for a payment success banner, selected filter, or checklist toggle.
@@ -700,6 +790,8 @@ The board should communicate the planned behavior through labels, arrows, and se
 - [Commission payment history](docs/payment-history.md)
 - [Main transaction History](docs/main-history.md)
 - [Insights](docs/insights.md)
+- [Reconnect](docs/reconnect.md)
+- [Clickable wireframe instructions](docs/wireframes/CLICKABLE.md)
 - [Record payment wireframe](docs/record-payment.md)
 - [Screen inventory](docs/screens.md)
 - [Design direction](docs/design-direction.md)

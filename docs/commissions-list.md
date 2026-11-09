@@ -31,7 +31,7 @@ Use DynaPuff for the screen/project titles and New/Add actions, with Mali for us
 - Three filters: **Current**, **Queued**, **Completed**.
 - Matching commission count and current ordering label.
 - Scrollable commission cards.
-- Main navigation: Home, Commissions, History, Insights; Commissions selected.
+- Main navigation: Home, Commissions, History, Insights, Reconnect; Commissions selected.
 
 New and the empty-state Add commission action both open the accepted intake flow at Client details. There are no working controls in this static draft.
 

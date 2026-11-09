@@ -22,7 +22,7 @@ See [the numbered guide](../layout.md#wf12) and [saved preview](wireframes/main-
 3. Compact received-total summary for that selected month.
 4. Count of individual receipts and fixed Newest first ordering.
 5. Entries grouped under their received-date headings.
-6. Main navigation: Home, Commissions, History selected, Insights.
+6. Main navigation: Home, Commissions, History selected, Insights, Reconnect.
 
 Each receipt displays its artwork title, amount received, client username/platform, payment purpose, and manually recorded method. Multiple payments on the same date share one date heading. Long titles wrap; keep amounts readable without truncation. Optional notes and the full balance remain available in the commission-specific payment history.
 
@@ -42,6 +42,7 @@ This draft has one month selector and no work-status tabs or extra search contro
 | Commissions navigation | WF-02 |
 | History navigation | Remain here; retain selected month and position |
 | Insights navigation | WF-13 Insights |
+| Reconnect navigation | WF-19, retaining its current-work selection independently of this reporting month |
 
 Opening a transaction does not create a separate receipt-details page in this draft. Methods and payment purposes are already visible in the list. The global page does not offer an unscoped Record payment action: select its commission first. A successful later payment appears here once when its received date falls in the selected month.
 

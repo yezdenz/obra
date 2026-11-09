@@ -22,9 +22,9 @@ Create a **static planning board** with labeled phone screens, comparable to the
 - Put annotations outside the phone when needed.
 - Show one recognizable state per screen.
 - Use fictional names, amounts, and artwork placeholders.
-- Keep represented controls static during this phase; do not build executable navigation or transitions.
+- Keep saved visual boards static; use the separately exported clickable phone wireframe for local demo navigation and state review.
 
-The earlier interactive exploration does not define the current deliverable. A static dashboard draft has been explored in the planning conversation, but its hierarchy has not received final approval and it is not an implemented app screen.
+The latest owner-requested clickable wireframe is the interaction reference alongside the saved boards. It is a phone wireframe, not a deployed website or native Android implementation. Use the five-section navigation and routes in layout.md.
 
 ## Device reference
 
@@ -56,5 +56,6 @@ These are the observed local emulator settings, not a claim that every installat
 3. Commission intake form.
 4. Individual commission details and progress/payment presentation.
 5. History.
-6. Insights.
-7. Supporting forms, dialogs, and empty/edge states.
+6. Financial Insights.
+7. Reconnect with previous clients, using genre/type sample suggestions.
+8. Supporting forms, dialogs, and empty/edge states.

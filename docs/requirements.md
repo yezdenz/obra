@@ -58,6 +58,16 @@ The exact required fields and how long forms are divided remain planning decisio
 
 The term **Insights** is proposed for this section. It is an income/workload summary, not a physical inventory system.
 
+### Reconnect recommendations
+
+- A separate fifth main section, keeping financial Insights focused.
+- Select current work and show suggested previous clients based on commission type and genre.
+- Show username/platform, prior completed commission, finish date, and type/genre reasons.
+- View previous commission opens that record; Back restores selection and position.
+- Include no-work, no-match, loading, and error states.
+- Algorithm/backtracking is implemented by assigned teammates; the wireframe has fixed sample suggestions.
+- No image processing, complex image-similarity features, automated contact, or messaging integration.
+
 ## Suggested supporting features
 
 These support the requested features but remain subject to review.
@@ -75,7 +85,7 @@ These support the requested features but remain subject to review.
 | Queue capacity and ordering | Helps manage accepted work and the next project to start |
 | Final artwork attachment | Keeps the delivered result with the completed commission |
 
-Refund recording, advanced reporting, and previous-client recommendations should be discussed separately before becoming requirements.
+Previous-client recommendations are now requested under Reconnect. Refund recording and advanced reporting remain separate review topics.
 
 The owner requested removing task-specific dates and the Send color preview row/action to keep the scope manageable. The current draft uses a plain checklist. Additional task-detail/custom-entry screens are deferred. Overall commission deadlines and payment received dates remain part of the plan.
 
@@ -104,7 +114,7 @@ The agreed price belongs to the commission. Changing a package's base price late
 
 ## Boundaries
 
-- Current work is planning and static wireframing only.
+- Current work is wireframe planning, the owner-requested clickable phone reference, and frontend handoff; native Android implementation remains separate.
 - The intended app is local to the artist's Android device.
 - No client portal or client login is required by the current scope.
 - X and Discord are contact labels, not integrations.
@@ -123,3 +133,4 @@ Before implementing the app, the static screens should make these journeys under
 6. A previous commission shows its original deadline, actual finish date, and payments received.
 7. Home and Insights use consistent income definitions.
 8. Empty, overdue, partially paid, completed-but-unpaid, and cancelled cases have defined presentations.
+9. Reconnect displays type/genre recommendations supplied by the algorithm team, opens the correct previous commission, and restores the current-work selection on Back.

@@ -2,7 +2,7 @@
 
 ## Current phase
 
-Work on planning documents and static wireframes. Begin Android implementation after the wireframe and technical-design phases are agreed.
+Work on planning documents, static boards, and the owner-requested clickable phone wireframe for frontend handoff. The owner authorized synchronization to GitHub on November 10, 2026. Begin native Android implementation after the wireframe and technical-design phases are agreed.
 
 ## Planning changes
 
@@ -15,7 +15,7 @@ Work on planning documents and static wireframes. Begin Android implementation a
 
 For wireframes, use the numbered catalogue in `layout.md` and the saved assets in `docs/wireframes/`. When a source drawing changes, refresh its standalone export and preview alongside the documented routes/states. Keep a scroll continuation or filter state under its existing page number, and label undrawn destinations as pending.
 
-For a layout proposal, include the screen name, information order, intended device size, relevant states, and a static sketch when available. Avoid adding working transitions while the project is still in static planning.
+For a layout proposal, include screen name, information order, device size, relevant states, and a sketch when available. Keep static boards static; maintain the clickable source and standalone export separately. Use five-tab navigation consistently across the main boards and clickable screens. Do not implement the recommendation algorithm when changing its UI; use clearly documented fixtures.
 
 ## Review expectations
 
@@ -23,7 +23,7 @@ For a layout proposal, include the screen name, information order, intended devi
 - Make screenshots or sketches legible at Medium Phone proportions.
 - Explain any change to payment calculations or historical record handling.
 - Check Markdown links and terminology before submitting.
-- Do not claim build or test results for an app that does not yet exist.
+- Verify affected clickable flows, disabled states, and shared values. Do not claim native Android build/test results for an app that does not yet exist.
 
 ## Files to keep out of Git
 

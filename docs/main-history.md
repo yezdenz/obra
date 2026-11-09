@@ -41,11 +41,13 @@ This draft has one month selector and no work-status tabs or extra search contro
 | Home navigation | WF-01 |
 | Commissions navigation | WF-02 |
 | History navigation | Remain here; retain selected month and position |
-| Insights navigation | P-04 Insights, still undrawn |
+| Insights navigation | WF-13 Insights |
 
 Opening a transaction does not create a separate receipt-details page in this draft. Methods and payment purposes are already visible in the list. The global page does not offer an unscoped Record payment action: select its commission first. A successful later payment appears here once when its received date falls in the selected month.
 
 The picker itself is still undrawn. Proposed behavior: open History on the current calendar month on first use, remember the month while navigating within the app, and cancel the chooser without changing the selection. This draft filters by a single calendar month, with no All time view yet.
+
+[Insights](insights.md) → View payments explicitly opens History for the Insights reporting month. Ordinary History navigation restores History's own previous month. The two pages must show the same received total for the same month.
 
 ## Example receipts and arithmetic
 

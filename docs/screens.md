@@ -2,7 +2,7 @@
 
 The screens below are a planning inventory. The dashboard's visual direction, DynaPuff/Mali pairing, and four-step intake wireframe have been reviewed and accepted as references. New screen drafts and the remaining grouping/navigation decisions still need review. Static wireframes come before executable navigation.
 
-Use [layout.md](../layout.md) as the master numbered guide. It embeds every current board and assigns WF-01–WF-12 to existing page/step layouts, with separate labels for filters, saved states, and scroll positions. Remaining undrawn destinations start at P-04; former P-01/P-02/P-03 are now WF-10/WF-11/WF-12.
+Use [layout.md](../layout.md) as the master numbered guide. It embeds every current board and assigns WF-01–WF-13 to existing page/step layouts, with separate labels for filters, saved states, and scroll positions. Remaining undrawn destinations start at P-05; former P-01–P-04 are now WF-10–WF-13.
 
 ## Main sections
 
@@ -24,7 +24,7 @@ One artwork can have multiple payment transactions. Main History should not dupl
 
 ### Insights
 
-Total earnings, monthly earnings, outstanding balances, and graphs over time. Package/type breakdowns and completed-work counts are useful supporting ideas. Define each metric before choosing a chart.
+The [Insights draft](insights.md), WF-13, shows monthly received earnings, an all-time received total, current outstanding balances, a six-month earnings trend, and selected-month earnings by commission type. Two phone views show the overview and lower scroll content of one page. View payments opens WF-12 for the same month; See balances scrolls to the current balances, whose rows open WF-07. Completed-work counts remain a possible later addition.
 
 ## Main workflow screens
 

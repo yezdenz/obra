@@ -7,7 +7,7 @@ OBRA brings commission requests, reference images, deadlines, creative progress,
 The name comes from the Filipino word *obra*, meaning a work of art.
 
 > **Current phase: planning and static wireframing.**
-> This repository currently contains the project plan. The dashboard and four-step Add commission direction have been reviewed; Commission Details, payment views, the Commissions list, progress/completion, and main History have static drafts. An Android app, working navigation, transitions, database, and payment processing have not been implemented.
+> This repository currently contains the project plan. The dashboard and four-step Add commission direction have been reviewed; Commission Details, payment views, the Commissions list, progress/completion, main History, and Insights have static drafts. An Android app, working navigation, transitions, database, and payment processing have not been implemented.
 
 ## What we want to build
 
@@ -64,7 +64,7 @@ This four-section navigation and the transaction-only History split are **propos
 
 | Document | Contents |
 | --- | --- |
-| [Numbered layout and interaction guide](layout.md) | All existing wireframes with embedded previews, WF-01–WF-12 page order, entry/exit buttons, scrolling/state explanations, pending destinations, fonts, and palette |
+| [Numbered layout and interaction guide](layout.md) | All existing wireframes with embedded previews, WF-01–WF-13 page order, entry/exit buttons, scrolling/state explanations, pending destinations, fonts, and palette |
 | [Saved wireframe boards](docs/wireframes/README.md) | Current preview images, standalone static HTML exports, and editable source fragments |
 | [Feature requirements](docs/requirements.md) | Requested features, supporting suggestions, boundaries, and expected behavior |
 | [Dashboard plan](docs/dashboard.md) | Dashboard sections, reading order, terminology, and states to design |
@@ -75,6 +75,7 @@ This four-section navigation and the transaction-only History split are **propos
 | [Record payment wireframe](docs/record-payment.md) | Amount/date/method/note entry, balance preview, Save behavior, and updated history |
 | [Update progress and completion](docs/update-progress.md) | Stage choices, finished-date confirmation, and the completed record with payments kept independent |
 | [Main History wireframe](docs/main-history.md) | Received payments across commissions, month selector, per-period totals, populated/empty states, and links to artwork records |
+| [Insights wireframe](docs/insights.md) | Monthly/all-time received earnings, six-month trend, type breakdown, current balances, and scroll/button routes |
 | [Screen plan](docs/screens.md) | Screen inventory and proposed navigation |
 | [Data plan](docs/data-plan.md) | General database information groups without a detailed schema |
 | [Design direction](docs/design-direction.md) | Guhit reference, fonts, shapes, device size, and wireframe format |
@@ -92,8 +93,8 @@ The initial concept is a workspace for the artist. It does not require a client-
 
 1. Review the Commissions list and its Current, Queued, and Completed filters.
 2. Review the detail/payment and progress/completion drafts; draw image views later.
-3. Review main transaction History, then extend the accepted visual direction to Insights.
-4. Review important empty, overdue, partially paid, and completed states together.
+3. Review main History and Insights together for consistent received-income definitions.
+4. Draw Edit commission, the image viewer, and All tasks; review important empty, overdue, partially paid, and completed states together.
 5. Finalize the data model and Android implementation plan afterward.
 
 ## Repository status

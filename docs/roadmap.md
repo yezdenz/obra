@@ -31,7 +31,8 @@ This roadmap describes the order of work. It does not claim that a feature is im
 - [x] Organize all existing boards in layout.md with numbered pages, button routes, scroll/state explanations, and saved previews/sources.
 - [x] Draft main transaction History with received-date groups, monthly total, commission links, and an empty month.
 - [ ] Review the main History draft, period selection, and return navigation.
-- [ ] Draw Insights and choose clear graph labels.
+- [x] Draft Insights with monthly/all-time received earnings, six-month trend, type breakdown, and current balances.
+- [ ] Review Insights scopes, partial-month labels, scroll continuation, and links to History/commission records.
 - [ ] Draw supporting forms and important empty/edge states.
 - [ ] Review the screens together as one consistent static board.
 

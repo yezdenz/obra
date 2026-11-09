@@ -14,13 +14,14 @@ Use the reviewed dashboard and accepted four-step Add commission layout as the v
 
 ## Read the numbering first
 
-- **WF-01 through WF-12** identify the twelve existing page/step layouts. They are reference numbers, not a requirement to visit every screen in that order.
+- **WF-01 through WF-13** identify the thirteen existing page/step layouts. They are reference numbers, not a requirement to visit every screen in that order.
 - A suffix such as **WF-02A** identifies a filter/state of the same page.
 - **WF-07A and WF-07B are two scroll positions of one Commission Details page.** No Next button connects them.
 - **WF-08B is the same Payment history page after saving a payment**, not a separate success screen.
 - **WF-10A/B** are alternative selections on one Update progress page. **WF-11** is its completion confirmation.
 - **WF-12A/B** are populated/empty-month states of the main History page.
-- **P-04 onward** identifies remaining planned wireframes. Former P-01/P-02/P-03 are now drawn as WF-10/WF-11/WF-12.
+- **WF-13A/B** are first/lower scroll views of one Insights page, with no Next action between them.
+- **P-05 onward** identifies remaining planned wireframes. Former P-01–P-04 are now drawn as WF-10–WF-13.
 - Every visual board is embedded below. Open an image at full size when reviewing its small labels. [Saved boards and editable sources](docs/wireframes/README.md) are also in the repository.
 
 ## Existing wireframes: sequential index
@@ -39,6 +40,7 @@ Use the reviewed dashboard and accepted four-step Add commission layout as the v
 | [WF-10](#wf10) | Update progress | WF-07 → Update progress | Separate stage-selection page; content can scroll on smaller displays |
 | [WF-11](#wf11) | Completion confirmation | WF-10 → Finished → Review completion | Separate short review page with finished date; can scroll |
 | [WF-12](#wf12) | Main transaction History | History in main navigation | One scrolling timeline across commissions; selected-month and empty-month states |
+| [WF-13](#wf13) | Insights | Insights navigation or Home → View insights | One scrolling report; first/lower views, with main navigation reachable |
 
 Dashboard styling, the DynaPuff/Mali pairing, and the four-step intake direction have been accepted. The other drawings are current drafts for review; having a preview does not mean the app has been implemented or every behavior finalized.
 
@@ -58,6 +60,9 @@ flowchart TD
     Home -->|History navigation| History[WF-12 Main History]
     List -->|History navigation| History
     History -->|Payment row| Detail
+    Home -->|View insights / Insights navigation| Insights[WF-13 Insights]
+    Insights -->|View payments for month| History
+    Insights -->|Outstanding commission row| Detail
     Detail -->|View payment history| Payments[WF-08 Payment history]
     Detail -->|Record payment| Entry[WF-09 Record payment]
     Payments -->|Record payment| Entry
@@ -86,7 +91,7 @@ Read top to bottom: header/date → monthly received earnings → workload count
 | Checklist title | WF-07 for its related project |
 | Checklist checkbox | Change only that item's completion; stay on this page |
 | All tasks / unfinished-task count | P-07, simple global checklist list; not drawn yet |
-| View insights / Insights navigation | P-04, Insights; not drawn yet |
+| View insights / Insights navigation | WF-13, Insights; Home shortcut carries the selected month |
 | Commissions navigation | WF-02, normally Current |
 | History navigation | WF-12, main transaction History |
 
@@ -212,7 +217,7 @@ Show project/client context, agreed price, total received, balance, and the actu
 - **Back** returns to WF-07 for the same commission and previous position.
 - **WF-08B:** this same page after a successful save, including a fully paid state. It appears on the **right of the Record payment board in WF-09**.
 
-This page is distinct from the main History tab: WF-08 shows one commission's money; WF-12 shows transactions across commissions. P-04 Insights is the separate reporting/graphs page and is still undrawn.
+This page is distinct from the main History tab: WF-08 shows one commission's money; WF-12 shows transactions across commissions. WF-13 Insights is the separate reporting/graphs page.
 
 ![Left: WF-07B simplified record context; right: WF-08A commission-specific payment history with initial deposit](docs/wireframes/payment-history.jpg)
 
@@ -296,7 +301,7 @@ Each row shows artwork, received amount, username/platform, payment purpose, and
 | Payment row / chevron | WF-07 for that commission; Back restores this month and timeline position |
 | Home / Commissions navigation | WF-01 / WF-02 |
 | History navigation | Remain on WF-12, preserving context |
-| Insights navigation | P-04, still undrawn |
+| Insights navigation | WF-13 |
 
 First entry defaults to the current month. Summary/count cover the full selected month, including offscreen receipts. For the mock November, amounts are ₱900 + ₱1,000 + ₱900 + ₱750 + ₱900 = ₱4,450; the final ₱900 initial payment, received Nov 2, is below the viewport. No new payment-details or global payment-entry page is added. Use WF-07 → WF-08 to see notes and all receipts for one artwork, or WF-09 to record another payment.
 
@@ -304,20 +309,47 @@ The two phones are states, not a Next/Back sequence. This is a new static draft 
 
 ![WF-12A main History with received payments on the left; WF-12B the same page with an empty month on the right](docs/wireframes/main-history.jpg)
 
+<a id="wf13"></a>
+## WF-13 — Insights
+
+**Enter:** Insights in main navigation, or WF-01 → View insights with the dashboard month carried over. **Type:** one report page. **Scroll:** yes; these two phones show its first and lower views, not two destinations. Main navigation remains reachable.
+
+| Board position | Reference | What it represents |
+| --- | --- | --- |
+| Left | WF-13A | Overview: monthly received earnings/count, all-time received total, current outstanding balance, six-month earnings chart |
+| Right | WF-13B | Further down the same page: selected-month receipts by commission type, then current outstanding commissions |
+
+Month selection updates monthly earnings/count, the trend's six-month window ending in that month, and the type breakdown. **Total earnings remains all-time received as of today; Still to receive remains current balances as of today.** Keep those scopes visible, including when reviewing a past month.
+
+| Click / action | Destination or result |
+| --- | --- |
+| Month/year selector | Shared period chooser; not drawn yet; update this same page when applied |
+| View payments | WF-12 with the same reporting month selected |
+| See balances | Scroll directly to the lower Still to receive section, WF-13B; no new page |
+| Outstanding commission row | WF-07 for that record; Back restores Insights selection/position |
+| Home / Commissions / History navigation | WF-01 / WF-02 / WF-12; ordinary History navigation restores its own prior month |
+| Insights navigation | Stay here and preserve context |
+| Chart bars / type rows / Total earnings | Display only in this draft; no extra edit or detail page |
+
+The fictional Nov 9 snapshot matches History's **₱4,450 from five receipts**. Monthly trend June–November: ₱1,800, ₱3,000, ₱4,200, ₱5,350, ₱5,200, ₱4,450; these sum to **₱24,000 all-time** because this example has no earlier receipts. November is labeled partial, through Nov 9. The type breakdown sums to ₱4,450; **₱7,550 currently outstanding** spans five artworks, including a completed commission. Owed amounts are excluded from received earnings.
+
+This is a new static draft for review. See [the Insights plan](docs/insights.md) for definitions, arithmetic, routes, and undrawn empty/error states. The lower view is reached by scrolling, not Next.
+
+![WF-13A Insights overview on the left; WF-13B lower scroll view of the same page on the right, with commission-type earnings and current outstanding balances](docs/wireframes/insights.jpg)
+
 ## Planned next wireframes — not drawn yet
 
 These entries explain destinations already mentioned by buttons. They are not hidden existing designs.
 
 | Planned number | Wireframe | Entry button / context | Expected type |
 | --- | --- | --- | --- |
-| P-04 | Insights | Main navigation → Insights, or dashboard View insights | Main financial-summary/graph page |
 | P-05 | Edit Commission | WF-07 → Edit | Prefilled version of the four-step intake; final action Save changes |
 | P-06 | Image viewer | Reference / final-artwork thumbnail | Larger image view; exact page/modal format undecided |
 | P-07 | All checklist items | WF-01 → All tasks / unfinished-task count | Simple scrolling checklist across commissions, with parent-commission links; no task dates or task-editor pages |
 
 Additional **states/dialogs**, rather than automatically separate main pages, still need drawings: WF-05 initial-payment fields expanded; form validation; no search matches; empty categories; discard changes; any start/cancel confirmation; save failure; and date/method pickers if a custom layout is needed. Cancelled-record list access remains a later proposal.
 
-**Next suggested design task: P-04 Insights.** WF-10/WF-11 and WF-12 are static drafts for review.
+**Next suggested design task: P-05 Edit Commission**, reusing the accepted intake structure. The four main sections now have static drafts; continue reviewing them alongside the supporting screens.
 
 ## Shared design and detailed behavior reference
 
@@ -425,7 +457,7 @@ The dashboard's data summaries do not require every entire card to be a button. 
 
 | Starting control | Planned next view or result |
 | --- | --- |
-| View insights on Monthly earnings | Open Insights with the same month selected |
+| View insights on Monthly earnings | Open WF-13 Insights with the same month selected |
 | Current work count | Open WF-02A, the Current filter (In progress records) |
 | Unfinished task count / All tasks | Open the unfinished task list across commissions |
 | In queue count | Open Commissions filtered to Queued |
@@ -438,7 +470,7 @@ The dashboard's data summaries do not require every entire card to be a button. 
 | Home | Return to the dashboard |
 | Commissions | Open WF-02, initially showing the Current filter; other status filters remain available |
 | History | Open WF-12, individual payment transactions across commissions; previous artwork is under Commissions → Completed |
-| Insights | Open earnings summaries and graphs |
+| Insights | Open WF-13 earnings summaries and graphs |
 
 On the dashboard, a task title leads to its commission while its checkbox changes only the checklist item's completion state. Completing **Finish lineart** must not automatically mark the entire commission completed or record any payment. The checklist has no per-task due dates. The Send color preview row/action and additional task-detail/custom-entry controls are omitted from the simplified draft.
 
@@ -556,19 +588,20 @@ The current recommendation separates payment transactions in History from previo
 
 ### Insights
 
-- **Month selector:** choose a reporting month and update monthly totals/graphs.
+- **Month selector:** choose a reporting month and update monthly totals/count, type breakdown, and six-month trend ending in that month.
 - **Total earnings:** show received payments over the stated all-time reporting period.
 - **Monthly earnings:** show payments received in the selected month.
-- **Outstanding balances → View commissions:** open commissions with an unpaid balance, including completed work that is still owed money.
-- **Graph period point/bar:** reveal the labeled period and amount; do not treat it as a new payment or project.
+- **Outstanding balances → See balances:** scroll to the current balances on this page, including completed work that is still owed money; individual rows open WF-07.
+- **View payments:** open WF-12 with the selected reporting month.
+- **Graph period point/bar:** directly labeled amounts; display only in this static draft.
 
-Changing a report filter never edits commissions or payments. Detailed graphs belong here rather than filling the dashboard.
+Changing a report filter never edits commissions or payments. All-time earnings and current balances keep their stated current scopes when a past reporting month is selected. See [the Insights draft](docs/insights.md); detailed graphs belong here rather than filling the dashboard.
 
 ## H. Maintaining the static board
 
 Keep the numbered catalogue and saved previews in sync when a design changes. Preserve the distinction between a new page, a same-page state, and a scroll continuation. Do not add an extra page number for a payment success banner, selected filter, or checklist toggle.
 
-The existing boards cover the standard dashboard, four-step intake, list filters/empty list, current/queued/completed detail variants, commission payment history, payment entry with its saved result, progress/completion, and main History with populated/empty months. Additional empty/error/urgent/dialog states are listed as pending above rather than presented as completed drawings.
+The existing boards cover the standard dashboard, four-step intake, list filters/empty list, current/queued/completed detail variants, commission payment history, payment entry with its saved result, progress/completion, main History with populated/empty months, and Insights with a lower scroll view. Additional empty/error/urgent/dialog states are listed as pending above rather than presented as completed drawings.
 
 Use DynaPuff for **Monthly earnings**, **Finish lineart**, and the other specified titles in every state. Place notes such as **Next: Artwork → Step 2** outside the phone frames when a control's destination needs explanation.
 
@@ -582,6 +615,7 @@ The board should communicate the planned behavior through labels, arrows, and se
 - [Commission Details wireframe](docs/commission-details.md)
 - [Commission payment history](docs/payment-history.md)
 - [Main transaction History](docs/main-history.md)
+- [Insights](docs/insights.md)
 - [Record payment wireframe](docs/record-payment.md)
 - [Screen inventory](docs/screens.md)
 - [Design direction](docs/design-direction.md)

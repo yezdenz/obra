@@ -46,9 +46,11 @@ Use DynaPuff for the recognizable, playful parts of the interface:
 
 Use the font's normal/static appearance for these wireframes. Keep longer DynaPuff titles on multiple lines when necessary rather than squeezing them into narrow spaces.
 
-### Supporting font: Andika — proposed pairing
+### Supporting font: Mali — joyful pairing under review
 
-Use [Andika](https://fonts.google.com/specimen/Andika) for details that need quiet, consistent reading:
+The owner requested a joyful supporting font for **Due tomorrow**, **Due Nov 14**, **All tasks**, **Nov 10**, and all similarly styled text. The current static dashboard tries **[Mali](https://fonts.google.com/specimen/Mali)**, a handwritten direction, alongside DynaPuff. The joyful direction is requested; this particular font pairing is proposed for review.
+
+Use Mali consistently for:
 
 - Client usernames and platform names.
 - Project descriptions, pose instructions, and revision notes.
@@ -56,9 +58,11 @@ Use [Andika](https://fonts.google.com/specimen/Andika) for details that need qui
 - Dates, payment amounts, balances, and graph labels.
 - Status chips, step counts, and bottom-navigation labels.
 
-Proposed sizes are 14-16 sp for ordinary details, 16 sp for editable text, and 12-13 sp for short secondary captions. Use around 28-32 sp for the main earnings amount and 24-28 sp for workload counts. Keep financial figures in Andika, even when the label above them uses DynaPuff.
+Proposed sizes are 14-16 sp for ordinary details, 16 sp for editable text, and 12-13 sp for short secondary captions. Use around 28-32 sp for the main earnings amount and 24-28 sp for workload counts. Keep financial figures in Mali, even when the label above them uses DynaPuff.
 
-Andika is a recommended supporting choice; **DynaPuff is the owner's explicit selection**. Grandstander and Fredoka are not the selected fonts for this draft.
+Use Medium weight for small dates, links, and supporting labels, and SemiBold for prominent financial figures and counts. The current dashboard trial enlarges supporting labels to around 12-13 sp so the handwritten details remain legible.
+
+Mali is the current supporting-font candidate; **DynaPuff is the owner's explicit selection**. Andika is replaced in this draft. Grandstander and Fredoka are not the selected fonts for this draft.
 
 ## 3. Proposed color scheme
 
@@ -136,7 +140,7 @@ Propose four numbered steps so a long form can be reviewed in manageable groups.
 **Action:** **Next: Artwork**.
 
 1. Check that a platform and a nonblank username are provided.
-2. If something is missing, stay on Step 1 and show an Andika helper/error message under the relevant field.
+2. If something is missing, stay on Step 1 and show an Mali helper/error message under the relevant field.
 3. If valid, keep the entered values in the draft and move to Step 2.
 
 This step does not sign in to X/Discord, contact the client, or create a saved commission.

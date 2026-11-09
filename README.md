@@ -46,7 +46,7 @@ Show total earnings, monthly earnings, outstanding balances, and earnings graphs
 - **Dashboard first:** settle its structure before detailing the remaining screens.
 - **Medium Phone reference:** portrait, 1080 x 2400 physical pixels at 420 dpi, approximately **411 x 914 dp**, based on the local Android Studio emulator profile.
 - **Visual direction:** use [Guhit](https://app.guhit.app/) as inspiration for typography, rounded shapes, warmth, and simplicity. Build OBRA's own interface and assets.
-- **Selected font:** DynaPuff for playful headings, summary labels such as Monthly earnings, task titles such as Finish lineart, and primary actions. Andika is the proposed supporting font for details and figures.
+- **Selected font:** DynaPuff for playful headings, summary labels such as Monthly earnings, task titles such as Finish lineart, and primary actions. Mali is the proposed supporting font for details and figures.
 - **Latest scope takes priority:** the feature list recorded in these documents reflects the planning conversation; the original proposal provides background and an intended technical direction.
 
 ## Proposed application structure

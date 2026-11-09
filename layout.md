@@ -4,11 +4,11 @@
 
 This document defines what to draw in the static wireframes, which fonts and colors to use, and what each represented button should eventually do. It is a planning specification, not an interactive prototype or implemented Android behavior.
 
-Start with the dashboard. Use the remaining flows to keep later screens consistent with it.
+Use the reviewed dashboard and accepted four-step Add commission layout as the visual references. Commission Details is the current draft; keep its fonts, surfaces, and button hierarchy consistent with those screens.
 
 **Confirmed font pairing:** the owner selected **[DynaPuff](https://fonts.google.com/specimen/DynaPuff)** for playful interface text, specifically labels such as **Monthly earnings** and task titles such as **Finish lineart**, and accepted **[Mali](https://fonts.google.com/specimen/Mali)** for dates, links, figures, and other supporting text after reviewing the dashboard.
 
-**Proposed details:** the color values, type sizes, four-step commission form, and individual button destinations below are a coherent first proposal for review. They are not all approved design decisions.
+**Review status:** the four-step Add commission wireframe direction and DynaPuff/Mali pairing have been accepted. Exact color values, type sizes, detailed validation/pricing rules, and new Commission Details controls remain subject to refinement.
 
 ## 1. Phone layout
 
@@ -131,7 +131,7 @@ Task title and checkbox have different purposes. Completing **Finish lineart** m
 
 ## 5. Add commission: Next button sequence
 
-Propose four numbered steps so a long form can be reviewed in manageable groups. Show **Step 1 of 4** and a clear step heading. The four screens can be drawn side by side on the static board.
+Use the accepted four-step wireframe direction so a long form can be reviewed in manageable groups. Show **Step 1 of 4** and a clear step heading. Draw the four screens together on the static board.
 
 See [the Add commission wireframe plan](docs/add-commission.md) for the current four-screen draft and its follow-up states. These screens keep the New commission header and Back/Close controls; main bottom navigation is omitted during entry.
 
@@ -202,6 +202,8 @@ Only final Save creates the commission. If save fails, remain on Review with the
 
 ## 6. Commission details: action map
 
+See [the Commission Details wireframe plan](docs/commission-details.md) for the current board. It shows the first and lower portions of one in-progress record, plus Queued and Completed states. The queued record continues the intake example; the completed record demonstrates a remaining balance.
+
 | Control | Planned sequence and result |
 | --- | --- |
 | Back | Return to the originating list, dashboard, or history view with its filter preserved |
@@ -262,6 +264,7 @@ The board should communicate the planned behavior through labels, arrows, and se
 
 - [Dashboard](docs/dashboard.md)
 - [Add commission wireframe](docs/add-commission.md)
+- [Commission Details wireframe](docs/commission-details.md)
 - [Screen inventory](docs/screens.md)
 - [Design direction](docs/design-direction.md)
 - [Requirements](docs/requirements.md)

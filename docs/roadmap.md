@@ -2,7 +2,7 @@
 
 This roadmap describes the order of work. It does not claim that a feature is implemented. The original proposal's calendar is background; no replacement deadlines have been agreed.
 
-## Phase 1: Product planning — current
+## Phase 1: Product planning
 
 - [x] Record the core commission-management idea.
 - [x] Record the requested dashboard, intake, history, detail, and reporting features.
@@ -14,12 +14,15 @@ This roadmap describes the order of work. It does not claim that a feature is im
 - [ ] Review suggested supporting features and explicitly accept or defer them.
 - [ ] Agree on the main section names and navigation.
 
-## Phase 2: Static wireframe board — next
+## Phase 2: Static wireframe board — current
 
-- [ ] Review and approve the dashboard hierarchy.
-- [ ] Draw the dashboard at Medium Phone proportions.
-- [ ] Draw commission list and add-commission screens.
-- [ ] Draw commission details and editing screens.
+- [x] Review the refined dashboard as the visual reference.
+- [x] Draw the dashboard at Medium Phone proportions.
+- [x] Draw and review the four-step Add commission wireframe.
+- [ ] Draw the commission list.
+- [x] Draft Commission Details with current, queued, and completed states.
+- [ ] Review the Commission Details board.
+- [ ] Draw commission editing and supporting payment/progress/task views.
 - [ ] Draw payment history and previous-work views.
 - [ ] Draw Insights and choose clear graph labels.
 - [ ] Draw supporting forms and important empty/edge states.

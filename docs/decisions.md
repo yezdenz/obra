@@ -11,6 +11,7 @@
 | Selected playful font | DynaPuff, including Monthly earnings, Finish lineart, headings, and primary actions | Explicit owner preference |
 | Supporting font | Mali for joyful dates, links, small labels, and numeric details alongside DynaPuff | Owner accepted the updated dashboard before moving to Add commission |
 | Current visual reference | Refined DynaPuff/Mali dashboard | Owner liked the result and requested the next screen |
+| Add commission layout | Four steps: Client details, Artwork brief, Price and dates, Review | Owner explicitly loved the static board and moved to Commission Details |
 | Required areas | Dashboard, intake, commission records, history, financial summaries/graphs | Owner's updated feature list |
 | Client contacts | Manually recorded X or Discord usernames | Owner request |
 | Package examples | Full body, half body, chibi, portrait | Owner request |
@@ -20,7 +21,8 @@
 ## Working proposals to review
 
 - Home, Commissions, History, and Insights as the four main sections.
-- The warm cream/yellow/sage palette and four-step commission-entry flow described in [layout.md](../layout.md).
+- Exact color values, type sizes, and detailed field/pricing rules described in [layout.md](../layout.md).
+- The new [Commission Details board](commission-details.md), including action placement and state-specific summaries.
 - Lifecycle statuses: Queued, In progress, Completed, Cancelled.
 - Creative stages tracked independently from lifecycle and payments.
 - Payment records with received amounts and dates; monthly earnings calculated from them.
@@ -50,6 +52,6 @@ The intended technical stack in the proposal is Android Studio, Kotlin, XML/Mate
 11. Are final artwork attachments needed in the first version?
 12. What currency rules apply? PHP is used for examples; multiple-currency conversion is not planned.
 13. Should the exact color values, type sizes, and spacing be finalized beyond the accepted DynaPuff/Mali pairing?
-14. Should commission intake use the proposed four Next/Back steps, or a single scrolling form?
+14. How should the expanded initial-payment and invalid-input states fit within the accepted four-step intake layout?
 
 Resolve these through planning as they become relevant. They do not block drafting the dashboard's static structure.

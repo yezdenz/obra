@@ -7,7 +7,7 @@ OBRA brings commission requests, reference images, deadlines, creative progress,
 The name comes from the Filipino word *obra*, meaning a work of art.
 
 > **Current phase: planning and static wireframing.**
-> This repository currently contains the project plan. The next deliverable is a set of static, labeled phone wireframes, starting with the dashboard. An Android app, working navigation, transitions, database, and payment processing have not been implemented.
+> This repository currently contains the project plan. The dashboard and four-step Add commission direction have been reviewed; Commission Details is the current static wireframe draft. An Android app, working navigation, transitions, database, and payment processing have not been implemented.
 
 ## What we want to build
 
@@ -68,6 +68,7 @@ This four-section navigation is a **proposal for review**, not an approved final
 | [Feature requirements](docs/requirements.md) | Requested features, supporting suggestions, boundaries, and expected behavior |
 | [Dashboard plan](docs/dashboard.md) | Dashboard sections, reading order, terminology, and states to design |
 | [Add commission wireframe](docs/add-commission.md) | Four static intake steps, reference images, dates, optional initial payment, and final review |
+| [Commission Details wireframe](docs/commission-details.md) | Current, queued, and completed records; scroll continuation; tasks, stages, dates, and balances |
 | [Screen plan](docs/screens.md) | Screen inventory and proposed navigation |
 | [Data plan](docs/data-plan.md) | General database information groups without a detailed schema |
 | [Design direction](docs/design-direction.md) | Guhit reference, fonts, shapes, device size, and wireframe format |
@@ -83,10 +84,10 @@ The initial concept is a workspace for the artist. It does not require a client-
 
 ## Immediate next steps
 
-1. Review the dashboard's information hierarchy.
-2. Agree on how current work, unfinished tasks, and queue items differ.
-3. Produce and review a static Medium Phone dashboard wireframe.
-4. Extend the agreed design to intake, commission details, history, and insights.
+1. Review the static Commission Details board and its lifecycle states.
+2. Draw supporting Record payment, Update progress, and task/image views.
+3. Extend the accepted visual direction to commission lists, History, and Insights.
+4. Review important empty, overdue, partially paid, and completed states together.
 5. Finalize the data model and Android implementation plan afterward.
 
 ## Repository status

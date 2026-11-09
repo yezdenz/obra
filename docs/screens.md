@@ -1,6 +1,6 @@
 # Screen and navigation plan
 
-The screens below are a planning inventory. Their final names, grouping, and navigation have not been approved. Static wireframes come before executable navigation.
+The screens below are a planning inventory. The dashboard's visual direction, DynaPuff/Mali pairing, and four-step intake wireframe have been reviewed and accepted as references. New screen drafts and the remaining grouping/navigation decisions still need review. Static wireframes come before executable navigation.
 
 ## Main sections
 
@@ -37,7 +37,7 @@ Organize the form into sensible groups:
 5. **Schedule:** commission date, planned start if known, and deadline.
 6. **Notes/tasks:** additional instructions and initial checklist items.
 
-The current interaction proposal in [layout.md](../layout.md) divides entry into four steps: Client details, Artwork brief, Price and dates, and Review commission. It specifies what each Next/Back action checks and where it leads. This is a proposal for static screen planning; one scrolling form versus multiple steps still needs agreement, and working transitions are outside the current phase.
+The accepted intake wireframe direction in [layout.md](../layout.md) divides entry into four steps: Client details, Artwork brief, Price and dates, and Review commission. It specifies the proposed checks and destinations for Next/Back actions. Detailed validation and price rules remain open, and working transitions are outside the current phase.
 
 The [Add commission wireframe plan](add-commission.md) describes the current four-screen draft, including reference thumbnails, optional initial-payment entry, the Review screen, and Back/Close behavior. The form omits main bottom navigation and uses the accepted DynaPuff/Mali typography pairing.
 
@@ -46,6 +46,8 @@ The [Add commission wireframe plan](add-commission.md) describes the current fou
 Show the complete client/request information, references, agreed price, payment timeline, outstanding balance, dates, lifecycle status, creative stage, and tasks. Previous records can also show the final artwork and actual finish date.
 
 Proposed actions include Edit, Update progress, Record payment, Manage tasks, Complete, and Cancel. The precise action layout should be decided after the content hierarchy.
+
+See [Commission Details](commission-details.md) for the current static draft: first/lower views of an in-progress record, the queued intake example, and a completed record with an outstanding balance. Record payment and work-progress controls stay separate.
 
 ### Edit commission
 

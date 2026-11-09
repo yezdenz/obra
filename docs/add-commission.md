@@ -110,6 +110,8 @@ Starting work remains a separate action. Without an initial payment, saving must
 - Discard confirmation.
 - Save failure preserving the draft.
 
-The four-step form is a proposal for review. Accepting the dashboard/font pairing does not automatically finalize this intake flow, its field requirements, or price rules.
+The owner accepted the four-step static wireframe direction after reviewing the board. Detailed field requirements, validation, quote overrides, and price rules still need refinement; visual acceptance does not imply that every implementation rule is finalized.
+
+The next board, [Commission Details](commission-details.md), shows the queued record reached after Save, along with in-progress and completed examples.
 
 See [layout.md](../layout.md) for the full action specification and [screen plan](screens.md) for the wider application context.

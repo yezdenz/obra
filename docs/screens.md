@@ -2,7 +2,7 @@
 
 The screens below are a planning inventory. The dashboard's visual direction, DynaPuff/Mali pairing, and four-step intake wireframe have been reviewed and accepted as references. New screen drafts and the remaining grouping/navigation decisions still need review. Static wireframes come before executable navigation.
 
-Use [layout.md](../layout.md) as the master numbered guide. It embeds every current board and assigns WF-01–WF-09 to existing page/step layouts, with separate labels for filters, saved states, and scroll positions. Undrawn button destinations are listed under P-01 onward.
+Use [layout.md](../layout.md) as the master numbered guide. It embeds every current board and assigns WF-01–WF-11 to existing page/step layouts, with separate labels for filters, saved states, and scroll positions. Remaining undrawn destinations start at P-03; former P-01/P-02 are now WF-10/WF-11.
 
 ## Main sections
 
@@ -47,7 +47,7 @@ The [Add commission wireframe plan](add-commission.md) describes the current fou
 
 Show the complete client/request information, references, agreed price, payment timeline, outstanding balance, dates, lifecycle status, creative stage, and tasks. Previous records can also show the final artwork and actual finish date.
 
-Proposed actions include Edit, Update progress, Record payment, Manage tasks, Complete, and Cancel. The precise action layout should be decided after the content hierarchy.
+Proposed actions include Edit, Update progress, Record payment, and Cancel. Checklists use simple checkboxes. Completion is reached through Update progress → Finished → Review completion.
 
 See [Commission Details](commission-details.md) for the current static draft: first/lower views of an in-progress record, the queued intake example, and a completed record with an outstanding balance. Record payment and work-progress controls stay separate.
 
@@ -61,13 +61,14 @@ Reuse the intake structure with existing values. Keep previously received paymen
 | --- | --- |
 | [Record payment](record-payment.md) | Enter amount, received date, method, and optional note; preview remaining balance; Save opens updated commission payment history |
 | [Commission payment history](payment-history.md) | Show a commission's initial and later payments, amounts, received dates, methods, notes, and balance |
+| [Update progress and completion](update-progress.md) | WF-10 stage-selection page; Finished opens WF-11 full-page review with actual finished date and unchanged payment totals |
 | All tasks | A simple list of unfinished checklist items with links to their commissions; no task-specific dates or extra detail screens |
 | Package manager/editor | Maintain offered services, prices, and turnaround estimates |
 | Image viewer | Inspect a reference or final artwork |
 | Date picker | Choose a commission, start, due, or payment date |
 | Confirmation dialog | Review a cancellation, deletion, or unsaved-change decision |
 
-Whether each becomes a full screen, dialog, or bottom sheet is intentionally undecided.
+Undrawn views may become full screens, dialogs, or sheets. The progress/completion draft currently uses separate full pages; it remains subject to review.
 
 ## Conceptual navigation
 
@@ -84,6 +85,9 @@ flowchart TD
     History --> Detail
     Detail --> Edit[Edit commission]
     Detail --> Payment[Record payment]
+    Detail --> Progress[Update progress]
+    Progress --> Finish[Completion confirmation]
+    Finish --> Detail
     Detail --> Image[Reference / final artwork viewer]
 ```
 

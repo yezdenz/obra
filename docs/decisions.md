@@ -27,6 +27,7 @@
 - The new [Commission Details board](commission-details.md), including action placement and state-specific summaries.
 - [Commission payment history](payment-history.md) as a simple per-commission receipt list, separate from Insights; additional task-detail/custom-entry controls are deferred.
 - [Record payment](record-payment.md): a short amount/date/method/note form, positive amount within the remaining balance, and return to updated history after Save.
+- [Update progress and completion](update-progress.md): WF-10 full-page stage selection; Finished opens WF-11 to confirm actual finished date; completion returns to the same record and retains its payment/checklist states. This is a new draft, not an accepted completion definition.
 - Lifecycle statuses: Queued, In progress, Completed, Cancelled.
 - Creative stages tracked independently from lifecycle and payments.
 - Payment records with received amounts and dates; monthly earnings calculated from them.

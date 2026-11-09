@@ -12,6 +12,7 @@ The [numbered layout guide](../../layout.md) is the master reference for screen 
 | Commission Details | [WF-07](../../layout.md#wf07): first/lower views, Queued, Completed | [Image](commission-details.jpg) | [HTML](commission-details.html) | [Source](source/commission-details.html) |
 | Commission payment history | [WF-08A](../../layout.md#wf08) on the right; WF-07B context on the left | [Image](payment-history.jpg) | [HTML](payment-history.html) | [Source](source/payment-history.html) |
 | Record payment and saved result | [WF-09](../../layout.md#wf09) on the left; WF-08B on the right | [Image](record-payment.jpg) | [HTML](record-payment.html) | [Source](source/record-payment.html) |
+| Update progress and completion | [WF-10A/B](../../layout.md#wf10), [WF-11](../../layout.md#wf11), and existing WF-07C result | [Image](update-progress.jpg) | [HTML](update-progress.html) | [Source](source/update-progress.html) |
 
 ## How to use the files
 
@@ -26,4 +27,4 @@ The [numbered layout guide](../../layout.md) is the master reference for screen 
 
 Update the source fragment, regenerate its standalone export and preview, and update the numbered entry in `layout.md` if its controls or destinations change. Keep current and saved-state images labeled consistently. Do not label an undrawn destination as an existing screen.
 
-Two panels may describe one page: WF-07A/B are scroll positions, WF-02A–D are list states, and WF-08A/B are payment states. The master guide explains these relationships explicitly.
+Two panels may describe one page: WF-07A/B are scroll positions, WF-02A–D are list states, WF-08A/B are payment states, and WF-10A/B are alternative stage selections. The master guide explains these relationships explicitly.

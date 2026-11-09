@@ -23,11 +23,13 @@ This roadmap describes the order of work. It does not claim that a feature is im
 - [ ] Review the Commissions list and transaction-only main History split.
 - [x] Draft Commission Details with current, queued, and completed states.
 - [ ] Review the Commission Details board.
-- [ ] Draw commission editing and supporting progress/image views.
+- [x] Draft Update progress and completion confirmation with an unchanged outstanding balance.
+- [ ] Review the progress/completion draft and completion meaning.
+- [ ] Draw commission editing and supporting image views.
 - [x] Draft Record payment and its saved history state.
 - [x] Draft a commission-specific payment-history list and simplify the checklist to remove task dates/actions.
 - [x] Organize all existing boards in layout.md with numbered pages, button routes, scroll/state explanations, and saved previews/sources.
-- [ ] Draw payment history and previous-work views.
+- [ ] Draw main transaction History; per-commission history and Completed artwork-list drafts already exist.
 - [ ] Draw Insights and choose clear graph labels.
 - [ ] Draw supporting forms and important empty/edge states.
 - [ ] Review the screens together as one consistent static board.

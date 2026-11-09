@@ -14,11 +14,12 @@ Use the reviewed dashboard and accepted four-step Add commission layout as the v
 
 ## Read the numbering first
 
-- **WF-01 through WF-09** identify the nine existing page/step layouts. They are reference numbers, not a requirement to visit every screen in that order.
+- **WF-01 through WF-11** identify the eleven existing page/step layouts. They are reference numbers, not a requirement to visit every screen in that order.
 - A suffix such as **WF-02A** identifies a filter/state of the same page.
 - **WF-07A and WF-07B are two scroll positions of one Commission Details page.** No Next button connects them.
 - **WF-08B is the same Payment history page after saving a payment**, not a separate success screen.
-- **P-01 onward** identifies planned wireframes that have not been drawn yet.
+- **WF-10A/B** are alternative selections on one Update progress page. **WF-11** is its completion confirmation.
+- **P-03 onward** identifies remaining planned wireframes. Former P-01/P-02 are now drawn as WF-10/WF-11.
 - Every visual board is embedded below. Open an image at full size when reviewing its small labels. [Saved boards and editable sources](docs/wireframes/README.md) are also in the repository.
 
 ## Existing wireframes: sequential index
@@ -34,6 +35,8 @@ Use the reviewed dashboard and accepted four-step Add commission layout as the v
 | [WF-07](#wf07) | Commission Details | Any project card, related commission link, or WF-06 → Save commission | One vertically scrolling record; Current/Queued/Completed are lifecycle states |
 | [WF-08](#wf08) | Payment history for one commission | WF-07 → View payment history / Payment history | Separate page; received-payment list scrolls |
 | [WF-09](#wf09) | Record payment | WF-07 or WF-08 → Record payment | Separate short form; can scroll with keyboard/notes |
+| [WF-10](#wf10) | Update progress | WF-07 → Update progress | Separate stage-selection page; content can scroll on smaller displays |
+| [WF-11](#wf11) | Completion confirmation | WF-10 → Finished → Review completion | Separate short review page with finished date; can scroll |
 
 Dashboard styling, the DynaPuff/Mali pairing, and the four-step intake direction have been accepted. The other drawings are current drafts for review; having a preview does not mean the app has been implemented or every behavior finalized.
 
@@ -54,7 +57,10 @@ flowchart TD
     Detail -->|Record payment| Entry[WF-09 Record payment]
     Payments -->|Record payment| Entry
     Entry -->|Save payment| Payments
-    Detail -.->|Update progress: not drawn yet| Progress[P-01 Update Progress]
+    Detail -->|Update progress| Progress[WF-10 Update progress]
+    Progress -->|Save a non-final stage| Detail
+    Progress -->|Finished: Review completion| Finish[WF-11 Completion confirmation]
+    Finish -->|Mark completed| Detail
 ```
 
 Saving a new commission opens **WF-07Q, Queued**. Starting it later changes the same record to **WF-07A, In progress**. Paying its balance changes its payment state; it does not complete the artwork.
@@ -175,7 +181,7 @@ WF-07A and WF-07B share the project and record. The two-phone drawing is a way t
 | --- | --- |
 | Record payment | WF-09 |
 | View payment history / Payment history | WF-08 for this commission |
-| Update progress | P-01; button drawn, destination not drawn yet |
+| Update progress | WF-10, stage selection |
 | Start commission on WF-07Q | Explicitly start work, then show this record as In progress; any start-confirmation state remains to be drawn |
 | Edit | P-05, prefilled commission editing; reuse WF-03–WF-06, but an edit-specific example is not drawn yet |
 | Reference / final-artwork image | P-06, larger viewer; not drawn yet |
@@ -225,14 +231,52 @@ When the balance is zero, **Back to commission** returns to WF-07. When a partia
 
 ![Left: WF-09 Record payment form; right: WF-08B the same payment-history page after saving, not a new success page](docs/wireframes/record-payment.jpg)
 
+<a id="wf10"></a>
+## WF-10 — Update progress
+
+**Enter:** WF-07 → Update progress on an In-progress commission. **Type:** separate page, with no main bottom navigation. **Scroll:** the stage list can scroll on shorter displays or with enlarged text; the primary action remains reachable.
+
+The new board contains two selection states of this page, a confirmation, and the resulting existing record:
+
+| Board position | Reference | What it represents | Next action |
+| --- | --- | --- | --- |
+| Top left | WF-10A | Colors selected while the saved stage is Lineart | Save progress → WF-07 with Colors saved; lifecycle remains In progress |
+| Top right | WF-10B | Alternative selection: Finished, still unsaved | Review completion → WF-11 |
+| Bottom left | WF-11 | Review completion and choose actual finished date | Mark completed → WF-07C |
+| Bottom right | WF-07C | Existing Commission Details page after confirmation | Payment history → WF-08; Record payment → WF-09 |
+
+**The top two phones are alternatives, not successive pages.** Selecting a radio row changes only the draft choice. Non-final stages use **Save progress**; selecting Finished changes that action to **Review completion**. The commission's status changes only after the corresponding save/confirmation succeeds.
+
+Back/Close returns to the originating record; changed choices use the shared Keep editing / Discard pattern, whose dialog is still undrawn. Opening this page preselects the saved stage; disable Save progress until the choice changes. Stage changes do not check checklist items or add payments.
+
+<a id="wf11"></a>
+## WF-11 — Completion confirmation
+
+**Enter:** WF-10 → Finished → Review completion. **Type:** short full-page review, rather than a bottom sheet. **Scroll:** yes if needed; Mark completed and Keep working remain reachable.
+
+Show project/client, original deadline, actual finished date, and current payment totals. Finished date defaults to today and can be changed using the calendar. The proposed date checks allow a past finish date from the commission date through today; preserve the original deadline, including when work finishes late.
+
+| Click / action | Destination or result |
+| --- | --- |
+| Finished date / calendar | Date picker; return to this review |
+| Mark completed | Save finished date and Completed lifecycle once; set creative stage Finished; return to the same record as WF-07C |
+| Keep working / Back | Return to WF-10 with Finished still selected for review; nothing committed |
+| Close | Return to the originating WF-07 without completing; use shared discard handling if changes would be lost |
+
+The result shows brief **Commission completed** feedback on WF-07; this is not another success page. The record moves from Current to Commissions → Completed. Existing money, references, notes, and checklist states are retained; completion does not automatically check unfinished items. A final-artwork attachment is not required by this draft; its eventual role remains open.
+
+**Example:** Fantasy portrait finishes Nov 9, 2026, ahead of its Nov 14 deadline. Agreed ₱1,800, received ₱900, and remaining ₱900 stay the same after confirmation. This board follows the partially paid snapshot, independently of the Fully paid example on the Record payment board.
+
+Completion currently means the artist marks the artwork finished. Whether delivery or client acceptance should be required is still a review question. Save failures retain the form without showing a completed record. See the [progress/completion draft](docs/update-progress.md) for the proposed rules.
+
+![Top left WF-10A Colors selection; top right WF-10B Finished selection; bottom left WF-11 confirmation; bottom right existing WF-07C completed record with unpaid balance](docs/wireframes/update-progress.jpg)
+
 ## Planned next wireframes — not drawn yet
 
 These entries explain destinations already mentioned by buttons. They are not hidden existing designs.
 
 | Planned number | Wireframe | Entry button / context | Expected type |
 | --- | --- | --- | --- |
-| P-01 | Update Progress | WF-07 → Update progress | Stage-selection view; full page versus sheet still to be decided |
-| P-02 | Completion confirmation | P-01 → Finished / complete | Confirmation with actual finish date; work completion does not mark paid |
 | P-03 | Main transaction History | Main navigation → History | Main scrolling payment timeline across commissions |
 | P-04 | Insights | Main navigation → Insights, or dashboard View insights | Main financial-summary/graph page |
 | P-05 | Edit Commission | WF-07 → Edit | Prefilled version of the four-step intake; final action Save changes |
@@ -241,7 +285,7 @@ These entries explain destinations already mentioned by buttons. They are not hi
 
 Additional **states/dialogs**, rather than automatically separate main pages, still need drawings: WF-05 initial-payment fields expanded; form validation; no search matches; empty categories; discard changes; any start/cancel confirmation; save failure; and date/method pickers if a custom layout is needed. Cancelled-record list access remains a later proposal.
 
-**Next design task after this guide: P-01 Update Progress, then P-02 completion confirmation.**
+**Next suggested design task: P-03 main transaction History, then P-04 Insights.** WF-10/WF-11 are new static drafts for review.
 
 ## Shared design and detailed behavior reference
 
@@ -447,12 +491,12 @@ See [the Commission Details wireframe plan](docs/commission-details.md) for the 
 | Edit | Open the same four groups with existing values; final action reads Save changes |
 | Save changes | Save the edited commission and return to its details; retain existing payment records |
 | Start commission | Change a queued record to In progress after an explicit start action; show its initial creative stage |
-| Update progress | Open P-01 stage choices; its planned Save progress action applies the stage and returns to details; destination not drawn yet |
+| Update progress | Open WF-10 stage choices; Save progress applies a non-final stage and returns to the same details record |
 | Record payment | Open the [payment-entry form](docs/record-payment.md) showing context, amount/date/method/note, and after-save balance; Save returns to updated commission payment history |
 | Reference thumbnail | Open a full image view; Back returns to the same commission |
 | Checklist label | Display a task name; no extra task-detail button or date |
 | Checklist checkbox | Complete only that task and refresh the unfinished-task count |
-| Finish/complete (planned P-02) | Review a confirmation, record the actual finish date, then mark the work Completed; confirmation not drawn yet |
+| Finish/complete | WF-10 Finished → Review completion → WF-11; confirm actual finished date and mark the work Completed without altering payments |
 | Cancel commission (planned) | Review a cancellation confirmation; confirmed cancellation changes lifecycle status while retaining history; confirmation not drawn yet |
 
 Completing a commission must not mark it paid automatically. If money is still owed, show the remaining balance on the completed record. Whether Completed means artwork finished, final files sent, or client acceptance still needs a project decision.

@@ -40,3 +40,7 @@ local-exports/
 # Temporary tooling output
 tmp/
 *.log
+
+# Python bytecode and tooling cache
+__pycache__/
+*.py[cod]

@@ -1,0 +1,87 @@
+package com.obra.studio.ui
+
+import android.os.Bundle
+import android.content.Intent
+import android.graphics.Color
+import android.graphics.Typeface
+import android.graphics.drawable.GradientDrawable
+import android.view.*
+import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AlertDialog
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.button.MaterialButton
+import com.obra.studio.R
+import com.obra.studio.data.*
+
+open class BaseActivity: AppCompatActivity() {
+    lateinit var body: LinearLayout; lateinit var header: LinearLayout; lateinit var footer: LinearLayout; lateinit var scroll: ScrollView
+    val cream = Color.rgb(255,248,239); val ink = Color.rgb(48,44,55); val muted = Color.rgb(107,98,112)
+    val yellow = Color.rgb(255,209,91); val sage = Color.rgb(236,235,220); val lavender = Color.rgb(237,228,244)
+    val heading: Typeface by lazy { try { resources.getFont(R.font.dynapuff) } catch (_: Exception) { Typeface.DEFAULT_BOLD } }
+    val supporting: Typeface by lazy { try { resources.getFont(R.font.mali) } catch (_: Exception) { Typeface.DEFAULT } }
+    override fun onCreate(state: Bundle?) { super.onCreate(state); setContentView(R.layout.activity_shell)
+        body=findViewById(R.id.content); header=findViewById(R.id.header); footer=findViewById(R.id.footer); scroll=findViewById(R.id.scroll)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.shell)) { v, i -> val bars=i.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.ime()); v.setPadding(bars.left,bars.top,bars.right,bars.bottom); i }
+    }
+    fun dp(n: Int) = (n*resources.displayMetrics.density).toInt()
+    fun shape(color: Int, radius: Int=22, outline: Boolean=false) = GradientDrawable().apply { setColor(color); cornerRadius=dp(radius).toFloat(); if(outline)setStroke(dp(1),Color.rgb(216,206,196)) }
+    fun text(value: String, size: Int=15, title: Boolean=false, parent: LinearLayout=body): TextView = TextView(this).apply { text=value; textSize=size.toFloat(); setTextColor(ink); typeface=if(title)heading else supporting; setLineSpacing(dp(3).toFloat(),1f); parent.addView(this, LinearLayout.LayoutParams(-1,-2).apply { bottomMargin=dp(8) }) }
+    fun button(label: String, parent: LinearLayout=body, primary: Boolean=false, action: ()->Unit): MaterialButton = MaterialButton(this).apply { text=label; isAllCaps=false; typeface=heading; textSize=15f; setTextColor(ink); backgroundTintList=android.content.res.ColorStateList.valueOf(if(primary)yellow else Color.rgb(255,253,249)); cornerRadius=dp(18); minHeight=dp(50); setPadding(dp(12),dp(5),dp(12),dp(5)); parent.addView(this,LinearLayout.LayoutParams(-1,-2).apply { bottomMargin=dp(8) }); setOnClickListener { action() } }
+    fun card(color: Int=Color.rgb(255,253,249), parent: LinearLayout=body, content: (LinearLayout)->Unit): LinearLayout = LinearLayout(this).apply { orientation=LinearLayout.VERTICAL; setPadding(dp(16),dp(16),dp(16),dp(12)); background=shape(color,22,true); parent.addView(this,LinearLayout.LayoutParams(-1,-2).apply { bottomMargin=dp(16) }); content(this) }
+    fun title(name: String, back: Boolean=true) { header.removeAllViews(); if(back) { val b=TextView(this); b.text="‹"; b.textSize=32f; b.contentDescription="Back"; b.gravity=Gravity.CENTER; header.addView(b,LinearLayout.LayoutParams(dp(48),dp(48))); b.setOnClickListener { onBackPressedDispatcher.onBackPressed() } }; text(name,if(back)20 else 32,true,header).layoutParams=LinearLayout.LayoutParams(0,-2,1f) }
+    fun reset(name: String, back: Boolean=true) { body.removeAllViews(); footer.removeAllViews(); title(name,back) }
+    fun section(label: String) { text(label,21,true) }
+    fun note(value: String) { text(value,13).setTextColor(muted) }
+    /** Shared OBRA dialog, independent of manufacturer alert styling. */
+    private fun showObraDialog(title: String, message: String, positive: String,
+        negative: String? = null, destructive: Boolean = false, action: () -> Unit = {}) {
+        val dialog = android.app.Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        val panel = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(dp(24), dp(24), dp(24), dp(16))
+            background = shape(cream, 24, true)
+        }
+        text(title, 23, true, panel).apply { ViewCompat.setAccessibilityHeading(this, true) }
+        text(message, 16, false, panel).apply { setTextColor(muted) }
+        // Stacked actions remain readable on narrow screens and at larger text sizes.
+        if (negative != null) button(negative, panel, true) { dialog.dismiss() }
+        button(positive, panel, negative == null) { dialog.dismiss(); action() }.apply {
+            if (destructive) {
+                backgroundTintList = android.content.res.ColorStateList.valueOf(0xfffae1de.toInt())
+                setTextColor(0xffa23d38.toInt())
+            }
+        }
+        val viewport = ScrollView(this).apply { addView(panel); isFillViewport = true }
+        dialog.setContentView(viewport)
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.show()
+        dialog.window?.apply {
+            setBackgroundDrawableResource(android.R.color.transparent)
+            val metrics = resources.displayMetrics
+            setLayout(minOf(metrics.widthPixels - dp(40), dp(420)), WindowManager.LayoutParams.WRAP_CONTENT)
+            addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+            setDimAmount(0.45f)
+        }
+    }
+    fun pending() { showObraDialog("Ready for backend integration", "Your input is valid. Saving will be connected by the backend team. Nothing has been saved; your form stays available.", "Keep editing") }
+    fun error(message: String) { showObraDialog("Check these details", message, "OK") }
+    fun confirm(title: String, message: String, action: () -> Unit) {
+        val discard = title.startsWith("Discard")
+        showObraDialog(title, message, if (discard) "Discard changes" else "Confirm",
+            "Keep editing", discard, action)
+    }
+    fun detail(id: Long) { startActivity(Intent(this,DetailActivity::class.java).putExtra("commissionId",id)) }
+    fun form(mode: String="add", id: Long=0) { startActivity(Intent(this,FormActivity::class.java).putExtra("mode",mode).putExtra("commissionId",id)) }
+    fun artwork(c: Commission, parent: LinearLayout=body) { card(parent=parent) { box ->
+        val row=LinearLayout(this);row.gravity=Gravity.CENTER_VERTICAL;box.addView(row)
+        val thumbnail=ImageView(this);thumbnail.setImageResource(android.R.drawable.ic_menu_gallery);thumbnail.imageTintList=android.content.res.ColorStateList.valueOf(muted);thumbnail.setPadding(dp(10),dp(10),dp(10),dp(10));thumbnail.background=shape(0xffede5dc.toInt(),12);thumbnail.importantForAccessibility=View.IMPORTANT_FOR_ACCESSIBILITY_NO;row.addView(thumbnail,LinearLayout.LayoutParams(dp(44),dp(54)).apply{rightMargin=dp(12)})
+        val copy=LinearLayout(this);copy.orientation=LinearLayout.VERTICAL;row.addView(copy,LinearLayout.LayoutParams(0,-2,1f));text(c.title,16,true,copy);text("${c.username} · ${c.platform}",12,false,copy);text("${c.stage.ifEmpty { c.status }}  ·  Due ${c.dueOn}",12,false,copy);box.isClickable=true;box.isFocusable=true;box.contentDescription="Open ${c.title}";box.setOnClickListener{detail(c.id)}
+    } }
+    fun empty(title: String, message: String) { card { text(title,21,true,it); text(message,15,false,it) } }
+    fun input(label: String, value: String, parent: LinearLayout=body, multiline: Boolean=false): EditText { text(label,14,false,parent); return EditText(this).apply { setText(value); textSize=16f; typeface=supporting; setTextColor(ink); background=shape(Color.rgb(255,253,249),14,true); setPadding(dp(12),dp(10),dp(12),dp(10)); minHeight=dp(50); inputType=if(multiline) android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE else android.text.InputType.TYPE_CLASS_TEXT; if(multiline)minLines=3; parent.addView(this,LinearLayout.LayoutParams(-1,-2).apply { bottomMargin=dp(16) }); contentDescription=label } }
+    fun choose(label: String, values: List<String>, current: String, changed: (String)->Unit) { text(label,14); val spinner=Spinner(this); spinner.adapter=ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item,values); spinner.setSelection(values.indexOf(current).coerceAtLeast(0)); body.addView(spinner,LinearLayout.LayoutParams(-1,dp(52))); spinner.onItemSelectedListener=object: AdapterView.OnItemSelectedListener { override fun onNothingSelected(p: AdapterView<*>?) {} ; override fun onItemSelected(p: AdapterView<*>?,v: View?,position: Int,id: Long) { changed(values[position]) } } }
+    fun dateField(label: String, value: String, changed: (String)->Unit) { button("$label: ${value.ifEmpty { "Choose date" }}") { val d=Validation.date(value)?:java.time.LocalDate.now(); android.app.DatePickerDialog(this,{_,y,m,day->changed(java.time.LocalDate.of(y,m+1,day).toString())},d.year,d.monthValue-1,d.dayOfMonth).show() } }
+}

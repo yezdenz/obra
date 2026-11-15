@@ -1,0 +1,10 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application android:theme="@style/Theme.Obra" android:icon="@drawable/ic_obra" android:label="@string/app_name" android:allowBackup="false" android:supportsRtl="true">
+        <activity android:name=".ui.ViewerActivity" android:exported="false" />
+        <activity android:name=".ui.FormActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".ui.DetailActivity" android:exported="false" />
+        <activity android:name=".ui.MainActivity" android:exported="true">
+            <intent-filter><action android:name="android.intent.action.MAIN" /><category android:name="android.intent.category.LAUNCHER" /></intent-filter>
+        </activity>
+    </application>
+</manifest>

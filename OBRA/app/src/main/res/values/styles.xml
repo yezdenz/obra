@@ -1,0 +1,10 @@
+<resources>
+    <style name="Theme.Obra" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:windowBackground">#FFF8EF</item>
+        <item name="colorPrimary">#6A507D</item>
+        <item name="colorSecondary">#FFD15B</item>
+    </style>
+</resources>

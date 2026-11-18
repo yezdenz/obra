@@ -61,8 +61,10 @@ The Add/Edit four-step flow, draft validation, receipt protections, and Reconnec
 Build/check commands from `OBRA/`:
 
 ```text
-gradlew.bat assembleDebug testDebugUnitTest lintDebug connectedDebugAndroidTest
+gradlew.bat assembleDebug testDebugUnitTest lintDebug assembleDebugAndroidTest
 ```
+
+The command above builds the app and instrumentation APK, runs JVM tests, and checks lint. It does not install or launch anything. Do not start the app, emulator, or device tests without a later owner instruction.
 
 `EnhancementWorkflowTest` covers a clean Home, optional checklist persistence/recreation, the real Details-to-completion route, completed-but-unpaid artwork, and cancelling direct completion. Existing regression checks are updated to expand the optional checklist and use the renamed stage actions. Instrumentation uses the existing separate test database. Visual review should use the Medium Phone reference, including longer titles and larger text.
 
@@ -82,3 +84,25 @@ The owner requested these additional local refinements:
 - The owner subsequently approved Itim in place of Mali. [supporting-font-suggestions.md](supporting-font-suggestions.md) now records that applied decision. Itim is used for supporting text and app/calendar themes; DynaPuff remains the heading font.
 
 Verification for this follow-up: debug and Android-test APK compilation succeeded, all **21 JVM tests passed** (including eight grouping/financial-scope cases), and lint reported zero errors/seven warnings. No emulator, app, or device tests were launched, following the owner's instruction. On-device layout review is left for the owner. The earlier device-test totals above describe the previous pass, not a new run for these changes.
+
+## Approved icon and status refinements
+
+The owner approved this native-app refinement after selecting Itim. The five main destinations keep their labels and routes:
+
+| Label | Rounded outline icon | Destination |
+| --- | --- | --- |
+| Home | House | Dashboard |
+| Work | Stacked artwork | Commission list |
+| History | Receipt | Received payments grouped by commission |
+| Insights | Chart | Earnings and workload analysis |
+| Reconnect | Sparkles | Past-client recommendations |
+
+The selected tab has a soft yellow background. Navigation remains keyboard focusable and announces its full destination name; Work announces Commissions. Labels stay visible underneath the icons.
+
+- The shared empty-photo placeholder now uses an OBRA outline photo icon. The placeholder fits inside its frame; a successfully loaded photo fills/crops the preview, keeping the black outline visible.
+- Add artwork, Add references, and the artwork picker buttons display the same photo-plus icon beside their existing text.
+- Work cards and Commission details show a small status chip: soft yellow for Queued, lavender for In progress, and green for Completed. Cancelled uses a neutral chip. Every chip includes the status word. On work cards, the deadline stays on its own line so longer dates and larger text can wrap.
+- The artwork/reference viewer replaces four large stacked buttons with a fixed row of five 48 dp minimum touch targets: Previous image, Zoom out, Fit image, Zoom in, Next image. Each has an accessibility label and long-press tooltip. The image counter stays above the preview. Pinch zoom and drag remain available; Fit resets zoom and pan. Zoom ranges from 1x to 4x. Zoom controls stay disabled until an image loads, and previous/next disable at the ends of the image list. Failed images retain Retry image.
+- The font pairing remains DynaPuff for headings/actions and Itim for supporting copy. This pass changes presentation only; it adds no database migration, payment rule, or recommendation logic.
+
+Verification: debug and instrumentation APK compilation succeeded, all **21 JVM tests passed**, and lint reported **zero errors/eight warnings**. Existing image-persistence checks now select the actual preview by its accessible description rather than counting every image/icon in the window; shared UI checks support labelled icon controls. These device checks were compiled only. No app, emulator, or device test was launched. Layout review on the owner's Medium Phone remains outstanding. Changes remain local on `final-enhancements`.

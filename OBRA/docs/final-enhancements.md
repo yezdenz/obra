@@ -106,3 +106,19 @@ The selected tab has a soft yellow background. Navigation remains keyboard focus
 - The font pairing remains DynaPuff for headings/actions and Itim for supporting copy. This pass changes presentation only; it adds no database migration, payment rule, or recommendation logic.
 
 Verification: debug and instrumentation APK compilation succeeded, all **21 JVM tests passed**, and lint reported **zero errors/eight warnings**. Existing image-persistence checks now select the actual preview by its accessible description rather than counting every image/icon in the window; shared UI checks support labelled icon controls. These device checks were compiled only. No app, emulator, or device test was launched. Layout review on the owner's Medium Phone remains outstanding. Changes remain local on `final-enhancements`.
+
+## Delete commission, including completed History
+
+The owner approved permanently removing incorrect commissions, including completed work in History. This replaces the earlier handoff's no-commission-deletion policy for the current local native app.
+
+- From **Commission details**, scroll to the red **Delete commission** action below the optional details section. It is available whether that section is expanded or collapsed, for every commission status.
+- From **History**, tap a commission card to open its payment history, then use **Delete** in the header. This removes the whole commission, including all of its receipts across all reporting months.
+- Both routes open the same **Delete this commission?** dialog. It names the artwork/client and explains that payment history, reference/artwork records, and the checklist will be removed. **Cancel** closes the dialog without saving anything; the red **Delete commission** button confirms permanent removal.
+- The repository removes only rows belonging to the selected commission: payments, artwork updates, reference/final attachments, tags, checklist items, then the commission itself. All deletes share one transaction. A failure rolls the whole transaction back. Existing RESTRICT foreign keys stay enabled; no schema migration is needed.
+- Other commissions, shared client/category rows, and original image files are retained. A client with other completed commissions remains eligible for Reconnect based on those remaining records.
+- A successful delete refreshes the snapshot and returns to the main tab the artist came from, clearing payment/detail screens for the removed commission. History entries, earnings, outstanding balances, workload counts, and recommendations use the remaining saved records. Deleting the last receipt in a reporting month shows the existing empty-History state.
+- Saved deletion is permanent and has no undo. This action does not introduce standalone receipt editing/deletion, refunds, or cancellation controls.
+
+Validation: debug and Android-test APK compilation succeeded; **21 JVM tests passed**, and lint reported **zero errors/eight warnings**. **Six isolated desktop SQLite deletion checks passed**, covering removal scope and remaining earnings, all four statuses, persistence after reopen, transaction rollback, an unknown dependent-table constraint, and an empty remaining history. Those SQL checks use the actual schema and repository child-table list but do not execute Android/Kotlin code.
+
+`CommissionDeletionTest` adds four isolated Android repository tests: completed work with every child record and a shared image/client, deletion across statuses, rollback on failure, and rejection of a missing commission without affecting other work. The tests were compiled, not run. No app, emulator, or device test was launched, and the artist's saved data was untouched. Changes remain local on `final-enhancements`.

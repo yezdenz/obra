@@ -76,7 +76,7 @@ class FormActivity:BaseActivity() {
             4->{section(if(mode=="edit")"Review changes" else "One last look");if(mode=="edit"){val changes=mutableListOf<String>();if(draft.username!=baseline.username)changes.add("Username: ${baseline.username} → ${draft.username}");if(draft.title!=baseline.title)changes.add("Title: ${baseline.title} → ${draft.title}");if(draft.total!=baseline.total)changes.add("Price: ${baseline.total} → ${draft.total}");if(draft.dueOn!=baseline.dueOn)changes.add("Due: ${baseline.dueOn} → ${draft.dueOn}");text(changes.joinToString("\n").ifEmpty { if(draft==baseline)"No changes to save." else "Review the updated details below." })}
                 review("Client","${draft.username} · ${draft.platform}\n${draft.displayName}",1);review("Artwork","${draft.title}\n${draft.type} · ${draft.genre}\n${draft.tags}\n${draft.brief}\n${draft.images.size} references",2);review("Schedule","Commission: ${readableDate(draft.commissionOn)}\nPlanned start: ${draft.plannedStart.ifEmpty { "Not set" }.let(::readableDate)}\nDue: ${readableDate(draft.dueOn)}",3);review("Price & payment","Agreed total: ₱${draft.total}\nInitial payment: ${if(draft.initialEnabled)"₱${draft.initialAmount}" else "None"}",3)} }
         val label=when(step){1->"Next: Artwork";2->"Next: Price & dates";3->if(mode=="edit")"Review changes" else "Review commission";else->if(mode=="edit")"Save changes" else "Save commission"}
-        button(label,footer,true){capture();val issue=validate(step);if(issue!=null)error(issue)else if(step<4){step++;render();scroll.scrollTo(0,0)}else saveRequest()}.isEnabled=!(step==4&&mode=="edit"&&draft==baseline)
+        button(label,footer,true,prominent=true){capture();val issue=validate(step);if(issue!=null)error(issue)else if(step<4){step++;render();scroll.scrollTo(0,0)}else saveRequest()}.isEnabled=!(step==4&&mode=="edit"&&draft==baseline)
     }
     private fun saveRequest() {
         val submitted=draft.copy(images=ArrayList(draft.images))
@@ -178,7 +178,7 @@ class FormActivity:BaseActivity() {
         return null
     }
     private val methods=listOf("GCash","Bank transfer","PayPal","Cash","Other")
-    private fun payment(){val c=Studio.work(workId)!!;card(summaryTone){text(c.title,20,true,it);text("Remaining: ${Studio.money(Studio.balance(c))}",20,false,it)};field("amount","Amount received (PHP) *",amount);dateField("Received date",paidOn){capture();paidOn=it;render()};choose("Method",methods,method){method=it};field("note","Note · Optional",paymentNote,true);button("Save payment",footer,true){capture();val n=Validation.minor(amount);val d=Validation.date(paidOn);when{n==null->error("Enter a positive amount with at most two decimal places.");n>Studio.balance(c)->error("Payment cannot exceed the remaining balance.");d==null||d<Validation.date(c.commissionOn)||d>LocalDate.now()->error("Received date must be between commission date and today.");else->{attemptedSave=true;write({it.recordPayment(workId,n,paidOn,method,paymentNote,submissionToken)}){finish()}}}} }
+    private fun payment(){val c=Studio.work(workId)!!;card(summaryTone){text(c.title,20,true,it);text("Remaining: ${Studio.money(Studio.balance(c))}",20,false,it)};field("amount","Amount received (PHP) *",amount);dateField("Received date",paidOn){capture();paidOn=it;render()};choose("Method",methods,method){method=it};field("note","Note · Optional",paymentNote,true);button("Save payment",footer,true,prominent=true){capture();val n=Validation.minor(amount);val d=Validation.date(paidOn);when{n==null->error("Enter a positive amount with at most two decimal places.");n>Studio.balance(c)->error("Payment cannot exceed the remaining balance.");d==null||d<Validation.date(c.commissionOn)||d>LocalDate.now()->error("Received date must be between commission date and today.");else->{attemptedSave=true;write({it.recordPayment(workId,n,paidOn,method,paymentNote,submissionToken)}){finish()}}}} }
     private fun payments() {
         val c=Studio.work(workId)!!
         headerAction("Delete",destructive=true) { deleteCommission(c) }
@@ -192,7 +192,7 @@ class FormActivity:BaseActivity() {
         if(ps.isEmpty())empty("No payments yet","Record money only after it has been received.")
         ps.sortedWith(compareByDescending<Payment> { it.receivedOn }.thenByDescending { it.id })
             .forEach { receipt(it,c,false) }
-        if(Studio.balance(c)>0)button("Record payment",footer,true){form("payment",workId)}
+        if(Studio.balance(c)>0)button("Record payment",footer,true,prominent=true){form("payment",workId)}
         if(intent.getBooleanExtra("fromHistory",false))button("View commission",footer){detail(workId);finish()}
         else button("Back to commission",footer){finish()}
     }
@@ -210,7 +210,7 @@ class FormActivity:BaseActivity() {
                 text("${Studio.money(Studio.balance(c))} still to collect",19,true,it)
                 text("You can finish the artwork before the client pays the balance. Payments stay unchanged.",14,false,it)
             }
-            button("Mark completed",footer,true) {
+            button("Mark completed",footer,true,prominent=true) {
                 val date=Validation.date(finished);val start=Validation.date(c.startedOn)
                 if(date==null||start==null||date<start||date>LocalDate.now())error("Finish date must be between the actual start and today.")
                 else write({it.updateProgress(workId,"Finished",finished)}){finish()}
@@ -226,7 +226,7 @@ class FormActivity:BaseActivity() {
                 save?.text=if(stage=="Finished")"Review completion" else "Save stage"
             }
             note("Use this extra detail only if it helps your workflow. You can mark the artwork completed without updating each stage.")
-            save=button(if(stage=="Finished")"Review completion" else "Save stage",footer,true) {
+            save=button(if(stage=="Finished")"Review completion" else "Save stage",footer,true,prominent=true) {
                 if(stage=="Finished"){completing=true;render()}
                 else if(stage==c.stage)error("Choose a different stage to update progress.")
                 else write({it.updateProgress(workId,stage,null)}){finish()}

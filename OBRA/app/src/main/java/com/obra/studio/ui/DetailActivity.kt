@@ -106,14 +106,14 @@ class DetailActivity : BaseActivity() {
         }
         // One fixed primary action, selected for the current work status.
         when (c.status) {
-            "Queued" -> button("Start commission", footer, true) {
+            "Queued" -> button("Start commission", footer, true, prominent=true) {
                 confirm("Start this commission?", "Move it to In progress. Payments stay unchanged.") {
                     write({ it.startCommission(c.id, java.time.LocalDate.now().toString()) }) { onStudioReady() }
                 }
             }
-            "In progress" -> button("Mark completed", footer, true) { completeArtwork(c.id) }
+            "In progress" -> button("Mark completed", footer, true, prominent=true) { completeArtwork(c.id) }
             "Completed" -> if (remaining > 0L) {
-                button("Record payment", footer, true) { form("payment", c.id) }
+                button("Record payment", footer, true, prominent=true) { form("payment", c.id) }
             } else {
                 text("Artwork complete · Fully paid", 14, false, footer)
             }

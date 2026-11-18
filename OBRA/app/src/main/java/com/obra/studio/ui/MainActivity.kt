@@ -114,10 +114,10 @@ class MainActivity: BaseActivity() {
         if(current.isEmpty())empty("No work in progress","Start a queued commission when you are ready.")
         else current.take(2).forEach { artwork(it) }
         section("Next in queue");works.filter { it.status=="Queued" }.sortedWith(compareBy<Commission> { it.plannedStart.isBlank() }.thenBy { it.plannedStart }.thenBy { it.id }).firstOrNull()?.let { artwork(it) } ?: empty("No queued work","New requests will appear here.")
-        button("+ Add commission",footer,true) { form() }
+        button("+ Add commission",footer,true,prominent=true) { form() }
     }
     private fun commissions() {
-        note("A little order for every artwork.");button("+ New commission",primary=true) { form() }
+        note("A little order for every artwork.");button("+ New commission",primary=true,prominent=true) { form() }
         val filters=LinearLayout(this).apply { gravity=Gravity.CENTER;clipChildren=false }
         body.addView(filters,LinearLayout.LayoutParams(-1,-2).apply { bottomMargin=dp(8) })
         val filterButtons=mutableMapOf<String,MaterialButton>()

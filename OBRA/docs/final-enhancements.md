@@ -123,3 +123,26 @@ The owner approved permanently removing incorrect commissions, including complet
 Validation: debug and Android-test APK compilation succeeded; **21 JVM tests passed**, and lint reported **zero errors/eight warnings**. **Six isolated desktop SQLite deletion checks passed**, covering removal scope and remaining earnings, all four statuses, persistence after reopen, transaction rollback, an unknown dependent-table constraint, and an empty remaining history. Those SQL checks use the actual schema and repository child-table list but do not execute Android/Kotlin code.
 
 `CommissionDeletionTest` adds four isolated Android repository tests: completed work with every child record and a shared image/client, deletion across statuses, rollback on failure, and rejection of a missing commission without affecting other work. The tests were compiled, not run. No app, emulator, or device test was launched, and the artist's saved data was untouched. Changes remain local on `final-enhancements`.
+
+## Temporary warm palette trial
+
+The owner requested trying additional colors around the existing yellow/white scheme, with an easy return to the original. This experiment lives only on **`codex/warm-palette-preview`**. The original palette and all previous features remain on **`final-enhancements`**, at `60abb32` before this trial.
+
+| Role | Trial color |
+| --- | --- |
+| Cream canvas / warm white cards | `#FFF8EF` / `#FFFDF9`, retained |
+| Main yellow actions | `#FFD15B`, retained |
+| Earnings and balance panels | Butter yellow `#FFF0C2` |
+| Detail and recommendation panels / In progress chip | Soft peach `#FFE4D1` |
+| Selected navigation | Golden cream `#FFE7A1` |
+| Chart bars and calendar selection | Deep honey `#996000` |
+| Card outlines / empty-photo backgrounds | Biscuit `#E7D3B3` / oat `#F4E9D8` |
+| Supporting text | Warm brown `#74614E` |
+| Completed chip | Soft green `#E9EED5` with dark green text |
+| Delete actions | Red `#B4343E` with white text, retained |
+
+The palette is centralized in `app/src/main/res/values/colors.xml`; shared views and the Material/calendar themes read those resources. DynaPuff/Itim, routes, dimensions, data, and CRUD behavior are unchanged.
+
+To return to the original after this preview is committed, switch the existing checkout to `final-enhancements` and rebuild it in Android Studio. The trial branch retains the experiment, so neither version needs to be reset or deleted. No database change is involved. Outside Git, the original APK is retained as `app-original-palette.apk` and `app-final-enhancements.apk`; the trial build is copied separately as `app-warm-palette-preview.apk` in the checkout's existing LocalAppData APK output folder.
+
+Validation: debug build, Android-test APK compilation, and lint succeeded with zero errors/eight warnings. Fifteen explicit text/background color combinations were checked numerically; the lowest contrast was 4.85:1. This checks the specified color pairings, not every rendered control state. No app, emulator, or device tests were launched; on-device visual review remains for the owner. Nothing was pushed.

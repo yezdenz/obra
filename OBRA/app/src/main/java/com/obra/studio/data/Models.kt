@@ -38,6 +38,7 @@ interface StudioRepository {
 interface StudioWriter {
     fun saveCommission(draft: CommissionDraft, submissionToken: String): Long
     fun updateCommission(id: Long, draft: CommissionDraft)
+    fun deleteCommission(id: Long)
     fun recordPayment(commissionId: Long, amountMinor: Long, receivedOn: String, method: String, note: String, submissionToken: String)
     fun startCommission(id: Long, startedOn: String)
     fun updateProgress(id: Long, stage: String, finishedOn: String?)

@@ -127,6 +127,17 @@ class SqliteStudioRepository(
         }
     }
 
+    override fun deleteCommission(id: Long) {
+        transaction { db ->
+            commission(db,id)
+            // Remove only this commission's records, children first for RESTRICT foreign keys.
+            // Shared clients/categories and the original image files remain available.
+            listOf("payments", "artwork_updates", "attachments", "commission_tags", "checklist_items")
+                .forEach { table -> db.delete(table,"commission_id = ?",arrayOf(id.toString())) }
+            check(db.delete("commissions","id = ?",arrayOf(id.toString())) == 1)
+        }
+    }
+
     override fun recordPayment(commissionId: Long, amountMinor: Long, receivedOn: String,
         method: String, note: String, submissionToken: String) {
         transaction { db -> insertPayment(db, commissionId, amountMinor, receivedOn, method,

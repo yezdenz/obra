@@ -120,6 +120,31 @@ open class BaseActivity: AppCompatActivity() {
     fun button(label: String, parent: LinearLayout=body, primary: Boolean=false, action: ()->Unit): MaterialButton = MaterialButton(this).apply { text=label; isAllCaps=false; typeface=heading; textSize=15f; setTextColor(ink); backgroundTintList=android.content.res.ColorStateList.valueOf(if(primary)yellow else Color.rgb(255,253,249)); cornerRadius=dp(18); minHeight=dp(50); setPadding(dp(12),dp(5),dp(12),dp(5)); parent.addView(this,LinearLayout.LayoutParams(-1,-2).apply { bottomMargin=dp(8) }); setOnClickListener { action() } }
     fun card(color: Int=Color.rgb(255,253,249), parent: LinearLayout=body, content: (LinearLayout)->Unit): LinearLayout = LinearLayout(this).apply { orientation=LinearLayout.VERTICAL; setPadding(dp(16),dp(16),dp(16),dp(12)); background=shape(color,22,true); parent.addView(this,LinearLayout.LayoutParams(-1,-2).apply { bottomMargin=dp(16) }); content(this) }
     fun title(name: String, back: Boolean=true) { header.removeAllViews(); if(back) { val b=TextView(this); b.text="‹"; b.textSize=32f; b.contentDescription="Back"; b.gravity=Gravity.CENTER; header.addView(b,LinearLayout.LayoutParams(dp(48),dp(48))); b.setOnClickListener { onBackPressedDispatcher.onBackPressed() } }; text(name,if(back)20 else 32,true,header).layoutParams=LinearLayout.LayoutParams(0,-2,1f) }
+    fun headerAction(label: String, action: () -> Unit) {
+        TextView(this).apply {
+            text = label; typeface = supporting; textSize = 14f; setTextColor(ink)
+            gravity = Gravity.CENTER; minWidth = dp(48); minHeight = dp(48)
+            isClickable = true; isFocusable = true; contentDescription = label
+            header.addView(this, LinearLayout.LayoutParams(-2, -2))
+            setOnClickListener { action() }
+        }
+    }
+    fun readableDate(value: String): String {
+        val date = Validation.date(value) ?: return value
+        val pattern = if (date.year == java.time.LocalDate.now().year) "MMM d" else "MMM d, yyyy"
+        return date.format(java.time.format.DateTimeFormatter.ofPattern(pattern, java.util.Locale.ENGLISH))
+    }
+    fun deadline(c: Commission): String {
+        if (c.status == "Completed") return "Finished ${readableDate(c.finishedOn)}"
+        val date = Validation.date(c.dueOn) ?: return c.dueOn
+        val days = java.time.temporal.ChronoUnit.DAYS.between(java.time.LocalDate.now(), date)
+        return when {
+            days < 0 -> "Overdue by ${-days} ${if (days == -1L) "day" else "days"}"
+            days == 0L -> "Due today"
+            days == 1L -> "Due tomorrow"
+            else -> "Due ${readableDate(c.dueOn)}"
+        }
+    }
     fun reset(name: String, back: Boolean=true) { body.removeAllViews(); footer.removeAllViews(); title(name,back) }
     fun section(label: String) { text(label,21,true) }
     fun note(value: String) { text(value,13).setTextColor(muted) }
@@ -159,14 +184,18 @@ open class BaseActivity: AppCompatActivity() {
     fun confirm(title: String, message: String, action: () -> Unit) {
         val discard = title.startsWith("Discard")
         showObraDialog(title, message, if (discard) "Discard changes" else "Confirm",
-            "Keep editing", discard, action)
+            if (discard) "Keep editing" else "Cancel", discard, action)
     }
     fun detail(id: Long) { startActivity(Intent(this,DetailActivity::class.java).putExtra("commissionId",id)) }
     fun form(mode: String="add", id: Long=0) { startActivity(Intent(this,FormActivity::class.java).putExtra("mode",mode).putExtra("commissionId",id)) }
+    fun completeArtwork(id: Long) {
+        startActivity(Intent(this, FormActivity::class.java).putExtra("mode", "progress")
+            .putExtra("commissionId", id).putExtra("completeArtwork", true))
+    }
     fun artwork(c: Commission, parent: LinearLayout=body) { card(parent=parent) { box ->
         val row=LinearLayout(this);row.gravity=Gravity.CENTER_VERTICAL;box.addView(row)
         val thumbnail=ImageView(this);thumbnail.setImageResource(android.R.drawable.ic_menu_gallery);thumbnail.imageTintList=android.content.res.ColorStateList.valueOf(muted);thumbnail.setPadding(dp(10),dp(10),dp(10),dp(10));thumbnail.background=shape(0xffede5dc.toInt(),12);thumbnail.importantForAccessibility=View.IMPORTANT_FOR_ACCESSIBILITY_NO;row.addView(thumbnail,LinearLayout.LayoutParams(dp(44),dp(54)).apply{rightMargin=dp(12)})
-        val copy=LinearLayout(this);copy.orientation=LinearLayout.VERTICAL;row.addView(copy,LinearLayout.LayoutParams(0,-2,1f));text(c.title,16,true,copy);text("${c.username} · ${c.platform}",12,false,copy);text("${c.stage.ifEmpty { c.status }}  ·  Due ${c.dueOn}",12,false,copy);box.isClickable=true;box.isFocusable=true;box.contentDescription="Open ${c.title}";box.setOnClickListener{detail(c.id)}
+        val copy=LinearLayout(this);copy.orientation=LinearLayout.VERTICAL;row.addView(copy,LinearLayout.LayoutParams(0,-2,1f));text(c.title,16,true,copy);text("${c.username} · ${c.platform}",12,false,copy);text("${c.status} · ${deadline(c)}",12,false,copy);box.isClickable=true;box.isFocusable=true;box.contentDescription="Open ${c.title}";box.setOnClickListener{detail(c.id)}
     } }
     fun empty(title: String, message: String) { card { text(title,21,true,it); text(message,15,false,it) } }
     fun input(label: String, value: String, parent: LinearLayout=body, multiline: Boolean=false, suggestions: List<String>?=null): EditText { text(label,14,false,parent); return (if(suggestions==null) EditText(this) else AutoCompleteTextView(this).apply { setAdapter(ArrayAdapter(context,android.R.layout.simple_dropdown_item_1line,suggestions));threshold=1 }).apply { setText(value); textSize=16f; typeface=supporting; setTextColor(ink); background=shape(Color.rgb(255,253,249),14,true); setPadding(dp(12),dp(10),dp(12),dp(10)); minHeight=dp(50); inputType=if(multiline) android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE else android.text.InputType.TYPE_CLASS_TEXT; if(multiline)minLines=3; parent.addView(this,LinearLayout.LayoutParams(-1,-2).apply { bottomMargin=dp(16) }); contentDescription=label } }

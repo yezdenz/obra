@@ -14,6 +14,7 @@ class MainActivity: BaseActivity() {
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
         tab=state?.getString("tab")?:"Home"
+        if(tab !in listOf("Home","Commissions","History","Insights","Reconnect"))tab="Home"
         filter=state?.getString("filter")?:filter
         query=state?.getString("query")?:""
         month=YearMonth.parse(state?.getString("month")?:month.toString())
@@ -43,20 +44,37 @@ class MainActivity: BaseActivity() {
     private fun switch(next: String) { positions[tab]=scroll.scrollY;tab=next;render();scroll.post { scroll.scrollTo(0,positions[tab]?:0) } }
     private fun render() {
         reset(if(tab=="Home")"obra" else tab,false)
-        when(tab) { "Home"->home(); "Commissions"->commissions(); "History"->history(); "Insights"->insights(); "Reconnect"->reconnect(); "All tasks"->tasks() }
+        when(tab) { "Home"->home(); "Commissions"->commissions(); "History"->history(); "Insights"->insights(); "Reconnect"->reconnect() }
         val nav=LinearLayout(this); footer.addView(nav)
         listOf("Home","Commissions","History","Insights","Reconnect").forEach { name -> val t=TextView(this); t.text=if(name=="Commissions")"Work" else name; t.textSize=11f;t.typeface=supporting;t.setTextColor(ink);t.gravity=17;t.minHeight=dp(56);t.contentDescription=name;t.isSelected=name==tab;t.background=shape(if(name==tab)0xfff0e7dc.toInt() else cream,14);nav.addView(t,LinearLayout.LayoutParams(0,-2,1f));t.setOnClickListener { switch(name) } }
     }
     private fun home() {
         note(java.time.LocalDate.now().format(java.time.format.DateTimeFormatter.ofPattern("EEEE, MMM d")))
-        card(sage) { text("Monthly earnings",18,true,it); text(Studio.money(Studio.monthly(month).sumOf { p->p.amountMinor }),30,false,it);text("Payments received  ·  $month",12,false,it);val link=text("View insights ↗",13,false,it);link.minHeight=dp(48);link.gravity=android.view.Gravity.CENTER_VERTICAL or android.view.Gravity.END;link.setOnClickListener{switch("Insights")} }
         val works=Studio.repository.commissions()
+        val outstanding=works.filter { it.status != "Cancelled" }.sumOf { Studio.balance(it) }
+        card(sage) {
+            text("Monthly earnings",18,true,it)
+            text(Studio.money(Studio.monthly(month).sumOf { p -> p.amountMinor }),30,false,it)
+            text("Payments received · ${month.format(java.time.format.DateTimeFormatter.ofPattern("MMMM yyyy"))}",12,false,it)
+            text("Still to collect: ${Studio.money(outstanding)} across all artwork",13,false,it)
+            val link=text("View insights ↗",13,false,it)
+            link.minHeight=dp(48);link.gravity=android.view.Gravity.CENTER_VERTICAL or android.view.Gravity.END
+            link.isClickable=true;link.isFocusable=true;link.setOnClickListener{switch("Insights")}
+        }
         val counts=LinearLayout(this);body.addView(counts,LinearLayout.LayoutParams(-1,-2).apply{bottomMargin=dp(18)})
-        listOf("${works.count{it.status=="In progress"}}\nCurrent work","${works.filter{it.status!="Cancelled"}.sumOf{c->c.tasks.count{t->!t.done}}}\nUnfinished tasks","${works.count{it.status=="Queued"}}\nIn queue").forEachIndexed { i,label->val t=TextView(this);t.text=label;t.typeface=supporting;t.textSize=15f;t.setTextColor(ink);t.gravity=17;t.minHeight=dp(66);counts.addView(t,LinearLayout.LayoutParams(0,-2,1f));t.setOnClickListener{if(i==1)switch("All tasks")else{filter=if(i==0)"In progress" else "Queued";switch("Commissions")}} }
-        section("Current work");works.filter { it.status=="In progress" }.take(2).forEach { artwork(it) }
-        section("Coming up");works.filter { it.status != "Cancelled" }.flatMap { c->c.tasks.filter { !it.done }.map { c to it } }.take(2).forEach { (c,t)->task(c,t) };val all=text("All tasks ↗",14);all.minHeight=dp(48);all.setOnClickListener{switch("All tasks")}
+        listOf("${works.count{it.status=="In progress"}}\nIn progress","${works.count{it.status=="Queued"}}\nIn queue").forEachIndexed { i,label ->
+            val count=TextView(this)
+            count.text=label;count.typeface=supporting;count.textSize=16f;count.setTextColor(ink)
+            count.gravity=17;count.minHeight=dp(66);count.isClickable=true;count.isFocusable=true
+            counts.addView(count,LinearLayout.LayoutParams(0,-2,1f))
+            count.setOnClickListener{filter=if(i==0)"In progress" else "Queued";query="";switch("Commissions")}
+        }
+        section("Current work")
+        val current=works.filter { it.status=="In progress" }.sortedBy { it.dueOn }
+        if(current.isEmpty())empty("No work in progress","Start a queued commission when you are ready.")
+        else current.take(2).forEach { artwork(it) }
         section("Next in queue");works.filter { it.status=="Queued" }.sortedWith(compareBy<Commission> { it.plannedStart.isBlank() }.thenBy { it.plannedStart }.thenBy { it.id }).firstOrNull()?.let { artwork(it) } ?: empty("No queued work","New requests will appear here.")
-        button("+ Add commission",primary=true) { form() }
+        button("+ Add commission",footer,true) { form() }
     }
     private fun commissions() {
         note("A little order for every artwork.");button("+ New commission",primary=true) { form() }
@@ -66,7 +84,14 @@ class MainActivity: BaseActivity() {
         fun populate() { results.removeAllViews();val found=Studio.repository.commissions().filter { it.status==filter && (it.title+it.username).contains(query,true) };if(found.isEmpty())text("No commissions found. Try a different search or add a request.",16,false,results) else found.forEach { artwork(it,results) } }
         search.addTextChangedListener(object:TextWatcher { override fun beforeTextChanged(s:CharSequence?,a:Int,c:Int,f:Int){};override fun onTextChanged(s:CharSequence?,a:Int,b:Int,c:Int){query=s.toString();populate()};override fun afterTextChanged(e:Editable?){} });populate()
     }
-    private fun period() { button("‹    $month    ›") { val options=(-12L..1L).map { YearMonth.now().plusMonths(it).toString() }.toTypedArray(); androidx.appcompat.app.AlertDialog.Builder(this).setTitle("Reporting month").setItems(options) { _,i->month=YearMonth.parse(options[i]);render() }.show() } }
+    private fun period() {
+        val formatter=java.time.format.DateTimeFormatter.ofPattern("MMMM yyyy",java.util.Locale.ENGLISH)
+        button("${month.format(formatter)} ▾") {
+            val months=(-12L..1L).map { YearMonth.now().plusMonths(it) }
+            androidx.appcompat.app.AlertDialog.Builder(this).setTitle("Reporting month")
+                .setItems(months.map { it.format(formatter) }.toTypedArray()) { _,i -> month=months[i];render() }.show()
+        }
+    }
     private fun history() {
         note("Received payments across your artwork.");period();val payments=Studio.monthly(month).sortedByDescending { it.receivedOn }
         card(sage) { text(Studio.money(payments.sumOf { p->p.amountMinor }),30,false,it);text("${payments.size} payments received",14,false,it) }
@@ -104,6 +129,4 @@ class MainActivity: BaseActivity() {
         if(results.isEmpty())empty(if(c.genreId==null)"Choose a primary genre" else "No matching clients yet",if(c.genreId==null)"Edit this commission and add a primary genre to find similar completed work." else "Try another current commission. Matching completed artwork will appear here.")
         results.forEach { r->val previous=Studio.work(r.previousCommissionId)!!;card { text(r.clientName,22,true,it);text(previous.title,18,true,it);text("${r.reason}\n${previous.type} · ${previous.genre}\nFinished ${previous.finishedOn}",14,false,it);button("View previous commission",it) { detail(previous.id) } } }
     }
-    private fun task(c:Commission,t:Task) { val row=LinearLayout(this);row.gravity=android.view.Gravity.CENTER_VERTICAL;body.addView(row);val check=CheckBox(this);check.contentDescription="Mark ${t.label} done";row.addView(check,LinearLayout.LayoutParams(dp(48),dp(56)));check.isChecked=t.done;check.setOnClickListener{check.isChecked=t.done;write({it.setTaskDone(c.id,t.id,!t.done)}){onStudioReady()}};val labels=LinearLayout(this);labels.orientation=LinearLayout.VERTICAL;row.addView(labels,LinearLayout.LayoutParams(0,-2,1f));text(t.label,16,true,labels);text("${c.username} · ${c.type}",12,false,labels);labels.setOnClickListener{detail(c.id)} }
-    private fun tasks() { val pending=Studio.repository.commissions().filter { it.status != "Cancelled" }.flatMap { c->c.tasks.filter { !it.done }.map { c to it } };if(pending.isEmpty())empty("All caught up","Your studio has a little breathing room.");pending.forEach { (c,t)->task(c,t) };button("Back to Home") { switch("Home") } }
 }

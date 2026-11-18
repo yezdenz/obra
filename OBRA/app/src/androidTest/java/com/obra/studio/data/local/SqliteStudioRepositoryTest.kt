@@ -220,7 +220,7 @@ class SqliteStudioRepositoryTest {
         helper = ObraDatabaseHelper(context, name)
         repository = SqliteStudioRepository(helper, context)
         val snapshot = repository.snapshot()
-        assertEquals(2, helper.readableDatabase.version)
+        assertEquals(ObraDatabaseHelper.DATABASE_VERSION, helper.readableDatabase.version)
         assertEquals(42L, snapshot.commissions().single().id)
         assertEquals(50000L, snapshot.payments().single().amountMinor)
         assertFalse(snapshot.commissions().single().background)

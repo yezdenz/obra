@@ -42,7 +42,7 @@ class BackendRegressionTest {
         val db = helper.writableDatabase
         db.beginTransaction()
         try {
-            listOf("payments", "attachments", "checklist_items", "commission_tags", "commissions", "clients", "genres")
+            listOf("artwork_updates", "payments", "attachments", "checklist_items", "commission_tags", "commissions", "clients", "genres")
                 .forEach { db.delete(it, null, null) }
             db.execSQL("UPDATE commission_types SET is_active = 1")
             db.setTransactionSuccessful()
@@ -195,6 +195,7 @@ class BackendRegressionTest {
                     click(it, "Next: Artwork")
                     field(it, "Project title *").setText("Queued Add")
                     click(it, "Next: Price & dates")
+                    field(it, "Agreed total (PHP) *").setText("1800.00")
                     click(it, "Review commission")
                 }
                 app.execute({ check(addGate.await(15, TimeUnit.SECONDS)) }) { }

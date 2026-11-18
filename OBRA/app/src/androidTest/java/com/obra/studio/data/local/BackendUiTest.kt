@@ -77,7 +77,7 @@ class BackendUiTest {
                         while (rows.moveToNext()) ids.add(rows.getLong(0))
                     }
                     ids.forEach { id ->
-                        listOf("payments", "attachments", "checklist_items", "commission_tags").forEach { table ->
+                        listOf("artwork_updates", "payments", "attachments", "checklist_items", "commission_tags").forEach { table ->
                             db.delete(table, "commission_id = ?", arrayOf(id.toString()))
                         }
                         db.delete("commissions", "id = ?", arrayOf(id.toString()))

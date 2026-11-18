@@ -60,7 +60,8 @@ class ObraDatabaseHelperTest {
                     "commission_tags",
                     "attachments",
                     "payments",
-                    "checklist_items"
+                    "checklist_items",
+                    "artwork_updates"
                 )
                 val actualTables = db.rawQuery(
                     """

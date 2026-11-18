@@ -56,7 +56,7 @@ class EnhancementWorkflowTest {
         val db = helper.writableDatabase
         db.beginTransaction()
         try {
-            listOf("payments", "attachments", "checklist_items", "commission_tags", "commissions", "clients", "genres")
+            listOf("artwork_updates", "payments", "attachments", "checklist_items", "commission_tags", "commissions", "clients", "genres")
                 .forEach { db.delete(it, null, null) }
             db.setTransactionSuccessful()
         } finally { db.endTransaction() }
@@ -113,8 +113,6 @@ class EnhancementWorkflowTest {
             it.recordPayment(id, 50000, today.toString(), "Cash", "Fictional deposit", UUID.randomUUID().toString())
         }
         val instrumentation = InstrumentationRegistry.getInstrumentation()
-        val monitor = instrumentation.addMonitor(FormActivity::class.java.name, null, false)
-        try {
             ActivityScenario.launch<DetailActivity>(Intent(context, DetailActivity::class.java)
                 .putExtra("commissionId", id)).use { screen ->
                 awaitView(screen, "Mark completed")
@@ -123,22 +121,14 @@ class EnhancementWorkflowTest {
                     assertTrue(views(it.window.decorView).filterIsInstance<CheckBox>().isEmpty())
                     click(it, "Mark completed")
                 }
-                val form = instrumentation.waitForMonitorWithTimeout(monitor, 10000) as? FormActivity
-                assertNotNull(form)
-                awaitCondition("direct completion review") {
-                    var ready = false
-                    instrumentation.runOnMainSync {
-                        ready = views(form!!.window.decorView).filterIsInstance<TextView>()
-                            .any { it.text.toString() == "Mark completed" && it.isEnabled }
-                    }
-                    ready
+                awaitCondition("small completion confirmation") {
+                    instrumentation.uiAutomation.rootInActiveWindow?.findAccessibilityNodeInfosByText("Finish this artwork?")?.isNotEmpty()==true
                 }
                 assertEquals("In progress", execute { it.snapshot() }.commissions().single().status)
-                instrumentation.runOnMainSync {
-                    assertTrue(form!!.intent.getBooleanExtra("completeArtwork", false))
-                    assertTrue(views(form.window.decorView).filterIsInstance<Spinner>().isEmpty())
-                    click(form, "Mark completed")
-                }
+                val confirm=instrumentation.uiAutomation.rootInActiveWindow.findAccessibilityNodeInfosByText("Mark completed")
+                    .single { it.text?.toString()=="Mark completed" && it.isClickable }
+                assertTrue(confirm.performAction(android.view.accessibility.AccessibilityNodeInfo.ACTION_CLICK))
+                awaitCondition("completed artwork") { execute { it.snapshot() }.commissions().single().status=="Completed" }
                 awaitView(screen, "Record payment")
                 val saved = execute { it.snapshot() }
                 val artwork = saved.commissions().single()
@@ -148,20 +138,23 @@ class EnhancementWorkflowTest {
                 assertEquals(150000L, artwork.totalMinor - saved.payments().sumOf { it.amountMinor })
                 assertFalse(artwork.tasks.any { it.done })
             }
-        } finally { instrumentation.removeMonitor(monitor) }
     }
 
     @Test fun keepWorkingCancelsDirectCompletionWithoutSaving() {
         val id = seed()
         execute { it.startCommission(id, today.minusDays(2).toString()) }
-        ActivityScenario.launch<FormActivity>(Intent(context, FormActivity::class.java)
-            .putExtra("mode", "progress").putExtra("commissionId", id)
-            .putExtra("completeArtwork", true)).use { screen ->
+        ActivityScenario.launch<DetailActivity>(Intent(context, DetailActivity::class.java)
+            .putExtra("commissionId", id)).use { screen ->
             awaitView(screen, "Mark completed")
+            screen.onActivity { click(it,"Mark completed") }
+            val instrumentation=InstrumentationRegistry.getInstrumentation()
+            awaitCondition("completion dialog") {
+                instrumentation.uiAutomation.rootInActiveWindow?.findAccessibilityNodeInfosByText("Keep working")?.isNotEmpty()==true
+            }
+            assertTrue(instrumentation.uiAutomation.rootInActiveWindow.findAccessibilityNodeInfosByText("Keep working")
+                .first { it.isClickable }.performAction(android.view.accessibility.AccessibilityNodeInfo.ACTION_CLICK))
             screen.recreate()
             awaitView(screen, "Mark completed")
-            screen.onActivity { click(it, "Keep working") }
-            awaitCondition("closed completion review") { screen.state == Lifecycle.State.DESTROYED }
             val saved = execute { it.snapshot() }
             assertEquals("In progress", saved.commissions().single().status)
             assertEquals("Sketch", saved.commissions().single().stage)

@@ -110,7 +110,7 @@ open class BaseActivity: AppCompatActivity() {
     val cream = Color.rgb(255,248,239); val ink = Color.rgb(48,44,55); val muted = Color.rgb(107,98,112)
     val yellow = Color.rgb(255,209,91); val sage = Color.rgb(236,235,220); val lavender = Color.rgb(237,228,244)
     val heading: Typeface by lazy { try { resources.getFont(R.font.dynapuff) } catch (_: Exception) { Typeface.DEFAULT_BOLD } }
-    val supporting: Typeface by lazy { try { resources.getFont(R.font.mali) } catch (_: Exception) { Typeface.DEFAULT } }
+    val supporting: Typeface by lazy { try { resources.getFont(R.font.itim) } catch (_: Exception) { Typeface.DEFAULT } }
     override fun onCreate(state: Bundle?) { super.onCreate(state); setContentView(R.layout.activity_shell)
         body=findViewById(R.id.content); header=findViewById(R.id.header); footer=findViewById(R.id.footer); scroll=findViewById(R.id.scroll)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.shell)) { v, i -> val bars=i.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.ime()); v.setPadding(bars.left,bars.top,bars.right,bars.bottom); i }

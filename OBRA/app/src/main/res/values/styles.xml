@@ -1,7 +1,7 @@
 <resources>
     <style name="Theme.Obra" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="android:fontFamily">@font/mali</item>
-        <item name="fontFamily">@font/mali</item>
+        <item name="android:fontFamily">@font/itim</item>
+        <item name="fontFamily">@font/itim</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowActionModeOverlay">true</item>
         <item name="android:windowBackground">#FFF8EF</item>

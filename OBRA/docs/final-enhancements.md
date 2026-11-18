@@ -1,6 +1,6 @@
 # Local usability pass: final enhancements
 
-Branch: `final-enhancements`. Based on the local `backend-integration` checkout. Requested to remain local; do not push, merge, or publish these changes without a later owner instruction.
+Current handoff branch: `final-output`, based on the local `backend-integration` checkout. The owner approved the warmer palette and requested preparing this branch for GitHub. Preparation does not publish it; do not push or merge until publishing is explicitly requested. The local `final-enhancements` branch preserves the original palette at `60abb32`.
 
 ## Why this changes the earlier wireframe
 
@@ -124,11 +124,11 @@ Validation: debug and Android-test APK compilation succeeded; **21 JVM tests pas
 
 `CommissionDeletionTest` adds four isolated Android repository tests: completed work with every child record and a shared image/client, deletion across statuses, rollback on failure, and rejection of a missing commission without affecting other work. The tests were compiled, not run. No app, emulator, or device test was launched, and the artist's saved data was untouched. Changes remain local on `final-enhancements`.
 
-## Temporary warm palette trial
+## Approved warm palette
 
-The owner requested trying additional colors around the existing yellow/white scheme, with an easy return to the original. This experiment lives only on **`codex/warm-palette-preview`**. The original palette and all previous features remain on **`final-enhancements`**, at `60abb32` before this trial.
+The owner approved the additional colors around the existing yellow/white scheme and requested naming the branch **`final-output`**. Git branch names cannot contain spaces, so this is the Git-safe form of “final output.” The original palette and all previous features remain on the local **`final-enhancements`** branch at `60abb32`.
 
-| Role | Trial color |
+| Role | Approved color |
 | --- | --- |
 | Cream canvas / warm white cards | `#FFF8EF` / `#FFFDF9`, retained |
 | Main yellow actions | `#FFD15B`, retained |
@@ -143,6 +143,6 @@ The owner requested trying additional colors around the existing yellow/white sc
 
 The palette is centralized in `app/src/main/res/values/colors.xml`; shared views and the Material/calendar themes read those resources. DynaPuff/Itim, routes, dimensions, data, and CRUD behavior are unchanged.
 
-To return to the original after this preview is committed, switch the existing checkout to `final-enhancements` and rebuild it in Android Studio. The trial branch retains the experiment, so neither version needs to be reset or deleted. No database change is involved. Outside Git, the original APK is retained as `app-original-palette.apk` and `app-final-enhancements.apk`; the trial build is copied separately as `app-warm-palette-preview.apk` in the checkout's existing LocalAppData APK output folder.
+To return to the original, switch the existing checkout to `final-enhancements` and rebuild it in Android Studio. `final-output` retains the approved warm version, so neither version needs to be reset or deleted. No database change is involved. Outside Git, the original APK is retained as `app-original-palette.apk` and `app-final-enhancements.apk`; the warm build is also copied as `app-warm-palette-preview.apk` in the checkout's existing LocalAppData APK output folder.
 
-Validation: debug build, Android-test APK compilation, and lint succeeded with zero errors/eight warnings. Fifteen explicit text/background color combinations were checked numerically; the lowest contrast was 4.85:1. This checks the specified color pairings, not every rendered control state. No app, emulator, or device tests were launched; on-device visual review remains for the owner. Nothing was pushed.
+Validation: debug build, Android-test APK compilation, and lint succeeded with zero errors/eight warnings. Fifteen explicit text/background color combinations were checked numerically; the lowest contrast was 4.85:1. This checks the specified color pairings, not every rendered control state. The owner reviewed the warm palette and approved it. No app, emulator, or device tests were launched by the agent for this pass. Nothing was pushed during branch preparation.

@@ -1,5 +1,5 @@
 <resources>
-    <!-- Temporary warm palette preview. Original styling stays on final-enhancements. -->
+    <!-- Approved warm palette for final-output. Original styling stays on final-enhancements. -->
     <color name="obra_canvas">#FFF8EF</color>
     <color name="obra_surface">#FFFDF9</color>
     <color name="obra_ink">#302C37</color>

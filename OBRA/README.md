@@ -16,17 +16,21 @@ Current tooling uses AGP 9.5.1, Gradle 9.6.0, Java source/target 17, AppCompat 1
 
 `ObraApplication` owns one helper and one serial database worker. Screens use complete in-memory snapshots and refresh after confirmed writes. `SqliteStudioRepository` validates fresh database state inside transactions. Monetary values use integer centavos. Work completion, task state and payment state are independent.
 
-On the local `final-enhancements` branch, the database is `obra.db`, version 3. Ordered upgrades preserve existing commissions, references, and receipts, and add an artist artwork-update gallery. Sketch/Lineart/Colors/Finished uploads are separate from client references; newest uploads lead artwork previews, while payment History prefers the latest Finished image. Images use persisted content URIs; managed app-file references remain supported. Image decoding runs off the UI thread with bounded sizes. See [the local usability guide](docs/final-enhancements.md) for the revised date, pricing, completion, and History flows. These changes have not been pushed.
+On `final-output`, the database is `obra.db`, version 3. Ordered upgrades preserve existing commissions, references, and receipts, and add an artist artwork-update gallery. Sketch/Lineart/Colors/Finished uploads are separate from client references; newest uploads lead artwork previews, while payment History prefers the latest Finished image. Images use persisted content URIs; managed app-file references remain supported. Image decoding runs off the UI thread with bounded sizes. See [the current app handoff](docs/final-enhancements.md) for the revised date, pricing, completion, grouped History, and approved warm palette.
+
+Delete commission is available in Details and from an entry's History header. Confirmation removes the selected commission and its linked records in one transaction, updates earnings, and preserves original image files and other commissions. The original palette remains on the local `final-enhancements` branch; `final-output` contains the approved butter-yellow, peach, and honey accents.
 
 Retired types and genres are excluded from new choices. Historical records keep their lookup IDs. New primary genres are resolved from trimmed text. The existing PHP, single-genre and exact-contact defaults are documented in the integration guide.
 
 ## Verification
 
 ```text
-gradlew.bat assembleDebug testDebugUnitTest lintDebug connectedDebugAndroidTest
+gradlew.bat assembleDebug testDebugUnitTest lintDebug assembleDebugAndroidTest
 ```
 
-The instrumentation runner uses a separate database for Activity tests. Gradle is configured to keep the app installed after connected tests. The test document provider is packaged only in the test APK. Tests cover transactions, migrations, financial rules, UI flows, refresh recovery, draft recreation, reference access and bounded image decoding. See the current test summary in [backend-integration.md](docs/backend-integration.md).
+This command runs JVM tests and builds/checks both APKs without starting an app or emulator. The latest usability/deletion pass passed 21 JVM tests; the final palette build and lint also passed, with zero lint errors/eight warnings. New Android deletion tests compiled but were not run. See [the current handoff](docs/final-enhancements.md) for precise verification scope; [backend-integration.md](docs/backend-integration.md) records earlier integration checks.
+
+The instrumentation runner uses a separate database for Activity tests. The test document provider is packaged only in the test APK. Android tests cover transactions, migrations, financial rules, UI flows, refresh recovery, draft recreation, reference access, bounded image decoding, and commission deletion. Run them on a device only when explicitly requested.
 
 The shared XML shell and Kotlin view composition implement the screens. Android Studio's XML preview displays the shell. Device appearance and larger-text checks are listed in the walkthrough.
 
@@ -39,4 +43,4 @@ The shared XML shell and Kotlin view composition implement the screens. Android 
 - [Backend implementation and verification](docs/backend-integration.md)
 - [Manual checks](docs/manual-checks.md)
 
-Cancellation, refunds, receipt corrections, destructive deletion and structured quote snapshots are deferred product scope. The existing agreed backend is the implementation target. Source, resources, tests, wrapper and licenses belong in Git. APKs, local databases, machine configuration and generated output belong outside source commits.
+Cancellation, refunds, standalone receipt corrections and structured quote snapshots remain deferred product scope. Confirmed whole-commission deletion is implemented. Source, resources, tests, wrapper and licenses belong in Git. APKs, local databases, machine configuration and generated output belong outside source commits.

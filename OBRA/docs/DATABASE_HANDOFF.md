@@ -4,14 +4,14 @@ This document describes the database initialization work currently implemented i
 
 ## 1. Overview
 
-OBRA has a local SQLite database initialized with Android's native `SQLiteOpenHelper`. The implemented layer creates and versions the schema, enforces foreign keys, seeds established commission-type lookups, and opens the database during application startup so the schema is initialized.
+OBRA has a local SQLite database initialized with Android's native `SQLiteOpenHelper`. The implemented layer creates and versions the schema, enforces foreign keys, seeds established commission-type lookups, and keeps the application's database connection open while the app process is running.
 
 This is an initialization layer only. It does not implement production repositories, feature CRUD operations, application queries, business workflows, or screen integration. The frontend continues to use fixtures and pending-integration feedback. The backend teammate owns those operations and the connection from the frontend to persistent data.
 
 ## 2. Architecture
 
 - `app/src/main/java/com/obra/studio/data/local/ObraDatabaseHelper.kt` is the only database helper. It extends `SQLiteOpenHelper`, uses the application context, configures foreign-key enforcement, creates the schema, seeds commission types, and owns the schema version callbacks.
-- `app/src/main/java/com/obra/studio/ObraApplication.kt` creates the helper and opens `writableDatabase` during `Application.onCreate()`. The helper is closed after initialization completes. Initialization logs the filename, schema version, private path, file size, foreign-key state, and table names. On initialization error it closes the helper, logs the failure, and rethrows.
+- `app/src/main/java/com/obra/studio/ObraApplication.kt` creates the helper and opens `writableDatabase` during `Application.onCreate()`. It retains the helper in an application field so the helper-managed SQLite connection remains open for the process lifetime. Initialization logs the filename, schema version, private path, file size, foreign-key state, and table names. On initialization error it closes the helper, logs the failure, and rethrows. `onTerminate()` closes the retained helper where Android invokes that callback; normal process termination also releases process resources.
 - `app/src/main/AndroidManifest.xml` registers `.ObraApplication` as the app class.
 
 The helper currently has no repository-facing accessor. Agree on how repositories will obtain/use the application-owned helper or database before implementing backend operations. Avoid introducing a second competing database or helper.
@@ -86,7 +86,7 @@ The task completed successfully after the application-lifetime connection was ad
 
 ## 6. Database inspection
 
-With OBRA running on an emulator, open **View ? Tool Windows ? App Inspection ? Database Inspector**, select the `com.obra.studio` process, and select `obra.db`. The startup initializer closes its helper after creating or opening the database. Database Inspector requires an open app connection; Commit 2 adds the application-lifetime connection for live inspection. If it is not listed, confirm the debug app process is running and refresh the inspector.
+With OBRA running on an emulator, open **View → Tool Windows → App Inspection → Database Inspector**, select the `com.obra.studio` process, and select `obra.db`. The application holds the helper open while its process is active, so the database should remain available for inspection. If it is not listed, confirm the debug app process is running and refresh the inspector.
 
 Device Explorer location:
 
@@ -123,7 +123,7 @@ The frontend remains fixture-backed: `Studio.repository` points to `Fixtures`, a
 - Resolve client and lookup labels to stable IDs and map frontend labels to agreed database values.
 - Implement transactional Add/Edit/payment workflows and retry-token handling where the final backend contract requires them.
 - Connect Activities at the documented action points in `docs/function-reference.md`; replace pending feedback only at actual write call sites.
-- Decide how repositories access the initialized SQLite database. Keep schema initialization separate from feature-specific operations.
+- Decide how repositories access the application-owned helper/connection. Keep schema initialization separate from feature-specific operations.
 
 Suggested entry points from the frontend documentation are:
 

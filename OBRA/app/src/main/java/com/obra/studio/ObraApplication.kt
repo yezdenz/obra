@@ -4,8 +4,10 @@ import android.app.Application
 import android.util.Log
 import com.obra.studio.data.local.ObraDatabaseHelper
 
-/** Opens the schema once during process startup without coupling it to a screen. */
+/** Owns the app-process database connection without coupling it to a screen. */
 class ObraApplication : Application() {
+    private var databaseHelper: ObraDatabaseHelper? = null
+
     override fun onCreate() {
         super.onCreate()
 
@@ -17,26 +19,24 @@ class ObraApplication : Application() {
         )
 
         val helper = ObraDatabaseHelper(this)
+        databaseHelper = helper
         try {
-            val (tables, foreignKeysEnabled) = helper.writableDatabase.use { database ->
-                val tableNames = database.rawQuery(
-                    """SELECT name FROM sqlite_master
-                        WHERE type = 'table'
-                          AND name NOT LIKE 'sqlite_%'
-                          AND name != 'android_metadata'
-                        ORDER BY name""".trimIndent(),
-                    null
-                ).use { cursor ->
-                    buildList {
-                        while (cursor.moveToNext()) add(cursor.getString(0))
-                    }.joinToString()
-                }
-                val foreignKeys = database.rawQuery("PRAGMA foreign_keys", null).use { cursor ->
-                    cursor.moveToFirst() && cursor.getInt(0) == 1
-                }
-                tableNames to foreignKeys
+            val database = helper.writableDatabase
+            val tables = database.rawQuery(
+                """SELECT name FROM sqlite_master
+                    WHERE type = 'table'
+                      AND name NOT LIKE 'sqlite_%'
+                      AND name != 'android_metadata'
+                    ORDER BY name""".trimIndent(),
+                null
+            ).use { cursor ->
+                buildList {
+                    while (cursor.moveToNext()) add(cursor.getString(0))
+                }.joinToString()
             }
-            helper.close()
+            val foreignKeysEnabled = database.rawQuery("PRAGMA foreign_keys", null).use { cursor ->
+                cursor.moveToFirst() && cursor.getInt(0) == 1
+            }
             Log.i(
                 TAG,
                 "SQLite initialization succeeded: file=${ObraDatabaseHelper.DATABASE_NAME}, " +
@@ -46,6 +46,7 @@ class ObraApplication : Application() {
             )
         } catch (error: Exception) {
             helper.close()
+            databaseHelper = null
             Log.e(
                 TAG,
                 "SQLite initialization failed: file=${ObraDatabaseHelper.DATABASE_NAME}, " +
@@ -54,6 +55,12 @@ class ObraApplication : Application() {
             )
             throw error
         }
+    }
+
+    override fun onTerminate() {
+        databaseHelper?.close()
+        databaseHelper = null
+        super.onTerminate()
     }
 
     companion object {

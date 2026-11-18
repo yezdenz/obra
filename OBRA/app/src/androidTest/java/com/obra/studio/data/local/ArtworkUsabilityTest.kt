@@ -205,11 +205,13 @@ class ArtworkUsabilityTest {
             }
             capture("home-artwork")
             screen.onActivity { click(it,"History") };awaitView(screen,"2 payments received")
-            awaitCondition("finished images on receipt rows") {
+            awaitCondition("finished image on the grouped commission entry") {
                 var correct=false
                 screen.onActivity {
                     val images=views(it.window.decorView).filterIsInstance<ImageView>().filter { v -> v.contentDescription=="Portrait update artwork" }
-                    correct=images.size==2 && images.all { v -> (v.drawable as? BitmapDrawable)?.bitmap?.getPixel(0,0)==Color.MAGENTA }
+                    correct=images.size==1 && images.all { v -> (v.drawable as? BitmapDrawable)?.bitmap?.getPixel(0,0)==Color.MAGENTA }
+                    assertEquals(1,views(it.window.decorView).count { v -> v.tag=="commission-history:$id" })
+                    assertTrue(views(it.window.decorView).filterIsInstance<TextView>().any { v -> v.text.toString()=="artwork.test · X" })
                 };correct
             }
             capture("compact-history")

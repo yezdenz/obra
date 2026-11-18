@@ -1,15 +1,15 @@
 # OBRA frontend implementation handoff
 
-This document describes the initial frontend draft as built, not the finished product. Review it again after device testing and UI revisions before treating it as the final backend handoff. The source references are `layout.md`, `database-guide.md`, `reconnect-algo.md`, the saved boards, and the matching local PDF from repository snapshot da93933.
+The frontend is connected to SQLite. This document describes screen ownership and the current integration contract. The design references remain `layout.md`, `database-guide.md`, `reconnect-algo.md`, the saved boards and the partner PDF. See `backend-integration.md` for current verification and deferred scope.
 
 ## File ownership
 
-- `ui/BaseActivity.kt`: shared shell, typography, buttons, cards, field/date controls, insets, navigation helpers, and pending-save feedback.
+- `ui/BaseActivity.kt`: shared shell, typography, buttons, cards, field/date controls, insets, navigation helpers, and refresh retry feedback.
 - `ui/MainActivity.kt`: Home, Commissions, History, Insights, Reconnect, and All tasks.
 - `ui/DetailActivity.kt`: one commission selected by stable ID, its brief, dates, checklist, money summary, and contextual actions.
 - `ui/FormActivity.kt`: four-step Add/Edit, review, payment form/history, progress, and completion confirmation. Owns unsaved draft state.
 - `ui/ViewerActivity.kt`: selected local-image viewing, pinch/button zoom, pan, fit, and image paging.
-- `data/Models.kt`: read/write contracts, DTOs, fixture provider, exact money parsing, and schedule validation.
+- `data/Models.kt`: read/write contracts, snapshots, exact money parsing and schedule validation. Fixtures support isolated JVM tests.
 - `res/layout/activity_shell.xml`: header, scrolling content area, footer. Content is native Kotlin Views using Material buttons rather than a WebView.
 - `res/font/`: bundled fonts. `res/values/styles.xml`: light theme. The first pass still contains English labels and color values in Kotlin; resource extraction is a follow-up before localization.
 
@@ -19,50 +19,33 @@ Main sections share one Activity and preserve tab scroll positions within the in
 
 - Detail: `commissionId: Long`.
 - Form: `mode: String` (`add`, `edit`, `payment`, `payments`, `progress`), `commissionId: Long` when editing an existing record.
-- Viewer: `images: ArrayList<String>` of content URI strings and `index: Int`; sample Details supplies `commissionId` and shows a placeholder because fixtures contain no artwork files.
+- Viewer: `images: ArrayList<String>` of content URI strings and `index: Int`; Details supplies `commissionId` and its saved reference locations.
 
 Back returns to the originating Activity. Form steps retain their inputs; changed forms ask before discarding. Drafts and payment/progress fields are stored in Activity saved-instance state. They are not a persistent draft database. Reconnect selection and reporting month are independent.
 
 ## Read integration
 
-Implement `StudioRepository` and replace `Studio.repository = Fixtures` at application startup. The current interface is synchronous for fixtures. Run real DB reads off the UI thread, then expose loading, result and error states to the Activities (for example through ViewModels). Do not call disk I/O directly from the rendering functions.
+`ObraApplication.refresh()` loads a consistent `StudioSnapshot` on the database worker and publishes it on the main thread. Activities render the snapshot through `StudioRepository`. `BaseActivity` refreshes on resume and exposes Retry refresh when a later read fails while keeping existing information visible.
 
-- `commissions()` supplies the joined display records.
-- `payments()` supplies received receipts.
-- `recommendations(selectedCommissionId)` supplies the algorithm team's results. Current fixture behavior only returns a fixed example for commission 2; it is not a matching implementation.
-
-Use `Long` keys and integer centavos throughout the backend. Business dates use ISO `YYYY-MM-DD`; the sample dates are relative to the device date. Convert the UI's friendly status/type/method labels to the agreed database enum/lookup keys explicitly. Display names are not database IDs.
+The snapshot contains commissions, payments and active type/genre choices. Display labels map explicitly to database values. Screens use stable record IDs. Main-section tab, filter, month, selection and scroll positions survive Activity recreation. Reconnect requires an explicit new choice when its previous source is no longer current.
 
 ## Write integration
 
-`StudioWriter` declares the intended entry points but is not implemented or called by this draft:
+Each confirmed action calls `StudioWriter` through `BaseActivity.write()`.
 
-- `saveCommission(draft, submissionToken): Long`
-- `updateCommission(id, draft)`
-- `recordPayment(commissionId, amountMinor, receivedOn, method, note, submissionToken)`
-- `startCommission(id, startedOn)`
-- `updateProgress(id, stage, finishedOn)`
-- `setTaskDone(commissionId, taskId, done)`
+- `saveCommission(draft, submissionToken)` returns the saved commission ID.
+- `updateCommission(id, draft)` preserves receipts/tasks/progress and checks the original request revision.
+- `recordPayment(...)` checks the latest balance and receipt date in a transaction.
+- `startCommission(...)`, `updateProgress(...)` and `setTaskDone(...)` update their corresponding saved state.
 
-Replace the validated `pending()` call at each action with the appropriate asynchronous writer operation. Disable submission while saving. Retain draft input on error. Only after confirmed success should Add open the returned ID, Edit return to that record, and payment save refresh its history. Generate submission tokens once per draft and reuse on retry. Add plus related records/optional receipt must commit in one transaction.
+Controls are disabled while saving. Failed writes retain entered input. Add opens returned Details after success. Edit and payment return to their parent screen. Read failure after a confirmed write is presented as a refresh issue. Tokens survive draft recreation and recover committed Add/payment results after a queued write.
 
-`CommissionDraft` carries platform, username, display name, title, type, primary genre, style tags, brief, price text, commission/due/planned-start dates, optional initial-payment fields, detailed-background selection, and reference content URIs. Parse price text with `Validation.minor()` before writing. Resolve clients/lookups and quote snapshots in the backend rather than storing display strings as keys.
+Drafts retain contact, display name, title, type, primary genre, style tags, brief, price, dates, background selection and references. Dirty-form checks include payment date/method and completion-date changes. Receipt and work states remain independent.
 
-No deletion or cancellation method is invented here; historical deletion/refund policy remains unresolved in the source guides. Confirm that policy before adding destructive controls. Starting, completing, and checking tasks must never insert payments automatically.
+## Reference viewer
 
-## What works in the frontend
+The viewer loads saved locations, decodes sampled bitmaps on its background worker and handles missing images with Retry image. It preserves the current image index on recreation. Content URI grants and app-file safety checks belong to the repository integration.
 
-Native navigation, filters and search, four-step forms and review, required-field/money/date checks, received-payment previews, reporting-month selection, six-month bars and type summaries, image selection and viewing, progress/completion forms, and fixed recommendation cards. Save/task/start controls deliberately stop at integration feedback. They do not mutate the fixtures or pretend to persist records.
+## Acceptance scope
 
-## Remaining before final acceptance
-
-1. Run on the reference emulator and compare each layout with the boards. Colors/fonts/rounded surfaces are implemented; exact spacing and visual fidelity are not certified. Some controls are native dropdowns and the first navigation bar uses text labels.
-2. Verify image decoding for large files and bound gesture panning. Samples have placeholders. Persistable URI permissions are acquired when supported, but the backend must define copying, cleanup and long-term storage.
-3. Finish granular field-local error presentation, full before/after edit comparison, per-screen loading/error/retry presentation, and durable scroll restoration through Activity recreation.
-4. Add database success transitions, stale-result handling and disabled saving states during backend integration.
-5. Move remaining UI strings/colors/dimensions to shared Android resources, and optionally split composed screen bodies into XML layouts for Design-tab editing.
-6. Confirm the unresolved genre, cancellation/refund and completion policies before finalizing this handoff.
-
-## Validation evidence
-
-Clean-copy build and Android lint passed. Thirteen JVM tests cover exact centavos, invalid/overflow/nonpositive input, calendar validity, date ordering, optional planned start, completed-but-unpaid and paid-but-unfinished examples. These do not replace the course's documented device test cases. No device or emulator execution is claimed.
+Use `manual-checks.md` for the full user walkthrough. Device appearance, keyboard, large-text layout and gesture usability still require device review across the team's supported phones. Cancellation, refunds, receipt corrections and destructive deletion remain deferred under the selected scope.

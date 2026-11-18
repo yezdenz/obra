@@ -100,6 +100,7 @@ class BackendRegressionTest {
         val id = seed()
         ActivityScenario.launch<DetailActivity>(Intent(context, DetailActivity::class.java).putExtra("commissionId", id)).use { scenario ->
             awaitView(scenario, "Start commission")
+            scenario.onActivity { click(it, "More details & optional checklist") }
             execute { helper.writableDatabase.execSQL("ALTER TABLE commission_tags RENAME TO unavailable_tags") }
             try {
                 scenario.onActivity { views(it.window.decorView).filterIsInstance<CheckBox>().first().performClick() }
@@ -228,15 +229,15 @@ class BackendRegressionTest {
             awaitCondition("payment completion") { scenario.state == Lifecycle.State.DESTROYED }
         }
         form("progress", id).use { scenario ->
-            awaitView(scenario, "Continue")
+            awaitView(scenario, "Save stage")
             spinner(scenario, 2)
-            scenario.onActivity { click(it, "Continue") }
+            scenario.onActivity { click(it, "Save stage") }
             awaitCondition("progress completion") { scenario.state == Lifecycle.State.DESTROYED }
         }
         form("progress", id).use { scenario ->
-            awaitView(scenario, "Continue")
+            awaitView(scenario, "Save stage")
             spinner(scenario, 3)
-            scenario.onActivity { click(it, "Continue"); click(it, "Mark completed") }
+            scenario.onActivity { click(it, "Review completion"); click(it, "Mark completed") }
             awaitCondition("completion confirmation") { scenario.state == Lifecycle.State.DESTROYED }
         }
         val saved = execute { it.snapshot() }

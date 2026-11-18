@@ -39,7 +39,7 @@ class ObraDatabaseHelperTest {
 
         try {
             helper.writableDatabase.use { db ->
-                assertEquals(1, db.version)
+                assertEquals(ObraDatabaseHelper.DATABASE_VERSION, db.version)
                 assertEquals(1, db.rawQuery("PRAGMA foreign_keys", null).use { cursor ->
                     assertTrue(cursor.moveToFirst())
                     cursor.getInt(0)
@@ -213,7 +213,7 @@ class ObraDatabaseHelperTest {
         val firstHelper = ObraDatabaseHelper(context)
         try {
             firstHelper.readableDatabase.use { db ->
-                assertEquals(1, db.version)
+                assertEquals(ObraDatabaseHelper.DATABASE_VERSION, db.version)
                 assertEquals(1, db.rawQuery("PRAGMA foreign_keys", null).use { cursor ->
                     assertTrue(cursor.moveToFirst())
                     cursor.getInt(0)
@@ -230,7 +230,7 @@ class ObraDatabaseHelperTest {
         val secondHelper = ObraDatabaseHelper(context)
         try {
             secondHelper.readableDatabase.use { db ->
-                assertEquals(1, db.version)
+                assertEquals(ObraDatabaseHelper.DATABASE_VERSION, db.version)
                 assertTrue(db.rawQuery(
                     "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'commissions'",
                     null

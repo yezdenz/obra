@@ -22,18 +22,19 @@ class ObraDatabaseHelper(
 
     override fun onCreate(db: SQLiteDatabase) {
         schemaStatements.forEach(db::execSQL)
+        migrate1To2(db)
         seedCommissionTypes(db)
     }
 
     /**
-     * There are no older OBRA database versions yet. When the schema version is raised,
-     * add one explicit migration for each step here. Unknown paths fail without deleting data.
+     * Apply ordered upgrades without recreating existing artwork or financial history.
+     * Unknown paths fail without deleting data.
      */
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         var version = oldVersion
         while (version < newVersion) {
             version = when (version) {
-                // Add migrate1To2(db) here when DATABASE_VERSION becomes 2.
+                1 -> { migrate1To2(db); 2 }
                 else -> throw SQLException(
                     "No non-destructive migration is defined from database version $version."
                 )
@@ -45,6 +46,12 @@ class ObraDatabaseHelper(
         throw SQLException(
             "Database downgrade from version $oldVersion to $newVersion is not supported."
         )
+    }
+
+    private fun migrate1To2(db: SQLiteDatabase) {
+        db.execSQL("ALTER TABLE commissions ADD COLUMN background_included INTEGER NOT NULL DEFAULT 0 CHECK (background_included IN (0, 1))")
+        db.execSQL("ALTER TABLE commissions ADD COLUMN creation_fingerprint TEXT")
+        db.execSQL("ALTER TABLE payments ADD COLUMN submission_fingerprint TEXT")
     }
 
     private fun seedCommissionTypes(db: SQLiteDatabase) {
@@ -78,7 +85,7 @@ class ObraDatabaseHelper(
             "Icon"
         )
 
-        private val schemaStatements = listOf(
+        internal val schemaStatements = listOf(
             """
             CREATE TABLE clients (
                 id INTEGER PRIMARY KEY,
@@ -235,7 +242,7 @@ class ObraDatabaseHelper(
         )
 
         const val DATABASE_NAME = "obra.db"
-        const val DATABASE_VERSION = 1
+        const val DATABASE_VERSION = 2
         const val TABLE_CLIENTS = "clients"
         const val TABLE_COMMISSION_TYPES = "commission_types"
         const val TABLE_GENRES = "genres"

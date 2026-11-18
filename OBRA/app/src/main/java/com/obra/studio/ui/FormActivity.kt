@@ -66,7 +66,7 @@ class FormActivity:BaseActivity() {
         if(mode=="payments"){payments();return};if(mode=="payment"){payment();return};if(mode=="progress"){progress();return}
         note("Step $step of 4");headerAction("Close") { capture();leave() }
         when(step){1->{section("Client details");note("Who are we creating for?");choose("Contact platform *",listOf("X","Discord"),draft.platform){draft.platform=it};field("username","Client username *",draft.username);field("name","Display name · Optional",draft.displayName)}
-            2->{section("Artwork brief");note("Give the request a little shape.");field("title","Project title *",draft.title);val types=((Studio.repository as? StudioSnapshot)?.activeTypes.orEmpty()+if(mode=="edit")listOf(baseline.type) else emptyList()).distinct();if(draft.type !in types)draft.type=types.firstOrNull().orEmpty();if(types.isEmpty())note("No active commission types are available.")else choose("Commission type *",types,draft.type){draft.type=it};field("genre","Primary genre · Optional",draft.genre);field("tags","Style tags · Optional",draft.tags);field("brief","Pose & details",draft.brief,true);section("Reference images");note("${draft.images.size} of 6 images");draft.images.toList().forEachIndexed { index,uri->button("View reference ${index+1}"){capture();startActivity(Intent(this,ViewerActivity::class.java).putStringArrayListExtra("images",draft.images).putExtra("index",index))};button("Remove reference ${index+1}"){capture();draft.images.remove(uri);render()} };button("+ Add image"){capture();picker.launch(arrayOf("image/*"))}.isEnabled=draft.images.size<6}
+            2->{section("Artwork brief");note("Give the request a little shape.");field("title","Project title *",draft.title);val types=((Studio.repository as? StudioSnapshot)?.activeTypes.orEmpty()+if(mode=="edit")listOf(baseline.type) else emptyList()).distinct();if(draft.type !in types)draft.type=types.firstOrNull().orEmpty();if(types.isEmpty())note("No active commission types are available.")else choose("Commission type *",types,draft.type){draft.type=it};field("genre","Primary genre · Optional",draft.genre);field("tags","Style tags · Optional",draft.tags);field("brief","Pose & details",draft.brief,true);referenceGallery()}
             3->{section("Price & dates");note("Set the price you agreed with your client.")
                 field("total","Agreed total (PHP) *",draft.total)
                 if(mode=="edit")note("Already received: ${Studio.money(Studio.received(workId))}. Existing receipts remain unchanged.")
@@ -85,6 +85,46 @@ class FormActivity:BaseActivity() {
             attemptedSave=true
             write({it.saveCommission(submitted,submissionToken)}){id->detail(id);finish()}
         }
+    }
+    private fun referenceGallery() {
+        section("Reference images")
+        note("${draft.images.size} of 6 images · Tap a preview to enlarge")
+        draft.images.toList().withIndex().chunked(3).forEach { references ->
+            val row=LinearLayout(this).apply { orientation=LinearLayout.HORIZONTAL;weightSum=3f }
+            body.addView(row,LinearLayout.LayoutParams(-1,-2).apply { bottomMargin=dp(4) })
+            references.forEach { (index,uri) ->
+                val tile=object : FrameLayout(this@FormActivity) {
+                    override fun onMeasure(widthMeasureSpec:Int,heightMeasureSpec:Int) {
+                        val side=android.view.View.MeasureSpec.getSize(widthMeasureSpec)
+                        super.onMeasure(widthMeasureSpec,android.view.View.MeasureSpec.makeMeasureSpec(side,android.view.View.MeasureSpec.EXACTLY))
+                    }
+                }
+                row.addView(tile,LinearLayout.LayoutParams(0,-2,1f))
+                val preview=thumbnail(uri,"Preview reference ${index+1}",112).apply {
+                    isClickable=true;isFocusable=true
+                    setOnClickListener {
+                        capture()
+                        startActivity(Intent(this@FormActivity,ViewerActivity::class.java)
+                            .putStringArrayListExtra("images",ArrayList(draft.images)).putExtra("index",index))
+                    }
+                }
+                tile.addView(preview,FrameLayout.LayoutParams(-1,-1).apply { setMargins(dp(8),dp(8),dp(8),dp(8)) })
+                val remove=FrameLayout(this).apply {
+                    contentDescription="Remove reference ${index+1}";tag="remove-reference:$index"
+                    isClickable=true;isFocusable=true
+                    setOnClickListener { capture();draft.images.removeAt(index);render() }
+                }
+                val badge=FrameLayout(this).apply {
+                    background=shape(0xffff3b30.toInt(),12).apply { setStroke(dp(2),0xff791f1a.toInt()) }
+                    importantForAccessibility=android.view.View.IMPORTANT_FOR_ACCESSIBILITY_NO
+                }
+                badge.addView(ImageView(this).apply { setImageResource(com.obra.studio.R.drawable.ic_remove_reference) },
+                    FrameLayout.LayoutParams(dp(18),dp(18),android.view.Gravity.CENTER))
+                remove.addView(badge,FrameLayout.LayoutParams(dp(24),dp(24),android.view.Gravity.TOP or android.view.Gravity.END))
+                tile.addView(remove,FrameLayout.LayoutParams(dp(48),dp(48),android.view.Gravity.TOP or android.view.Gravity.END))
+            }
+        }
+        button("Add references") { capture();picker.launch(arrayOf("image/*")) }.isEnabled=draft.images.size<6
     }
     private fun review(label:String,value:String,target:Int) {
         card { panel ->
@@ -114,6 +154,7 @@ class FormActivity:BaseActivity() {
     private fun payments() {
         val c=Studio.work(workId)!!
         section(c.title)
+        text(listOf(c.displayName,c.username,c.platform).filter { it.isNotBlank() }.joinToString(" · "),14)
         card(sage) {
             text("Received ${Studio.money(Studio.received(workId))}",20,false,it)
             text("Remaining ${Studio.money(Studio.balance(c))}",16,false,it)
@@ -123,7 +164,8 @@ class FormActivity:BaseActivity() {
         ps.sortedWith(compareByDescending<Payment> { it.receivedOn }.thenByDescending { it.id })
             .forEach { receipt(it,c,false) }
         if(Studio.balance(c)>0)button("Record payment",footer,true){form("payment",workId)}
-        button("Back to commission",footer){finish()}
+        if(intent.getBooleanExtra("fromHistory",false))button("View commission",footer){detail(workId);finish()}
+        else button("Back to commission",footer){finish()}
     }
     private fun progress() {
         val c=Studio.work(workId)!!

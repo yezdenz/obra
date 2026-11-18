@@ -58,13 +58,23 @@ class MainActivity: BaseActivity() {
         val works=Studio.repository.commissions()
         val outstanding=works.filter { it.status != "Cancelled" }.sumOf { Studio.balance(it) }
         card(sage) {
-            text("Monthly earnings",18,true,it)
+            val headingRow=LinearLayout(this).apply { gravity=android.view.Gravity.CENTER_VERTICAL }
+            it.addView(headingRow)
+            val monthPattern=if(month.year==YearMonth.now().year)"MMMM" else "MMMM yyyy"
+            val monthTitle=month.format(java.time.format.DateTimeFormatter.ofPattern(monthPattern,java.util.Locale.ENGLISH))
+            text("$monthTitle earnings",18,true,headingRow).layoutParams=LinearLayout.LayoutParams(0,-2,1f)
+            val insights=ImageButton(this).apply {
+                setImageResource(com.obra.studio.R.drawable.ic_insights)
+                background=shape(yellow,14);setPadding(dp(12),dp(12),dp(12),dp(12))
+                contentDescription="View insights";tooltipText="View insights"
+                setOnClickListener { switch("Insights") }
+            }
+            headingRow.addView(insights,LinearLayout.LayoutParams(dp(48),dp(48)).apply { leftMargin=dp(8) })
             text(Studio.money(Studio.monthly(month).sumOf { p -> p.amountMinor }),30,false,it)
-            text("Payments received · ${month.format(java.time.format.DateTimeFormatter.ofPattern("MMMM yyyy"))}",12,false,it)
             text("Still to collect: ${Studio.money(outstanding)} across all artwork",13,false,it)
-            val link=text("View insights ↗",13,false,it)
-            link.minHeight=dp(48);link.gravity=android.view.Gravity.CENTER_VERTICAL or android.view.Gravity.END
-            link.isClickable=true;link.isFocusable=true;link.setOnClickListener{switch("Insights")}
+        }.apply {
+            tag="home-earnings"
+            background=shape(sage,22).apply { setStroke(dp(2),yellow) }
         }
         val counts=LinearLayout(this);body.addView(counts,LinearLayout.LayoutParams(-1,-2).apply{bottomMargin=dp(18)})
         listOf("${works.count{it.status=="In progress"}}\nIn progress","${works.count{it.status=="Queued"}}\nIn queue").forEachIndexed { i,label ->
@@ -98,10 +108,12 @@ class MainActivity: BaseActivity() {
         }
     }
     private fun history() {
-        note("Received payments across your artwork.");period();val payments=Studio.monthly(month).sortedByDescending { it.receivedOn }
+        note("Payments grouped by commission. Tap an entry for its full history.");period();val payments=Studio.monthly(month).sortedByDescending { it.receivedOn }
         card(sage) { text(Studio.money(payments.sumOf { p->p.amountMinor }),30,false,it);text("${payments.size} payments received",14,false,it) }
         if(payments.isEmpty())empty("No payments this month","Received payments will appear here once recorded.")
-        payments.forEach { p -> receipt(p,Studio.work(p.commissionId)) }
+        groupPaymentsForMonth(Studio.repository.payments(),month).forEach { group ->
+            commissionPayments(group,Studio.work(group.commissionId),month)
+        }
     }
     private fun insights() {
         note("A clearer view of your creative income.");period()

@@ -205,6 +205,7 @@ open class BaseActivity: AppCompatActivity() {
     fun thumbnail(image: String?, label: String, size: Int=76): ImageView = ImageView(this).apply {
         scaleType=ImageView.ScaleType.CENTER_CROP;contentDescription=label
         background=shape(0xffede5dc.toInt(),14);clipToOutline=true
+        foreground=shape(Color.TRANSPARENT,14).apply { setStroke(dp(2),Color.BLACK) }
         setImageResource(android.R.drawable.ic_menu_gallery)
         imageTintList=android.content.res.ColorStateList.valueOf(muted)
         setPadding(dp(18),dp(18),dp(18),dp(18))
@@ -235,6 +236,53 @@ open class BaseActivity: AppCompatActivity() {
             if(openCommission && c!=null) {
                 panel.isClickable=true;panel.isFocusable=true;panel.contentDescription="Open payment for ${c.title}"
                 panel.setOnClickListener { detail(c.id) }
+            }
+        }
+    }
+    fun commissionPayments(group: CommissionPaymentGroup, c: Commission?, month: java.time.YearMonth) {
+        card { panel ->
+            panel.tag="commission-history:${group.commissionId}"
+            panel.setPadding(dp(14),dp(12),dp(14),dp(12))
+            val row=LinearLayout(this).apply { gravity=Gravity.CENTER_VERTICAL };panel.addView(row)
+            val copy=LinearLayout(this).apply { orientation=LinearLayout.VERTICAL }
+            row.addView(copy,LinearLayout.LayoutParams(0,-2,1f).apply { rightMargin=dp(12) })
+            fun line(value:String,size:Int,heading:Boolean=false) = text(value,size,heading,copy).apply {
+                (layoutParams as LinearLayout.LayoutParams).bottomMargin=dp(3)
+                maxLines=2;ellipsize=android.text.TextUtils.TruncateAt.END
+            }
+            val client=if(c==null)"Client unavailable" else listOf(c.displayName,c.username,c.platform)
+                .filter { it.isNotBlank() }.joinToString(" · ")
+            line(client,13)
+            line(c?.title ?: "Commission unavailable",16,true)
+            line(Studio.money(group.periodReceived),21)
+            if(group.allPayments.size==1) {
+                val payment=group.allPayments.single()
+                line("${readableDate(payment.receivedOn)} · ${payment.method}",12)
+            } else {
+                line("${month.format(java.time.format.DateTimeFormatter.ofPattern("MMMM",java.util.Locale.ENGLISH))} received · ${group.periodPayments.size} payments",12)
+            }
+            if(group.allPayments.size!=group.periodPayments.size)line("All-time paid ${Studio.money(group.totalReceived)}",12)
+            row.addView(thumbnail(c?.historyImage,"${c?.title ?: "Commission"} artwork",76))
+            val shown=if(group.allPayments.size>1)group.allPayments.takeLast(2) else emptyList()
+            val breakdown=when {
+                group.allPayments.size>2 -> "Latest payments · 2 of ${group.allPayments.size}"
+                group.allPayments.size!=group.periodPayments.size -> "Payments · all dates"
+                else -> null
+            }
+            if(breakdown!=null)text(breakdown,12,false,panel).setTextColor(muted)
+            shown.forEach { payment ->
+                val paymentRow=LinearLayout(this).apply { gravity=Gravity.CENTER_VERTICAL };panel.addView(paymentRow)
+                text("${readableDate(payment.receivedOn)} · ${payment.method}",12,false,paymentRow)
+                    .layoutParams=LinearLayout.LayoutParams(0,-2,1f)
+                text(Studio.money(payment.amountMinor),13,false,paymentRow).layoutParams=LinearLayout.LayoutParams(-2,-2)
+            }
+            if(c!=null) {
+                panel.isClickable=true;panel.isFocusable=true
+                panel.contentDescription="Open payments for ${c.title}, ${c.username}"
+                panel.setOnClickListener {
+                    startActivity(Intent(this,FormActivity::class.java).putExtra("mode","payments")
+                        .putExtra("commissionId",c.id).putExtra("fromHistory",true))
+                }
             }
         }
     }

@@ -1,5 +1,7 @@
 # Frontend progress
 
+Current checkpoint on November 18, 2026. The app is connected to SQLite with schema version 2. See [backend-integration.md](backend-integration.md) for the current implementation and tests. The entries below preserve the earlier frontend-only work history.
+
 Implementation started November 14, 2026. Reference: obra-review at da93933; layout.md, database-guide.md, reconnect-algo.md and the identical 18-page local PDF.
 
 Scope: Kotlin/Android Views frontend. No SQLite, database writes, real payments, or algorithm implementation. Temporary fixtures behind a read interface. Save actions validate and explain that backend integration is pending; no false persistent-success messages.

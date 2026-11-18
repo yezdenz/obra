@@ -1,45 +1,34 @@
 # Backend team starting guide
 
-This is the frontend integration handoff for OBRA. The native Android source is ready for backend development against sample data; complete database-driven functionality and full frontend acceptance are still pending. Source files are authoritative. Existing GitHub design guides describe intended behavior and proposed policies.
+The native frontend now reads and writes SQLite through the implemented backend. Begin with the current integration guide and source when changing a workflow.
 
-## Read in this order
+## Read in order
 
-1. [Project setup and dependencies](../README.md)
-2. [Frontend implementation and integration handoff](frontend-handoff.md)
-3. [Function reference](function-reference.md)
-4. [Checkbox verification walkthrough](manual-checks.md)
-5. [Progress and outstanding work](frontend-progress.md)
-6. Existing repository root guides: database-guide.md, layout.md and reconnect-algo.md. Preserve these when adding the Android project to the existing yezdenz/obra repository.
+1. [Project setup](../README.md)
+2. [Current implementation](backend-integration.md)
+3. [Database schema and migration](DATABASE_HANDOFF.md)
+4. [Screen integration contract](frontend-handoff.md)
+5. [Function reference](function-reference.md)
+6. [Acceptance walkthrough](manual-checks.md)
 
-## Present state
+Root `database-guide.md` remains the proposed design and acceptance reference. `reconnect-algo.md` documents the matching baseline and algorithm-team contract. Their proposed product decisions should be reviewed when the team changes scope.
 
-- Kotlin native Android Views, shared XML shell, four Activities with explicit Intent-based navigation. Screen content is primarily constructed in Kotlin.
-- Five main sections: Home, Work/Commissions, History, Insights and Reconnect; contextual Add/Edit, Details, tasks, payments, progress, completion and image viewing.
-- Fictional data comes from Fixtures through StudioRepository. StudioWriter is a proposed interface without an implementation or an injected writer instance.
-- Validated save/start/task actions show pending-integration feedback. They do not persist or mutate records. Reconnect uses fixed results.
-- The user ran the earlier draft on a Xiaomi 14T and reported the system-style confirmation popup. Shared app dialogs were subsequently themed; no completed checkbox walkthrough or full device test report has been supplied.
-- Earlier clean-copy verification passed assembleDebug, lintDebug and 13 JVM tests using AGP 9.4.1. Current source declares AGP 9.5.1 and Gradle 9.6.0; validate this current combination before integration. Existing deliverables are snapshots and may differ from current source.
+## Connected responsibilities
 
-## First integration milestone
+- `ObraDatabaseHelper` owns schema version 2, foreign keys, lookup seeds and the ordered upgrade.
+- `ObraApplication` owns the helper, background worker and snapshot publication.
+- `SqliteStudioRepository` owns consistent reads and transactional commission/payment/task/progress operations.
+- `StudioSnapshot` supplies display records and the documented Reconnect baseline using saved keys.
+- Activities own drafts, loading/error/retry presentation, confirmations and success navigation.
 
-- [ ] Agree on IDs, enum/lookup mappings and transaction boundaries using Models.kt and database-guide.md.
-- [ ] Implement SQLite storage, seed only lookup values, and provide joined display data.
-- [ ] Replace the fixture provider using background database operations and observable screen state. Current Activities render synchronously and will need refresh wiring.
-- [ ] Introduce the real writer and replace the validated pending() call in Add with one transactional save of the commission and related records.
-- [ ] Generate one submission token per draft and reuse it for retries. Disable Save while pending; keep input on failure.
-- [ ] On success, open the returned commission ID and refresh the list.
-- [ ] Close/reopen the app and verify the saved commission remains.
-- [ ] Integrate Edit, payments, task toggles and work progress in small changes; refresh every affected screen after success.
-- [ ] Connect aggregate queries and the algorithm team's Reconnect provider.
+Save related records together and retain the same token on retry. Use fresh financial values inside the transaction. Preserve existing receipts and actual progress during request editing. Database work and image decoding run off the main thread.
 
-## Rules to preserve
+## Scope agreed for this pass
 
-Use Long integer centavos, stable internal record IDs and ISO calendar dates. Keep receipt dates independent from deadlines. Artwork completion must not mark receipts paid or tasks done. Prevent overpayment and a price below received money. Preserve drafts on validation/read/write failures. Do not perform DB work on the UI thread.
+Finish the existing backend scope. Cancellation, archive/deletion, refunds, receipt corrections and structured quote snapshots remain deferred. This was selected by the user during the backend correction pass. If the course requires deletion for full CRUD, agree on a history-preserving design with the team and instructor before expanding scope.
 
-Deletion, cancellation, refunds and receipt correction are unresolved product policies; no corresponding writer methods currently exist. The course requires complete CRUD, so resolve the intended deletion workflow before claiming compliance. Image copying/URI durability, migrations, async error states and full changed-field summaries also remain implementation work.
+## Collaboration
 
-## GitHub contents
+The database owner maintains schema/migrations and reviews storage changes. The backend owner maintains workflows, validation and screen integration. Review changes to the shared models and transaction boundaries together. Test the populated upgrade whenever the schema version changes.
 
-Add the OBRA/ directory inside the existing repository, alongside its current planning Markdown and docs/ directory. Open OBRA/ in Android Studio. Include source, resources, manifests, Gradle scripts and wrapper, licenses, tests and these documents. Do not add local.properties, .idea/, .gradle/, generated build directories, keystores or local databases. APK/ZIP downloads can be attached to a GitHub Release rather than committed as editable source.
-
-The separate obra-review/ folder is a local clone of the existing GitHub repository. Do not upload that folder as a nested repository. Do not upload verification-path.txt or transfer manifests as project source.
+Use fictional fixtures in tests. Activity tests use an isolated application database and a test-only document provider. Keep user databases and reference files out of Git.

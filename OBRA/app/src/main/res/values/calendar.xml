@@ -1,0 +1,20 @@
+<resources>
+    <style name="ThemeOverlay.Obra.Calendar" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="fontFamily">@font/mali</item>
+        <item name="android:fontFamily">@font/mali</item>
+        <item name="colorPrimary">#6A507D</item>
+        <item name="colorOnPrimary">#FFFDF9</item>
+        <item name="colorSurface">#FFF8EF</item>
+        <item name="colorOnSurface">#302C37</item>
+        <item name="materialCalendarHeaderTitle">@style/Obra.CalendarTitle</item>
+        <item name="materialCalendarHeaderSelection">@style/Obra.CalendarSelection</item>
+    </style>
+    <style name="Obra.CalendarTitle" parent="Widget.MaterialComponents.MaterialCalendar.HeaderTitle">
+        <item name="fontFamily">@font/dynapuff</item>
+        <item name="android:fontFamily">@font/dynapuff</item>
+    </style>
+    <style name="Obra.CalendarSelection" parent="Widget.MaterialComponents.MaterialCalendar.HeaderSelection">
+        <item name="fontFamily">@font/mali</item>
+        <item name="android:fontFamily">@font/mali</item>
+    </style>
+</resources>

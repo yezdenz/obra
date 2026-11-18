@@ -10,7 +10,7 @@ import java.time.LocalDate
 
 class FormActivity:BaseActivity() {
     private var mode="add";private var workId=0L;private var step=1
-    private var draft=CommissionDraft();private var baseline=CommissionDraft()
+    private var draft=CommissionDraft(total="");private var baseline=CommissionDraft(total="")
     private var submissionToken=java.util.UUID.randomUUID().toString()
     private var attemptedSave=false
     private var initialized=false
@@ -67,13 +67,13 @@ class FormActivity:BaseActivity() {
         note("Step $step of 4");headerAction("Close") { capture();leave() }
         when(step){1->{section("Client details");note("Who are we creating for?");choose("Contact platform *",listOf("X","Discord"),draft.platform){draft.platform=it};field("username","Client username *",draft.username);field("name","Display name · Optional",draft.displayName)}
             2->{section("Artwork brief");note("Give the request a little shape.");field("title","Project title *",draft.title);val types=((Studio.repository as? StudioSnapshot)?.activeTypes.orEmpty()+if(mode=="edit")listOf(baseline.type) else emptyList()).distinct();if(draft.type !in types)draft.type=types.firstOrNull().orEmpty();if(types.isEmpty())note("No active commission types are available.")else choose("Commission type *",types,draft.type){draft.type=it};field("genre","Primary genre · Optional",draft.genre);field("tags","Style tags · Optional",draft.tags);field("brief","Pose & details",draft.brief,true);section("Reference images");note("${draft.images.size} of 6 images");draft.images.toList().forEachIndexed { index,uri->button("View reference ${index+1}"){capture();startActivity(Intent(this,ViewerActivity::class.java).putStringArrayListExtra("images",draft.images).putExtra("index",index))};button("Remove reference ${index+1}"){capture();draft.images.remove(uri);render()} };button("+ Add image"){capture();picker.launch(arrayOf("image/*"))}.isEnabled=draft.images.size<6}
-            3->{section("Price & dates");note("A clear quote. A little breathing room.");if(mode=="add"){val base=when(draft.type){"Full body"->2500;"Half body"->1500;"Chibi"->1200;"Full illustration"->4500;"Character sheet"->3200;"Icon"->500;else->1800};card(sage){text("Suggested quote: ${Studio.money((base+if(draft.background)500 else 0)*100L)}",17,true,it)};val cb=CheckBox(this);cb.text="Detailed background (+ ₱500)";cb.isChecked=draft.background;body.addView(cb);cb.setOnClickListener{capture();draft.background=cb.isChecked;render()}}
+            3->{section("Price & dates");note("Set the price you agreed with your client.")
                 field("total","Agreed total (PHP) *",draft.total)
                 if(mode=="edit")note("Already received: ${Studio.money(Studio.received(workId))}. Existing receipts remain unchanged.")
                 dateField("Commission date",draft.commissionOn){capture();draft.commissionOn=it;render()};dateField("Due date",draft.dueOn){capture();draft.dueOn=it;render()};dateField("Planned start · Optional",draft.plannedStart){capture();draft.plannedStart=it;render()};if(draft.plannedStart.isNotBlank())button("Clear planned start"){capture();draft.plannedStart="";render()}
                 if(mode=="add"){val cb=CheckBox(this);cb.text="Record initial payment";cb.typeface=heading;cb.isChecked=draft.initialEnabled;body.addView(cb);cb.setOnClickListener{capture();draft.initialEnabled=cb.isChecked;render()};if(draft.initialEnabled){field("initialAmount","Amount received (PHP) *",draft.initialAmount);dateField("Date received",draft.initialDate){capture();draft.initialDate=it;render()};choose("Payment method",methods,draft.initialMethod){draft.initialMethod=it};field("initialNote","Payment note · Optional",draft.initialNote)}}}
             4->{section(if(mode=="edit")"Review changes" else "One last look");if(mode=="edit"){val changes=mutableListOf<String>();if(draft.username!=baseline.username)changes.add("Username: ${baseline.username} → ${draft.username}");if(draft.title!=baseline.title)changes.add("Title: ${baseline.title} → ${draft.title}");if(draft.total!=baseline.total)changes.add("Price: ${baseline.total} → ${draft.total}");if(draft.dueOn!=baseline.dueOn)changes.add("Due: ${baseline.dueOn} → ${draft.dueOn}");text(changes.joinToString("\n").ifEmpty { if(draft==baseline)"No changes to save." else "Review the updated details below." })}
-                review("Client","${draft.username} · ${draft.platform}\n${draft.displayName}",1);review("Artwork","${draft.title}\n${draft.type} · ${draft.genre}\n${draft.tags}\n${draft.brief}\n${draft.images.size} references",2);review("Schedule","Commission: ${draft.commissionOn}\nPlanned start: ${draft.plannedStart.ifEmpty { "Not set" }}\nDue: ${draft.dueOn}",3);review("Price & payment","Agreed total: ₱${draft.total}\nInitial payment: ${if(draft.initialEnabled)"₱${draft.initialAmount}" else "None"}",3)} }
+                review("Client","${draft.username} · ${draft.platform}\n${draft.displayName}",1);review("Artwork","${draft.title}\n${draft.type} · ${draft.genre}\n${draft.tags}\n${draft.brief}\n${draft.images.size} references",2);review("Schedule","Commission: ${readableDate(draft.commissionOn)}\nPlanned start: ${draft.plannedStart.ifEmpty { "Not set" }.let(::readableDate)}\nDue: ${readableDate(draft.dueOn)}",3);review("Price & payment","Agreed total: ₱${draft.total}\nInitial payment: ${if(draft.initialEnabled)"₱${draft.initialAmount}" else "None"}",3)} }
         val label=when(step){1->"Next: Artwork";2->"Next: Price & dates";3->if(mode=="edit")"Review changes" else "Review commission";else->if(mode=="edit")"Save changes" else "Save commission"}
         button(label,footer,true){capture();val issue=validate(step);if(issue!=null)error(issue)else if(step<4){step++;render();scroll.scrollTo(0,0)}else saveRequest()}.isEnabled=!(step==4&&mode=="edit"&&draft==baseline)
     }
@@ -111,7 +111,20 @@ class FormActivity:BaseActivity() {
     }
     private val methods=listOf("GCash","Bank transfer","PayPal","Cash","Other")
     private fun payment(){val c=Studio.work(workId)!!;card(sage){text(c.title,20,true,it);text("Remaining: ${Studio.money(Studio.balance(c))}",20,false,it)};field("amount","Amount received (PHP) *",amount);dateField("Received date",paidOn){capture();paidOn=it;render()};choose("Method",methods,method){method=it};field("note","Note · Optional",paymentNote,true);button("Save payment",footer,true){capture();val n=Validation.minor(amount);val d=Validation.date(paidOn);when{n==null->error("Enter a positive amount with at most two decimal places.");n>Studio.balance(c)->error("Payment cannot exceed the remaining balance.");d==null||d<Validation.date(c.commissionOn)||d>LocalDate.now()->error("Received date must be between commission date and today.");else->{attemptedSave=true;write({it.recordPayment(workId,n,paidOn,method,paymentNote,submissionToken)}){finish()}}}} }
-    private fun payments(){val c=Studio.work(workId)!!;section(c.title);card(sage){text("Received ${Studio.money(Studio.received(workId))}\nRemaining ${Studio.money(Studio.balance(c))}",23,false,it)};val ps=Studio.repository.payments().filter{it.commissionId==workId};if(ps.isEmpty())empty("No payments yet","Record money only after it has been received.");ps.sortedByDescending{it.receivedOn}.forEach { p->card{text(Studio.money(p.amountMinor),25,false,it);text("${p.receivedOn}\n${p.method}\n${p.note}",15,false,it)} };button("Record payment",primary=true){form("payment",workId)}.isEnabled=Studio.balance(c)>0;button("Back to commission"){finish()} }
+    private fun payments() {
+        val c=Studio.work(workId)!!
+        section(c.title)
+        card(sage) {
+            text("Received ${Studio.money(Studio.received(workId))}",20,false,it)
+            text("Remaining ${Studio.money(Studio.balance(c))}",16,false,it)
+        }
+        val ps=Studio.repository.payments().filter { it.commissionId==workId }
+        if(ps.isEmpty())empty("No payments yet","Record money only after it has been received.")
+        ps.sortedWith(compareByDescending<Payment> { it.receivedOn }.thenByDescending { it.id })
+            .forEach { receipt(it,c,false) }
+        if(Studio.balance(c)>0)button("Record payment",footer,true){form("payment",workId)}
+        button("Back to commission",footer){finish()}
+    }
     private fun progress() {
         val c=Studio.work(workId)!!
         section(c.title)

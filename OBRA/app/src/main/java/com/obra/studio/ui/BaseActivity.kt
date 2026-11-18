@@ -18,6 +18,7 @@ import com.obra.studio.ObraApplication
 import com.obra.studio.data.local.SqliteStudioRepository
 
 open class BaseActivity: AppCompatActivity() {
+    private val artworkImages by lazy { ArtworkImages(this) }
     private var requestNumber = 0
     private var loaded = false
     private var refreshError: View? = null
@@ -145,7 +146,8 @@ open class BaseActivity: AppCompatActivity() {
             else -> "Due ${readableDate(c.dueOn)}"
         }
     }
-    fun reset(name: String, back: Boolean=true) { body.removeAllViews(); footer.removeAllViews(); title(name,back) }
+    override fun onDestroy() { artworkImages.close();super.onDestroy() }
+    fun reset(name: String, back: Boolean=true) { artworkImages.clear();body.removeAllViews(); footer.removeAllViews(); title(name,back) }
     fun section(label: String) { text(label,21,true) }
     fun note(value: String) { text(value,13).setTextColor(muted) }
     /** Shared OBRA dialog, independent of manufacturer alert styling. */
@@ -189,16 +191,95 @@ open class BaseActivity: AppCompatActivity() {
     fun detail(id: Long) { startActivity(Intent(this,DetailActivity::class.java).putExtra("commissionId",id)) }
     fun form(mode: String="add", id: Long=0) { startActivity(Intent(this,FormActivity::class.java).putExtra("mode",mode).putExtra("commissionId",id)) }
     fun completeArtwork(id: Long) {
-        startActivity(Intent(this, FormActivity::class.java).putExtra("mode", "progress")
-            .putExtra("commissionId", id).putExtra("completeArtwork", true))
+        showObraDialog("Finish this artwork?", "Mark it completed today, ${readableDate(java.time.LocalDate.now().toString())}? You can still add artwork and record payments later.",
+            "Mark completed", "Keep working") {
+            write({ it.updateProgress(id,"Finished",java.time.LocalDate.now().toString()) }) { onStudioReady() }
+        }
+    }
+    fun goHome() {
+        startActivity(Intent(this,MainActivity::class.java)
+            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP).putExtra("showHome",true))
+        finish()
+    }
+    fun loadArtwork(view: ImageView, image: String, edge: Int=480) { artworkImages.load(view,image,edge) }
+    fun thumbnail(image: String?, label: String, size: Int=76): ImageView = ImageView(this).apply {
+        scaleType=ImageView.ScaleType.CENTER_CROP;contentDescription=label
+        background=shape(0xffede5dc.toInt(),14);clipToOutline=true
+        setImageResource(android.R.drawable.ic_menu_gallery)
+        imageTintList=android.content.res.ColorStateList.valueOf(muted)
+        setPadding(dp(18),dp(18),dp(18),dp(18))
+        if(image!=null)loadArtwork(this,image)
+        layoutParams=LinearLayout.LayoutParams(dp(size),dp(size))
+    }
+    fun artworkGallery(c: Commission, finalFirst: Boolean=false) {
+        val ordered=c.artworkUpdates.sortedWith(compareByDescending<ArtworkUpdate> { finalFirst && it.stage=="Finished" }.thenByDescending { it.id })
+        val images=ordered.map { it.image } + c.finalImages.asReversed()
+        startActivity(Intent(this,ViewerActivity::class.java).putExtra("commissionId",c.id)
+            .putExtra("imageLabel","Artwork").putStringArrayListExtra("images",ArrayList(images)))
+    }
+    fun receipt(p: Payment, c: Commission?, openCommission: Boolean=true) {
+        card { panel ->
+            panel.setPadding(dp(14),dp(10),dp(14),dp(10))
+            val row=LinearLayout(this).apply { gravity=Gravity.CENTER_VERTICAL };panel.addView(row)
+            val copy=LinearLayout(this).apply { orientation=LinearLayout.VERTICAL }
+            row.addView(copy,LinearLayout.LayoutParams(0,-2,1f).apply { rightMargin=dp(12) })
+            fun line(value: String,size: Int,heading: Boolean=false) = text(value,size,heading,copy).apply {
+                (layoutParams as LinearLayout.LayoutParams).bottomMargin=dp(3)
+                maxLines=if(heading)2 else 1;ellipsize=android.text.TextUtils.TruncateAt.END
+            }
+            line("${readableDate(p.receivedOn)} · ${p.method}",12)
+            line(Studio.money(p.amountMinor),20)
+            if(openCommission)line(c?.title ?: "Commission unavailable",14,true)
+            if(p.note.isNotBlank())line(p.note,12)
+            row.addView(thumbnail(c?.historyImage,"${c?.title ?: "Commission"} artwork",76))
+            if(openCommission && c!=null) {
+                panel.isClickable=true;panel.isFocusable=true;panel.contentDescription="Open payment for ${c.title}"
+                panel.setOnClickListener { detail(c.id) }
+            }
+        }
     }
     fun artwork(c: Commission, parent: LinearLayout=body) { card(parent=parent) { box ->
         val row=LinearLayout(this);row.gravity=Gravity.CENTER_VERTICAL;box.addView(row)
-        val thumbnail=ImageView(this);thumbnail.setImageResource(android.R.drawable.ic_menu_gallery);thumbnail.imageTintList=android.content.res.ColorStateList.valueOf(muted);thumbnail.setPadding(dp(10),dp(10),dp(10),dp(10));thumbnail.background=shape(0xffede5dc.toInt(),12);thumbnail.importantForAccessibility=View.IMPORTANT_FOR_ACCESSIBILITY_NO;row.addView(thumbnail,LinearLayout.LayoutParams(dp(44),dp(54)).apply{rightMargin=dp(12)})
+        val thumbnail=thumbnail(c.previewImage,"Latest artwork for ${c.title}");row.addView(thumbnail,LinearLayout.LayoutParams(dp(76),dp(84)).apply{rightMargin=dp(12)})
         val copy=LinearLayout(this);copy.orientation=LinearLayout.VERTICAL;row.addView(copy,LinearLayout.LayoutParams(0,-2,1f));text(c.title,16,true,copy);text("${c.username} · ${c.platform}",12,false,copy);text("${c.status} · ${deadline(c)}",12,false,copy);box.isClickable=true;box.isFocusable=true;box.contentDescription="Open ${c.title}";box.setOnClickListener{detail(c.id)}
     } }
     fun empty(title: String, message: String) { card { text(title,21,true,it); text(message,15,false,it) } }
     fun input(label: String, value: String, parent: LinearLayout=body, multiline: Boolean=false, suggestions: List<String>?=null): EditText { text(label,14,false,parent); return (if(suggestions==null) EditText(this) else AutoCompleteTextView(this).apply { setAdapter(ArrayAdapter(context,android.R.layout.simple_dropdown_item_1line,suggestions));threshold=1 }).apply { setText(value); textSize=16f; typeface=supporting; setTextColor(ink); background=shape(Color.rgb(255,253,249),14,true); setPadding(dp(12),dp(10),dp(12),dp(10)); minHeight=dp(50); inputType=if(multiline) android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE else android.text.InputType.TYPE_CLASS_TEXT; if(multiline)minLines=3; parent.addView(this,LinearLayout.LayoutParams(-1,-2).apply { bottomMargin=dp(16) }); contentDescription=label } }
     fun choose(label: String, values: List<String>, current: String, changed: (String)->Unit) { text(label,14); val spinner=Spinner(this); spinner.adapter=ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item,values); spinner.setSelection(values.indexOf(current).coerceAtLeast(0)); body.addView(spinner,LinearLayout.LayoutParams(-1,dp(52))); spinner.onItemSelectedListener=object: AdapterView.OnItemSelectedListener { override fun onNothingSelected(p: AdapterView<*>?) {} ; override fun onItemSelected(p: AdapterView<*>?,v: View?,position: Int,id: Long) { changed(values[position]) } } }
-    fun dateField(label: String, value: String, changed: (String)->Unit) { button("$label: ${value.ifEmpty { "Choose date" }}") { val d=Validation.date(value)?:java.time.LocalDate.now(); android.app.DatePickerDialog(this,{_,y,m,day->changed(java.time.LocalDate.of(y,m+1,day).toString())},d.year,d.monthValue-1,d.dayOfMonth).show() } }
+    fun dateField(label: String, value: String, changed: (String)->Unit) {
+        text(label,13)
+        val parsed=Validation.date(value)
+        val display=parsed?.format(java.time.format.DateTimeFormatter.ofPattern("MMM d, yyyy",java.util.Locale.ENGLISH)) ?: "Choose a date"
+        val row=LinearLayout(this).apply {
+            gravity=Gravity.CENTER_VERTICAL;minimumHeight=dp(60);setPadding(dp(14),dp(8),dp(14),dp(8))
+            background=shape(0xfffffdf9.toInt(),16,true);isClickable=true;isFocusable=true
+            contentDescription="$label, $display";tag="date-field:$label"
+        }
+        body.addView(row,LinearLayout.LayoutParams(-1,-2).apply { bottomMargin=dp(16) })
+        text(display,18,false,row).layoutParams=LinearLayout.LayoutParams(0,-2,1f)
+        row.addView(ImageView(this).apply {
+            setImageResource(R.drawable.ic_calendar)
+            imageTintList=android.content.res.ColorStateList.valueOf(muted)
+            importantForAccessibility=View.IMPORTANT_FOR_ACCESSIBILITY_NO
+        },LinearLayout.LayoutParams(dp(24),dp(24)))
+        val tag="obra-date:$label"
+        fun bind(picker: com.google.android.material.datepicker.MaterialDatePicker<Long>) {
+            picker.clearOnPositiveButtonClickListeners()
+            picker.addOnPositiveButtonClickListener { millis ->
+                changed(java.time.Instant.ofEpochMilli(millis).atZone(java.time.ZoneOffset.UTC).toLocalDate().toString())
+            }
+        }
+        @Suppress("UNCHECKED_CAST")
+        val restored=supportFragmentManager.findFragmentByTag(tag) as? com.google.android.material.datepicker.MaterialDatePicker<Long>
+        restored?.let(::bind)
+        row.setOnClickListener {
+            if(supportFragmentManager.findFragmentByTag(tag)==null) {
+                val selected=(parsed ?: java.time.LocalDate.now()).atStartOfDay(java.time.ZoneOffset.UTC).toInstant().toEpochMilli()
+                val picker=com.google.android.material.datepicker.MaterialDatePicker.Builder.datePicker()
+                    .setTheme(R.style.ThemeOverlay_Obra_Calendar).setTitleText(label).setSelection(selected)
+                    .setPositiveButtonText("Use date").setNegativeButtonText("Cancel").build()
+                bind(picker);picker.show(supportFragmentManager,tag)
+            }
+        }
+    }
 }

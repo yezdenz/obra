@@ -53,11 +53,12 @@ class ViewerActivity : BaseActivity() {
         imageLoad?.cancel(true)
         val request = ++imageRequest
         zoom = 1f
-        reset("Image preview")
+        val label=intent.getStringExtra("imageLabel") ?: "Reference"
+        reset(if(label=="Artwork")"Your artwork" else "Image preview")
         val commission = Studio.work(intent.getLongExtra("commissionId", 0))
-        note(commission?.title ?: "Reference ${index + 1} of ${images.size}")
+        note(listOfNotNull(commission?.title,"$label ${index + 1} of ${images.size}").joinToString(" · "))
         image = ImageView(this).apply {
-            contentDescription = "Commission reference image"
+            contentDescription = if(label=="Artwork")"Artist artwork image" else "Commission reference image"
             scaleType = ImageView.ScaleType.FIT_CENTER
             background = shape(0xffede5dc.toInt())
         }

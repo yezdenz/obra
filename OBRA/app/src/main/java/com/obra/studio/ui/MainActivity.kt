@@ -14,6 +14,7 @@ class MainActivity: BaseActivity() {
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
         tab=state?.getString("tab")?:"Home"
+        if(intent.getBooleanExtra("showHome",false)) {tab="Home";intent.removeExtra("showHome")}
         if(tab !in listOf("Home","Commissions","History","Insights","Reconnect"))tab="Home"
         filter=state?.getString("filter")?:filter
         query=state?.getString("query")?:""
@@ -23,6 +24,10 @@ class MainActivity: BaseActivity() {
             saved.keySet().forEach { positions[it]=saved.getInt(it) }
         }
         pendingScroll=state?.getInt("scroll")
+    }
+    override fun onNewIntent(intent: android.content.Intent) {
+        super.onNewIntent(intent)
+        if(intent.getBooleanExtra("showHome",false)) {tab="Home";pendingScroll=0}
     }
     override fun onSaveInstanceState(out: Bundle) {
         positions[tab]=pendingScroll?:scroll.scrollY
@@ -96,7 +101,7 @@ class MainActivity: BaseActivity() {
         note("Received payments across your artwork.");period();val payments=Studio.monthly(month).sortedByDescending { it.receivedOn }
         card(sage) { text(Studio.money(payments.sumOf { p->p.amountMinor }),30,false,it);text("${payments.size} payments received",14,false,it) }
         if(payments.isEmpty())empty("No payments this month","Received payments will appear here once recorded.")
-        payments.forEach { p->card { box->text(p.receivedOn,13,false,box);text(Studio.money(p.amountMinor),24,false,box);text("${Studio.work(p.commissionId)?.title}\n${p.method} · ${p.note}",14,false,box);button("View commission",box) { detail(p.commissionId) } } }
+        payments.forEach { p -> receipt(p,Studio.work(p.commissionId)) }
     }
     private fun insights() {
         note("A clearer view of your creative income.");period()

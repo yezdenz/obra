@@ -34,10 +34,16 @@ class DetailActivity : BaseActivity() {
             text(c.title, 25, true, it)
             text("${c.username} · ${c.platform}", 15, false, it)
             text(deadline(c), 15, false, it)
-            if (c.status == "In progress") {
-                text("Keep working at your own pace. Mark completed when the artwork is ready.", 13, false, it)
-            }
         }
+        section("Your artwork")
+        if(c.previewImage!=null) {
+            val preview=thumbnail(c.previewImage,"Latest artwork for ${c.title}",200)
+            body.addView(preview,android.widget.LinearLayout.LayoutParams(-1,dp(200)).apply { bottomMargin=dp(8) })
+            preview.isClickable=true;preview.isFocusable=true
+            preview.setOnClickListener { artworkGallery(c) }
+            note("${c.latestArtwork?.stage ?: "Finished"} · Latest upload · Tap to view all")
+        } else note("No artwork uploaded yet. Add a sketch or your latest progress below.")
+        button("Add artwork") { startActivity(Intent(this,ArtworkActivity::class.java).putExtra("commissionId",c.id)) }
         val received = Studio.received(c.id)
         val remaining = Studio.balance(c)
         card(sage) { panel ->
@@ -73,7 +79,6 @@ class DetailActivity : BaseActivity() {
                 "Finished: ${c.finishedOn.ifBlank { "Not finished" }.let(::readableDate)}")
             if (c.displayName.isNotBlank()) text("Client name: ${c.displayName}")
             if (c.tags.isNotBlank()) text("Style: ${c.tags}")
-            if (c.background) note("Detailed background included")
             if (c.status == "In progress") {
                 section("Art stage (optional)")
                 note("Current: ${c.stage}. Use this only if you want to track drawing stages.")
@@ -108,6 +113,10 @@ class DetailActivity : BaseActivity() {
             } else {
                 text("Artwork complete · Fully paid", 14, false, footer)
             }
+        }
+        text("Back to Home",14,false,footer).apply {
+            gravity=android.view.Gravity.CENTER;minHeight=dp(48);isClickable=true;isFocusable=true
+            setOnClickListener { goHome() }
         }
         scroll.post { scroll.scrollTo(0, position) }
     }

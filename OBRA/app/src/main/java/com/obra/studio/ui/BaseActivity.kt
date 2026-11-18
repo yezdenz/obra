@@ -109,6 +109,7 @@ open class BaseActivity: AppCompatActivity() {
     lateinit var body: LinearLayout; lateinit var header: LinearLayout; lateinit var footer: LinearLayout; lateinit var scroll: ScrollView
     val cream = Color.rgb(255,248,239); val ink = Color.rgb(48,44,55); val muted = Color.rgb(107,98,112)
     val yellow = Color.rgb(255,209,91); val sage = Color.rgb(236,235,220); val lavender = Color.rgb(237,228,244)
+    val danger = Color.rgb(180,52,62)
     val heading: Typeface by lazy { try { resources.getFont(R.font.dynapuff) } catch (_: Exception) { Typeface.DEFAULT_BOLD } }
     val supporting: Typeface by lazy { try { resources.getFont(R.font.itim) } catch (_: Exception) { Typeface.DEFAULT } }
     override fun onCreate(state: Bundle?) { super.onCreate(state); setContentView(R.layout.activity_shell)
@@ -154,10 +155,14 @@ open class BaseActivity: AppCompatActivity() {
     }
     fun card(color: Int=Color.rgb(255,253,249), parent: LinearLayout=body, content: (LinearLayout)->Unit): LinearLayout = LinearLayout(this).apply { orientation=LinearLayout.VERTICAL; setPadding(dp(16),dp(16),dp(16),dp(12)); background=shape(color,22,true); parent.addView(this,LinearLayout.LayoutParams(-1,-2).apply { bottomMargin=dp(16) }); content(this) }
     fun title(name: String, back: Boolean=true) { header.removeAllViews(); if(back) { val b=TextView(this); b.text="‹"; b.textSize=32f; b.contentDescription="Back"; b.gravity=Gravity.CENTER; header.addView(b,LinearLayout.LayoutParams(dp(48),dp(48))); b.setOnClickListener { onBackPressedDispatcher.onBackPressed() } }; text(name,if(back)20 else 32,true,header).layoutParams=LinearLayout.LayoutParams(0,-2,1f) }
-    fun headerAction(label: String, action: () -> Unit) {
+    fun headerAction(label: String, destructive: Boolean=false, action: () -> Unit) {
         TextView(this).apply {
             text = label; typeface = supporting; textSize = 14f; setTextColor(ink)
             gravity = Gravity.CENTER; minWidth = dp(48); minHeight = dp(48)
+            if(destructive) {
+                background=shape(danger,18);setTextColor(Color.WHITE);typeface=heading
+                setPadding(dp(14),dp(6),dp(14),dp(6))
+            }
             isClickable = true; isFocusable = true; contentDescription = label
             header.addView(this, LinearLayout.LayoutParams(-2, -2))
             setOnClickListener { action() }
@@ -199,8 +204,8 @@ open class BaseActivity: AppCompatActivity() {
         if (negative != null) button(negative, panel, true) { dialog.dismiss() }
         button(positive, panel, negative == null) { dialog.dismiss(); action() }.apply {
             if (destructive) {
-                backgroundTintList = android.content.res.ColorStateList.valueOf(0xfffae1de.toInt())
-                setTextColor(0xffa23d38.toInt())
+                backgroundTintList = android.content.res.ColorStateList.valueOf(danger)
+                setTextColor(Color.WHITE)
             }
         }
         val viewport = ScrollView(this).apply { addView(panel); isFillViewport = true }

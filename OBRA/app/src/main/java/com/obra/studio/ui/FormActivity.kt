@@ -153,7 +153,7 @@ class FormActivity:BaseActivity() {
     private fun payment(){val c=Studio.work(workId)!!;card(sage){text(c.title,20,true,it);text("Remaining: ${Studio.money(Studio.balance(c))}",20,false,it)};field("amount","Amount received (PHP) *",amount);dateField("Received date",paidOn){capture();paidOn=it;render()};choose("Method",methods,method){method=it};field("note","Note · Optional",paymentNote,true);button("Save payment",footer,true){capture();val n=Validation.minor(amount);val d=Validation.date(paidOn);when{n==null->error("Enter a positive amount with at most two decimal places.");n>Studio.balance(c)->error("Payment cannot exceed the remaining balance.");d==null||d<Validation.date(c.commissionOn)||d>LocalDate.now()->error("Received date must be between commission date and today.");else->{attemptedSave=true;write({it.recordPayment(workId,n,paidOn,method,paymentNote,submissionToken)}){finish()}}}} }
     private fun payments() {
         val c=Studio.work(workId)!!
-        headerAction("Delete") { deleteCommission(c) }
+        headerAction("Delete",destructive=true) { deleteCommission(c) }
         section(c.title)
         text(listOf(c.displayName,c.username,c.platform).filter { it.isNotBlank() }.joinToString(" · "),14)
         card(sage) {

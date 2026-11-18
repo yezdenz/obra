@@ -101,8 +101,8 @@ class DetailActivity : BaseActivity() {
             }
         }
         button("Delete commission") { deleteCommission(c) }.apply {
-            backgroundTintList=android.content.res.ColorStateList.valueOf(0xfffae1de.toInt())
-            setTextColor(0xffa23d38.toInt())
+            backgroundTintList=android.content.res.ColorStateList.valueOf(danger)
+            setTextColor(android.graphics.Color.WHITE)
         }
         // One fixed primary action, selected for the current work status.
         when (c.status) {

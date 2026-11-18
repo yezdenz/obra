@@ -6,9 +6,9 @@ android {
         applicationId = "com.obra.studio"
         minSdk = 26
         targetSdk = 37
-        versionCode = 2
-        versionName = "0.1.1-frontend"
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        versionCode = 3
+        versionName = "0.2.0-backend"
+        testInstrumentationRunner = "com.obra.studio.data.local.BackendTestRunner"
     }
     compileOptions { sourceCompatibility = JavaVersion.VERSION_17; targetCompatibility = JavaVersion.VERSION_17 }
 }

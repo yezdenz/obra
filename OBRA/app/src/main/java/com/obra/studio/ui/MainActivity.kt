@@ -136,7 +136,7 @@ class MainActivity: BaseActivity() {
                 textSize=12f;gravity=Gravity.CENTER;textAlignment=View.TEXT_ALIGNMENT_CENTER
                 setPadding(dp(5),dp(5),dp(5),dp(5))
                 minimumWidth=0;insetLeft=0;insetRight=0
-                strokeWidth=dp(1);strokeColor=android.content.res.ColorStateList.valueOf(outlineTone)
+                strokeWidth=dp(1);strokeColor=android.content.res.ColorStateList.valueOf(ink)
                 contentDescription="$label commissions"
                 isSelected=status==filter
                 layoutParams=LinearLayout.LayoutParams(0,-2,1f).apply {

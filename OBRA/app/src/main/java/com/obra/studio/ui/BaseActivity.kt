@@ -135,7 +135,25 @@ open class BaseActivity: AppCompatActivity() {
     }
     fun shape(color: Int, radius: Int=22, outline: Boolean=false) = GradientDrawable().apply { setColor(color); cornerRadius=dp(radius).toFloat(); if(outline)setStroke(dp(1),outlineTone) }
     fun text(value: String, size: Int=15, title: Boolean=false, parent: LinearLayout=body): TextView = TextView(this).apply { text=value; textSize=size.toFloat(); setTextColor(ink); typeface=if(title)heading else supporting; setLineSpacing(dp(3).toFloat(),1f); parent.addView(this, LinearLayout.LayoutParams(-1,-2).apply { bottomMargin=dp(8) }) }
-    fun button(label: String, parent: LinearLayout=body, primary: Boolean=false, action: ()->Unit): MaterialButton = MaterialButton(this).apply { text=label; isAllCaps=false; typeface=heading; textSize=15f; setTextColor(ink); backgroundTintList=android.content.res.ColorStateList.valueOf(if(primary)yellow else surface); cornerRadius=dp(18); minHeight=dp(50); setPadding(dp(12),dp(5),dp(12),dp(5)); stateListAnimator=null;softShadow(this);parent.addView(this,LinearLayout.LayoutParams(-1,-2).apply { bottomMargin=dp(8) }); setOnClickListener { action() } }
+    fun button(label: String, parent: LinearLayout=body, primary: Boolean=false, action: ()->Unit): MaterialButton = MaterialButton(this).apply {
+        text=label;isAllCaps=false;typeface=heading;textSize=15f;setTextColor(ink)
+        backgroundTintList=android.content.res.ColorStateList.valueOf(if(primary)yellow else surface)
+        cornerRadius=dp(18);strokeWidth=dp(1)
+        strokeColor=android.content.res.ColorStateList.valueOf(ink)
+        minHeight=dp(50);setPadding(dp(12),dp(5),dp(12),dp(5))
+        stateListAnimator=null;softShadow(this,2)
+        if(android.os.Build.VERSION.SDK_INT>=28) {
+            outlineAmbientShadowColor=ink;outlineSpotShadowColor=ink
+        }
+        if(label.startsWith("Next:")) {
+            setIconResource(R.drawable.ic_arrow_forward)
+            iconGravity=MaterialButton.ICON_GRAVITY_TEXT_END
+            iconTint=android.content.res.ColorStateList.valueOf(ink)
+            iconSize=dp(16);iconPadding=dp(8)
+        }
+        parent.addView(this,LinearLayout.LayoutParams(-1,-2).apply { bottomMargin=dp(8) })
+        setOnClickListener { action() }
+    }
     fun uploadButton(label: String, parent: LinearLayout=body, action: ()->Unit): MaterialButton =
         button(label,parent,action=action).apply {
             setIconResource(R.drawable.ic_add_photo)

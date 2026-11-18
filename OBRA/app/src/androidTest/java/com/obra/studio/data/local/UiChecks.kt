@@ -17,7 +17,12 @@ internal fun views(root: View): List<View> {
 internal fun field(activity: Activity, label: String) = views(activity.window.decorView)
     .filterIsInstance<EditText>().single { it.contentDescription?.toString() == label }
 internal fun click(activity: Activity, label: String) {
-    val button = views(activity.window.decorView).filterIsInstance<TextView>().single { it.text.toString() == label }
+    val all=views(activity.window.decorView)
+    val target=all.firstOrNull { it.isClickable && it.contentDescription?.toString()==label }
+        ?: all.filterIsInstance<TextView>().firstOrNull { it.isClickable && it.text.toString()==label }
+        ?: all.filterIsInstance<TextView>().single { it.text.toString()==label }
+    var button=target
+    while(!button.isClickable && button.parent is View) button=button.parent as View
     assertTrue("$label should be enabled", button.isEnabled)
     assertTrue(button.performClick())
 }
@@ -25,8 +30,9 @@ internal fun <A : Activity> awaitView(scenario: ActivityScenario<A>, label: Stri
     awaitCondition("view $label") {
         var found = false
         scenario.onActivity { activity ->
-            found = views(activity.window.decorView).filterIsInstance<TextView>()
-                .any { it.text.toString() == label && it.isEnabled }
+            found = views(activity.window.decorView).any {
+                ((it is TextView && it.text.toString()==label) || it.contentDescription?.toString()==label) && it.isEnabled
+            }
         }
         found
     }

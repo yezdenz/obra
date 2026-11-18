@@ -49,7 +49,8 @@ class ImagePersistenceTest {
                 awaitCondition("bounded large image") {
                     var decoded = false
                     scenario.onActivity { activity ->
-                        val bitmap = (views(activity.window.decorView).filterIsInstance<ImageView>().single().drawable as? BitmapDrawable)?.bitmap
+                        val bitmap = (views(activity.window.decorView).filterIsInstance<ImageView>()
+                            .single { it.contentDescription=="Commission reference image" }.drawable as? BitmapDrawable)?.bitmap
                         decoded = bitmap != null && bitmap.width <= 2048 && bitmap.height <= 2048
                     }
                     decoded

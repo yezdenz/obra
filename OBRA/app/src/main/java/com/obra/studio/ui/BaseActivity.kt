@@ -126,9 +126,16 @@ open class BaseActivity: AppCompatActivity() {
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.shell)) { v, i -> val bars=i.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.ime()); v.setPadding(bars.left,bars.top,bars.right,bars.bottom); i }
     }
     fun dp(n: Int) = (n*resources.displayMetrics.density).toInt()
+    fun softShadow(view: View, height: Int=3) {
+        view.elevation=dp(height).toFloat()
+        if(android.os.Build.VERSION.SDK_INT>=28) {
+            view.outlineAmbientShadowColor=0xff8b6948.toInt()
+            view.outlineSpotShadowColor=0xff8b6948.toInt()
+        }
+    }
     fun shape(color: Int, radius: Int=22, outline: Boolean=false) = GradientDrawable().apply { setColor(color); cornerRadius=dp(radius).toFloat(); if(outline)setStroke(dp(1),outlineTone) }
     fun text(value: String, size: Int=15, title: Boolean=false, parent: LinearLayout=body): TextView = TextView(this).apply { text=value; textSize=size.toFloat(); setTextColor(ink); typeface=if(title)heading else supporting; setLineSpacing(dp(3).toFloat(),1f); parent.addView(this, LinearLayout.LayoutParams(-1,-2).apply { bottomMargin=dp(8) }) }
-    fun button(label: String, parent: LinearLayout=body, primary: Boolean=false, action: ()->Unit): MaterialButton = MaterialButton(this).apply { text=label; isAllCaps=false; typeface=heading; textSize=15f; setTextColor(ink); backgroundTintList=android.content.res.ColorStateList.valueOf(if(primary)yellow else surface); cornerRadius=dp(18); minHeight=dp(50); setPadding(dp(12),dp(5),dp(12),dp(5)); parent.addView(this,LinearLayout.LayoutParams(-1,-2).apply { bottomMargin=dp(8) }); setOnClickListener { action() } }
+    fun button(label: String, parent: LinearLayout=body, primary: Boolean=false, action: ()->Unit): MaterialButton = MaterialButton(this).apply { text=label; isAllCaps=false; typeface=heading; textSize=15f; setTextColor(ink); backgroundTintList=android.content.res.ColorStateList.valueOf(if(primary)yellow else surface); cornerRadius=dp(18); minHeight=dp(50); setPadding(dp(12),dp(5),dp(12),dp(5)); stateListAnimator=null;softShadow(this);parent.addView(this,LinearLayout.LayoutParams(-1,-2).apply { bottomMargin=dp(8) }); setOnClickListener { action() } }
     fun uploadButton(label: String, parent: LinearLayout=body, action: ()->Unit): MaterialButton =
         button(label,parent,action=action).apply {
             setIconResource(R.drawable.ic_add_photo)
@@ -143,6 +150,7 @@ open class BaseActivity: AppCompatActivity() {
                 arrayOf(intArrayOf(-android.R.attr.state_enabled),intArrayOf()),
                 intArrayOf(muted,ink))
             background=shape(surface,14,true)
+            stateListAnimator=null;softShadow(this,2)
             setPadding(dp(12),dp(12),dp(12),dp(12))
             minimumWidth=dp(48);minimumHeight=dp(48)
             contentDescription=label;tooltipText=label;isFocusable=true
@@ -162,7 +170,7 @@ open class BaseActivity: AppCompatActivity() {
             layoutParams=LinearLayout.LayoutParams(-2,-2).apply { bottomMargin=dp(6) }
         }
     }
-    fun card(color: Int=surface, parent: LinearLayout=body, content: (LinearLayout)->Unit): LinearLayout = LinearLayout(this).apply { orientation=LinearLayout.VERTICAL; setPadding(dp(16),dp(16),dp(16),dp(12)); background=shape(color,22,true); parent.addView(this,LinearLayout.LayoutParams(-1,-2).apply { bottomMargin=dp(16) }); content(this) }
+    fun card(color: Int=surface, parent: LinearLayout=body, content: (LinearLayout)->Unit): LinearLayout = LinearLayout(this).apply { orientation=LinearLayout.VERTICAL; setPadding(dp(16),dp(16),dp(16),dp(12)); background=shape(color,22,true);softShadow(this);parent.addView(this,LinearLayout.LayoutParams(-1,-2).apply { bottomMargin=dp(16) }); content(this) }
     fun title(name: String, back: Boolean=true) { header.removeAllViews(); if(back) { val b=TextView(this); b.text="‹"; b.textSize=32f; b.contentDescription="Back"; b.gravity=Gravity.CENTER; header.addView(b,LinearLayout.LayoutParams(dp(48),dp(48))); b.setOnClickListener { onBackPressedDispatcher.onBackPressed() } }; text(name,if(back)20 else 32,true,header).layoutParams=LinearLayout.LayoutParams(0,-2,1f) }
     fun headerAction(label: String, destructive: Boolean=false, action: () -> Unit) {
         TextView(this).apply {
@@ -170,6 +178,7 @@ open class BaseActivity: AppCompatActivity() {
             gravity = Gravity.CENTER; minWidth = dp(48); minHeight = dp(48)
             if(destructive) {
                 background=shape(danger,18);setTextColor(Color.WHITE);typeface=heading
+                softShadow(this,2)
                 setPadding(dp(14),dp(6),dp(14),dp(6))
             }
             isClickable = true; isFocusable = true; contentDescription = label

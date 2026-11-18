@@ -229,6 +229,18 @@ open class BaseActivity: AppCompatActivity() {
             write({ it.updateProgress(id,"Finished",java.time.LocalDate.now().toString()) }) { onStudioReady() }
         }
     }
+    fun deleteCommission(c: Commission) {
+        showObraDialog("Delete this commission?",
+            "Delete “${c.title}” for ${c.username}? Its payment history, references, artwork records, and checklist will also be removed. Earnings and insights will update. Original image files will stay on your device. This cannot be undone.",
+            "Delete commission", "Cancel", true) {
+            write({ it.deleteCommission(c.id) }) {
+                // Clear any payment/detail screens for the removed record and keep the main tab.
+                startActivity(Intent(this,MainActivity::class.java)
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP))
+                finish()
+            }
+        }
+    }
     fun goHome() {
         startActivity(Intent(this,MainActivity::class.java)
             .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP).putExtra("showHome",true))

@@ -14,8 +14,97 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.button.MaterialButton
 import com.obra.studio.R
 import com.obra.studio.data.*
+import com.obra.studio.ObraApplication
+import com.obra.studio.data.local.SqliteStudioRepository
 
 open class BaseActivity: AppCompatActivity() {
+    private var requestNumber = 0
+    private var loaded = false
+    private var refreshError: View? = null
+    private val controlStates = java.util.IdentityHashMap<View, Boolean>()
+    protected var saving = false
+        private set
+    protected open val usesStudioData = true
+    protected open fun onStudioReady() {}
+    override fun onResume() {
+        super.onResume()
+        if (usesStudioData && !saving) refreshData()
+    }
+    private fun refreshData() {
+        val request = ++requestNumber
+        refreshError?.let { body.removeView(it) }
+        refreshError = null
+        if (!loaded) { reset("Loading studio", false); note("Reading saved records…") }
+        setControlsEnabled(false)
+        (application as ObraApplication).refresh { result ->
+            if (isDestroyed || isFinishing || request != requestNumber) return@refresh
+            setControlsEnabled(true)
+            result.fold(onSuccess = { loaded = true; onStudioReady() }, onFailure = {
+                if (!loaded) {
+                    reset("Studio unavailable", false)
+                    empty("Could not read saved records", "Your saved records could not be loaded.")
+                    button("Retry", primary = true) { refreshData() }
+                } else showRefreshError(false)
+            })
+        }
+    }
+
+    protected fun <T> write(operation: (SqliteStudioRepository) -> T, completed: (T) -> Unit) {
+        if (saving) return
+        saving = true
+        setControlsEnabled(false)
+        val backGuard = object : androidx.activity.OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {}
+        }
+        onBackPressedDispatcher.addCallback(this, backGuard)
+        (application as ObraApplication).execute(operation) { result ->
+            if (isDestroyed || isFinishing) return@execute
+            result.fold(onSuccess = { value ->
+                // Refresh separately so a failed read can never be presented as a failed write.
+                (application as ObraApplication).refresh { refreshed ->
+                    if (isDestroyed || isFinishing) return@refresh
+                    saving = false
+                    backGuard.remove()
+                    setControlsEnabled(true)
+                    completed(value)
+                    if (refreshed.isFailure && !isFinishing) {
+                        showRefreshError(true)
+                    }
+                }
+            }, onFailure = { failure ->
+                saving = false
+                backGuard.remove()
+                setControlsEnabled(true)
+                error(if (failure is IllegalArgumentException) failure.message ?: "Check the entered details."
+                    else "Could not save. Your input is still available. Retry the same submission.")
+            })
+        }
+    }
+
+    private fun showRefreshError(saved: Boolean) {
+        refreshError?.let { body.removeView(it) }
+        val panel = card(lavender) {
+            text(if (saved) "Saved successfully" else "Could not refresh saved records", 18, true, it)
+            text("Showing previously loaded information. Retry to read the latest saved records.", 14, false, it)
+            button("Retry refresh", it, true) { refreshData() }
+        }
+        body.removeView(panel)
+        body.addView(panel, 0)
+        refreshError = panel
+    }
+
+    private fun setControlsEnabled(enabled: Boolean) {
+        fun update(view: View) {
+            if (enabled) view.isEnabled = controlStates.remove(view) ?: view.isEnabled
+            else {
+                if (!controlStates.containsKey(view)) controlStates[view] = view.isEnabled
+                view.isEnabled = false
+            }
+            if (view is ViewGroup) for (index in 0 until view.childCount) update(view.getChildAt(index))
+        }
+        update(body); update(footer); update(header)
+        if (enabled) controlStates.clear()
+    }
     lateinit var body: LinearLayout; lateinit var header: LinearLayout; lateinit var footer: LinearLayout; lateinit var scroll: ScrollView
     val cream = Color.rgb(255,248,239); val ink = Color.rgb(48,44,55); val muted = Color.rgb(107,98,112)
     val yellow = Color.rgb(255,209,91); val sage = Color.rgb(236,235,220); val lavender = Color.rgb(237,228,244)
@@ -66,7 +155,6 @@ open class BaseActivity: AppCompatActivity() {
             setDimAmount(0.45f)
         }
     }
-    fun pending() { showObraDialog("Ready for backend integration", "Your input is valid. Saving will be connected by the backend team. Nothing has been saved; your form stays available.", "Keep editing") }
     fun error(message: String) { showObraDialog("Check these details", message, "OK") }
     fun confirm(title: String, message: String, action: () -> Unit) {
         val discard = title.startsWith("Discard")
@@ -81,7 +169,7 @@ open class BaseActivity: AppCompatActivity() {
         val copy=LinearLayout(this);copy.orientation=LinearLayout.VERTICAL;row.addView(copy,LinearLayout.LayoutParams(0,-2,1f));text(c.title,16,true,copy);text("${c.username} · ${c.platform}",12,false,copy);text("${c.stage.ifEmpty { c.status }}  ·  Due ${c.dueOn}",12,false,copy);box.isClickable=true;box.isFocusable=true;box.contentDescription="Open ${c.title}";box.setOnClickListener{detail(c.id)}
     } }
     fun empty(title: String, message: String) { card { text(title,21,true,it); text(message,15,false,it) } }
-    fun input(label: String, value: String, parent: LinearLayout=body, multiline: Boolean=false): EditText { text(label,14,false,parent); return EditText(this).apply { setText(value); textSize=16f; typeface=supporting; setTextColor(ink); background=shape(Color.rgb(255,253,249),14,true); setPadding(dp(12),dp(10),dp(12),dp(10)); minHeight=dp(50); inputType=if(multiline) android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE else android.text.InputType.TYPE_CLASS_TEXT; if(multiline)minLines=3; parent.addView(this,LinearLayout.LayoutParams(-1,-2).apply { bottomMargin=dp(16) }); contentDescription=label } }
+    fun input(label: String, value: String, parent: LinearLayout=body, multiline: Boolean=false, suggestions: List<String>?=null): EditText { text(label,14,false,parent); return (if(suggestions==null) EditText(this) else AutoCompleteTextView(this).apply { setAdapter(ArrayAdapter(context,android.R.layout.simple_dropdown_item_1line,suggestions));threshold=1 }).apply { setText(value); textSize=16f; typeface=supporting; setTextColor(ink); background=shape(Color.rgb(255,253,249),14,true); setPadding(dp(12),dp(10),dp(12),dp(10)); minHeight=dp(50); inputType=if(multiline) android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE else android.text.InputType.TYPE_CLASS_TEXT; if(multiline)minLines=3; parent.addView(this,LinearLayout.LayoutParams(-1,-2).apply { bottomMargin=dp(16) }); contentDescription=label } }
     fun choose(label: String, values: List<String>, current: String, changed: (String)->Unit) { text(label,14); val spinner=Spinner(this); spinner.adapter=ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item,values); spinner.setSelection(values.indexOf(current).coerceAtLeast(0)); body.addView(spinner,LinearLayout.LayoutParams(-1,dp(52))); spinner.onItemSelectedListener=object: AdapterView.OnItemSelectedListener { override fun onNothingSelected(p: AdapterView<*>?) {} ; override fun onItemSelected(p: AdapterView<*>?,v: View?,position: Int,id: Long) { changed(values[position]) } } }
     fun dateField(label: String, value: String, changed: (String)->Unit) { button("$label: ${value.ifEmpty { "Choose date" }}") { val d=Validation.date(value)?:java.time.LocalDate.now(); android.app.DatePickerDialog(this,{_,y,m,day->changed(java.time.LocalDate.of(y,m+1,day).toString())},d.year,d.monthValue-1,d.dayOfMonth).show() } }
 }

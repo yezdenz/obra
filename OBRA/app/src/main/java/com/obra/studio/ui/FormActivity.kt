@@ -3,6 +3,7 @@ package com.obra.studio.ui
 import android.os.Bundle
 import android.content.Intent
 import android.widget.*
+import com.google.android.material.button.MaterialButton
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import com.obra.studio.data.*
@@ -66,7 +67,7 @@ class FormActivity:BaseActivity() {
         if(mode=="payments"){payments();return};if(mode=="payment"){payment();return};if(mode=="progress"){progress();return}
         note("Step $step of 4");headerAction("Close") { capture();leave() }
         when(step){1->{section("Client details");note("Who are we creating for?");choose("Contact platform *",listOf("X","Discord"),draft.platform){draft.platform=it};field("username","Client username *",draft.username);field("name","Display name · Optional",draft.displayName)}
-            2->{section("Artwork brief");note("Give the request a little shape.");field("title","Project title *",draft.title);val types=((Studio.repository as? StudioSnapshot)?.activeTypes.orEmpty()+if(mode=="edit")listOf(baseline.type) else emptyList()).distinct();if(draft.type !in types)draft.type=types.firstOrNull().orEmpty();if(types.isEmpty())note("No active commission types are available.")else choose("Commission type *",types,draft.type){draft.type=it};field("genre","Primary genre · Optional",draft.genre);field("tags","Style tags · Optional",draft.tags);field("brief","Pose & details",draft.brief,true);referenceGallery()}
+            2->{section("Artwork brief");note("Give the request a little shape.");field("title","Project title *",draft.title);val types=((Studio.repository as? StudioSnapshot)?.activeTypes.orEmpty()+if(mode=="edit")listOf(baseline.type) else emptyList()).distinct();if(draft.type !in types)draft.type=types.firstOrNull().orEmpty();if(types.isEmpty())note("No active commission types are available.")else commissionTypeCells(types);field("genre","Primary genre · Optional",draft.genre);field("tags","Style tags · Optional",draft.tags);field("brief","Pose & details",draft.brief,true);referenceGallery()}
             3->{section("Price & dates");note("Set the price you agreed with your client.")
                 field("total","Agreed total (PHP) *",draft.total)
                 if(mode=="edit")note("Already received: ${Studio.money(Studio.received(workId))}. Existing receipts remain unchanged.")
@@ -84,6 +85,33 @@ class FormActivity:BaseActivity() {
         } else {
             attemptedSave=true
             write({it.saveCommission(submitted,submissionToken)}){id->detail(id);finish()}
+        }
+    }
+    private fun commissionTypeCells(types: List<String>) {
+        text("Commission type *",14)
+        val cells=mutableMapOf<String,MaterialButton>()
+        types.chunked(2).forEach { pair ->
+            val row=LinearLayout(this).apply { clipChildren=false;gravity=android.view.Gravity.CENTER }
+            body.addView(row,LinearLayout.LayoutParams(-1,-2).apply { bottomMargin=dp(4) })
+            pair.forEachIndexed { index,type ->
+                cells[type]=button(type,row,primary=type==draft.type) {
+                    capture();draft.type=type
+                    cells.forEach { (value,cell) ->
+                        cell.isSelected=value==type
+                        cell.backgroundTintList=android.content.res.ColorStateList.valueOf(if(cell.isSelected)yellow else surface)
+                    }
+                }.apply {
+                    textSize=13f;gravity=android.view.Gravity.CENTER
+                    textAlignment=android.view.View.TEXT_ALIGNMENT_CENTER
+                    minimumWidth=0;insetLeft=0;insetRight=0
+                    isSelected=type==draft.type;contentDescription="$type commission type"
+                    layoutParams=LinearLayout.LayoutParams(0,-2,1f).apply {
+                        marginEnd=if(index==0)dp(8) else 0
+                        bottomMargin=dp(8)
+                    }
+                }
+            }
+            if(pair.size==1)row.addView(Space(this),LinearLayout.LayoutParams(0,0,1f))
         }
     }
     private fun referenceGallery() {

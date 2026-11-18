@@ -1,13 +1,13 @@
-# Supporting font suggestions - not implemented
+# Supporting font decision - Itim
 
-The owner requested suggestions only for the font used by dates, captions, form values, usernames, and other supporting information. The current app continues to use Mali. DynaPuff remains the heading/action font. No new font files have been downloaded or applied in this pass.
+The owner approved **Itim** as the supporting font on November 18, 2026, superseding the earlier suggestion-only status. The local `final-enhancements` app now uses Itim for dates, captions, financial figures, form values, usernames, navigation labels, and other supporting information. DynaPuff remains the heading/action font.
 
-## First option: Itim
+## Applied font
 
-Try [Itim](https://fonts.google.com/specimen/Itim) first. My design preference is its rounder, fuller handwritten appearance next to DynaPuff. Review it on short labels such as Wednesday, Nov 18 and Due tomorrow, then on longer form instructions. This is a proposed visual direction, not an approved replacement.
+[Itim](https://fonts.google.com/specimen/Itim) is bundled locally in `app/src/main/res/font/itim.ttf`. Both the programmatic supporting typeface and the app/calendar themes reference it. Calendar titles and other DynaPuff headings keep their existing typeface. The unmodified regular font and its [OFL notice](../licenses/Itim-OFL.txt) come from the [official Google Fonts source](https://github.com/google/fonts/tree/main/ofl/itim).
 
-## Alternative: Patrick Hand
+## Review scope
 
-[Patrick Hand](https://fonts.google.com/specimen/Patrick+Hand) is a lighter handwritten alternative if Itim feels too heavy. Compare normal and larger text sizes before adopting it.
+Changes remain local. The app and emulator are not launched automatically. Earlier saved boards and the PDF still show the previous Mali pairing; the current local implementation uses DynaPuff/Itim.
 
-Sample text for a later side-by-side review: Wednesday, Nov 18; November earnings; @luna.art; PHP 1,250.00; the peso symbol; a full artwork brief; and a validation message. Keep monetary figures and small captions easy to read. Both suggested families have regular-weight releases in the [Google Fonts catalogue](https://github.com/google/fonts); do not assume that extra weights are bundled.
+Useful text for the owner's on-device review: Wednesday, Nov 18; November earnings; @luna.art; PHP 1,250.00; the peso symbol; an artwork brief; and a validation message. The regular font is bundled; additional font weights are not introduced.

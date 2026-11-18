@@ -62,7 +62,7 @@ A separate recommendations section uses current commission type and genre to sug
 - **Dashboard first:** settle its structure before detailing the remaining screens.
 - **Medium Phone reference:** portrait, 1080 x 2400 physical pixels at 420 dpi, approximately **411 x 914 dp**, based on the local Android Studio emulator profile.
 - **Visual direction:** use [Guhit](https://app.guhit.app/) as inspiration for typography, rounded shapes, warmth, and simplicity. Build OBRA's own interface and assets.
-- **Accepted font pairing:** DynaPuff for playful headings, summary labels such as Monthly earnings, task titles such as Finish lineart, and primary actions; Mali for supporting details, dates, links, and figures.
+- **Current font pairing:** DynaPuff for playful headings and primary actions; Itim for supporting details, dates, forms, links, and figures. The owner selected Itim on November 18, 2026, replacing Mali in the local native app. Earlier saved boards still show the previous pairing.
 - **Latest scope takes priority:** the feature list recorded in these documents reflects the planning conversation; the original proposal provides background and an intended technical direction.
 
 ## Proposed application structure
@@ -125,4 +125,4 @@ The initial concept is a workspace for the artist. It does not require a client-
 
 The repository contains the native Android project, its database/backend integration and tests, alongside the planning guides and wireframe references. Clients, artwork and amounts in review files are fictional. Current implementation status is maintained in OBRA/docs/backend-integration.md.
 
-No software license has been selected. No third-party branding, illustrations, font files, proposal PDF, personal client records, or credentials are included.
+No project software license has been selected. Bundled fonts retain their notices under [OBRA/licenses](OBRA/licenses). No third-party branding, private illustrations, proposal PDF, personal client records, or credentials are included.

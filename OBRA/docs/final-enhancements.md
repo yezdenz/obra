@@ -38,7 +38,7 @@ Updating Sketch, Lineart, and Colors is optional. The artist can finish directly
 | Progress editor | Remains available under More details; uses Save stage / Review completion labels |
 | Dates / months | Due today, Due tomorrow, overdue-day wording, short dates, and a readable reporting-month selector |
 | Confirm dialogs | Ordinary confirmations use Cancel; only discard dialogs use Keep editing |
-| Date entry | Separate Mali labels and readable dates with a calendar icon; a cream/plum Material calendar uses the OBRA fonts. Internal dates remain ISO strings |
+| Date entry | Separate Itim labels and readable dates with a calendar icon; a cream/plum Material calendar uses the OBRA fonts. Internal dates remain ISO strings |
 | Pricing | Remove the detailed-background checkbox, fixed surcharge, suggested package quotes, and prefilled intake price. Enter the agreed price directly. Historical background flags are retained without imposing charges |
 | Return to menu | Back to Home is always visible at the bottom of Details, including after completion |
 | Artist artwork | Add artwork opens a separate image upload for Sketch, Lineart, Colors, or Finished; references remain separate |
@@ -79,6 +79,6 @@ The owner requested these additional local refinements:
 - Single-receipt cards omit a redundant breakdown. Artwork previews use a black foreground outline so the border stays visible over the image on Home, Work, History, and other shared previews.
 - Add/Edit shows references as three-column thumbnail tiles with one Add references button. Tap a tile to enlarge it. The red corner cross removes it from the draft, retaining the entered form fields. The visible dot is smaller than its accessible 48 dp touch target. Final Save is still required to persist an edited reference list; original image files are not deleted.
 - Home uses a month-specific heading such as November earnings, removes the repeated Payments received/month caption, outlines the sage panel in yellow, and replaces the text Insights link with a labelled, keyboard-focusable chart icon.
-- Supporting font changes are suggestions only in [supporting-font-suggestions.md](supporting-font-suggestions.md). Mali/DynaPuff remain installed and applied as before.
+- The owner subsequently approved Itim in place of Mali. [supporting-font-suggestions.md](supporting-font-suggestions.md) now records that applied decision. Itim is used for supporting text and app/calendar themes; DynaPuff remains the heading font.
 
 Verification for this follow-up: debug and Android-test APK compilation succeeded, all **21 JVM tests passed** (including eight grouping/financial-scope cases), and lint reported zero errors/seven warnings. No emulator, app, or device tests were launched, following the owner's instruction. On-device layout review is left for the owner. The earlier device-test totals above describe the previous pass, not a new run for these changes.

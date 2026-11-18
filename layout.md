@@ -12,9 +12,9 @@ The numbered JPEG boards are static visual references. The clickable file demons
 
 Use the reviewed dashboard and accepted four-step Add commission layout as the visual references. The detail, list, and payment drawings continue that direction; keep their fonts, surfaces, and button hierarchy consistent.
 
-**Confirmed font pairing:** the owner selected **[DynaPuff](https://fonts.google.com/specimen/DynaPuff)** for playful interface text, specifically labels such as **Monthly earnings** and task titles such as **Finish lineart**, and accepted **[Mali](https://fonts.google.com/specimen/Mali)** for dates, links, figures, and other supporting text after reviewing the dashboard.
+**Current font pairing:** **[DynaPuff](https://fonts.google.com/specimen/DynaPuff)** for headings and main actions, with **[Itim](https://fonts.google.com/specimen/Itim)** for dates, links, figures, forms, and other supporting text. The owner chose Itim on November 18, 2026 to replace the earlier Mali pairing. It is applied in the local native app; the saved static boards and PDF still depict the older fonts/layouts.
 
-**Handoff baseline:** retain the selected DynaPuff/Mali direction and four-step intake. Use five main sections: **Home, Commissions, History, Insights, Reconnect**. Reconnect is separate from the financial Insights page by owner request. The current layouts and button routes form the implementation reference; algorithm policy, historical corrections, and the specifically marked open decisions still require the responsible teammates' decisions.
+**Handoff baseline:** use DynaPuff/Itim and the four-step intake. Use five main sections: **Home, Commissions, History, Insights, Reconnect**. Reconnect is separate from the financial Insights page by owner request. The current local usability refinements are recorded in [final-enhancements.md](OBRA/docs/final-enhancements.md); algorithm policy, historical corrections, and the specifically marked open decisions still require the responsible teammates' decisions.
 
 ## Implementer: read these rules first
 
@@ -560,11 +560,11 @@ Use DynaPuff for the recognizable, playful parts of the interface:
 
 Use the font's normal/static appearance for these wireframes. Keep longer DynaPuff titles on multiple lines when necessary rather than squeezing them into narrow spaces.
 
-### Supporting font: Mali — accepted joyful pairing
+### Supporting font: Itim - selected November 18, 2026
 
-The owner requested a joyful supporting font for **Due tomorrow**, **Due Nov 14**, **All tasks**, **Nov 10**, and all similarly styled text, then accepted the dashboard using **Mali** alongside DynaPuff. Continue that pairing in the Add commission screens.
+The owner selected **Itim** to replace Mali for supporting text. Apply it consistently in the native screens, including dates, amounts, form fields, and the calendar picker. Keep DynaPuff for headings and primary actions.
 
-Use Mali consistently for:
+Use Itim consistently for:
 
 - Client usernames and platform names.
 - Project descriptions, pose instructions, and revision notes.
@@ -572,11 +572,11 @@ Use Mali consistently for:
 - Dates, payment amounts, balances, and graph labels.
 - Status chips, step counts, and bottom-navigation labels.
 
-Proposed sizes are 14-16 sp for ordinary details, 16 sp for editable text, and 12-13 sp for short secondary captions. Use around 28-32 sp for the main earnings amount and 24-28 sp for workload counts. Keep financial figures in Mali, even when the label above them uses DynaPuff.
+Proposed sizes are 14-16 sp for ordinary details, 16 sp for editable text, and 12-13 sp for short secondary captions. Use around 28-32 sp for the main earnings amount and 24-28 sp for workload counts. Keep financial figures in Itim, even when the label above them uses DynaPuff.
 
-Use Medium weight for small dates, links, and supporting labels, and SemiBold for prominent financial figures and counts. The dashboard uses supporting labels around 12-13 sp so the handwritten details remain legible.
+Use the bundled regular Itim face for supporting labels and values; use size and color to emphasize financial figures and counts. Do not require unbundled Medium/SemiBold Itim files. Supporting captions remain around 12-13 sp so the handwritten details stay legible.
 
-**DynaPuff and Mali are the accepted pairing.** Individual sizes, spacing, and form layouts remain open to refinement.
+**DynaPuff and Itim are the current accepted pairing.** Individual sizes, spacing, and form layouts remain open to refinement.
 
 ## C. Proposed color scheme
 
@@ -657,7 +657,7 @@ See [the Add commission wireframe plan](docs/add-commission.md) for the current 
 **Action:** **Next: Artwork**.
 
 1. Check that a platform and a nonblank username are provided.
-2. If something is missing, stay on Step 1 and show a Mali helper/error message under the relevant field.
+2. If something is missing, stay on Step 1 and show an Itim helper/error message under the relevant field.
 3. If valid, keep the entered values in the draft and move to Step 2.
 
 This step does not sign in to X/Discord, contact the client, or create a saved commission.

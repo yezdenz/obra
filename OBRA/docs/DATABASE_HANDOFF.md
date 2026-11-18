@@ -1,6 +1,6 @@
 # OBRA database handoff
 
-The app uses SQLite through `ObraDatabaseHelper` and the connected `SqliteStudioRepository`. Current schema version is 2. The root SQL guide describes the original proposal. This handoff describes the implemented storage contract.
+The app uses SQLite through `ObraDatabaseHelper` and the connected `SqliteStudioRepository`. The local `final-enhancements` branch uses schema version 3. The root SQL guide describes the original proposal. This handoff describes the implemented storage contract; the local follow-up has not been pushed.
 
 ## Ownership
 
@@ -18,6 +18,7 @@ The app uses SQLite through `ObraDatabaseHelper` and the connected `SqliteStudio
 | `attachments` | Reference/final locations, storage kind, image metadata, caption and order |
 | `payments` | Received amount/date/method/purpose, note, retry token and fingerprint |
 | `checklist_items` | Task label, completion state and order |
+| `artwork_updates` | Artist-uploaded Sketch/Lineart/Colors/Finished versions, parent commission, location/storage/MIME, UTC creation time, and retry token/fingerprint |
 
 Foreign keys use RESTRICT. Client identity has a lookup index. Tokens are unique when present. New backend submissions require nonblank tokens and retain their original payload fingerprints. Amounts are positive integer minor units. Basic status, stage, method and date-shape checks are in the schema. Calendar and business transition checks are in repository methods.
 
@@ -43,7 +44,11 @@ Add resolves client/lookups and saves the commission, tags, references, default 
 
 Record payment first resolves its retry token, then checks fresh balance and dates inside the transaction. Completing artwork updates its actual finish and work state independently of receipts and tasks. Reports aggregate the saved receipts without joining multiple child collections into a multiplied sum.
 
-## Reference storage
+## Artwork and reference storage
+
+Version 3 adds `artwork_updates` and its parent/newest-ID index without recreating or modifying existing financial/reference rows. `addArtwork` validates the image and durable access, then inserts one idempotent version. Reusing a token with different input is rejected. The snapshot orders versions by ID descending. Current-work previews use the newest version; receipt rows prefer the newest Finished upload and fall back to the newest version. Older FINAL attachment rows are also readable as a fallback. Request edits replace only REFERENCE attachments, never artwork versions. Uploads do not change lifecycle, stage, or payments.
+
+The detailed-background flag remains readable for compatibility but is no longer exposed as a checkbox or a fixed surcharge. Prices are entered by the artist; no new automatic rate is imposed.
 
 New picker references retain persistable content-URI read grants. Supported image headers are checked on the worker before saving. Existing APP_FILE references resolve strictly inside app-private files storage. Missing references remain represented so the commission stays readable. An invalid reference can be removed in Edit before saving.
 

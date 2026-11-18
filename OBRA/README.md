@@ -16,7 +16,7 @@ Current tooling uses AGP 9.5.1, Gradle 9.6.0, Java source/target 17, AppCompat 1
 
 `ObraApplication` owns one helper and one serial database worker. Screens use complete in-memory snapshots and refresh after confirmed writes. `SqliteStudioRepository` validates fresh database state inside transactions. Monetary values use integer centavos. Work completion, task state and payment state are independent.
 
-The database is `obra.db`, version 2. The ordered upgrade preserves version-one records and adds background selection and retry fingerprints. Images use persisted content URIs. Existing app-file references are supported within private app storage. The viewer decodes sampled images off the UI thread.
+On the local `final-enhancements` branch, the database is `obra.db`, version 3. Ordered upgrades preserve existing commissions, references, and receipts, and add an artist artwork-update gallery. Sketch/Lineart/Colors/Finished uploads are separate from client references; newest uploads lead artwork previews, while payment History prefers the latest Finished image. Images use persisted content URIs; managed app-file references remain supported. Image decoding runs off the UI thread with bounded sizes. See [the local usability guide](docs/final-enhancements.md) for the revised date, pricing, completion, and History flows. These changes have not been pushed.
 
 Retired types and genres are excluded from new choices. Historical records keep their lookup IDs. New primary genres are resolved from trimmed text. The existing PHP, single-genre and exact-contact defaults are documented in the integration guide.
 

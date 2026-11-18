@@ -11,7 +11,7 @@ The owner found the working app confusing, especially the repeated Lineart/stage
 1. Add a commission. It joins **Queued**.
 2. Open it and tap **Start commission** when work begins.
 3. Work at your own pace. Open it and tap **Mark completed** when the artwork is ready.
-4. Check the actual finish date and confirm. **Keep working** cancels completion.
+4. Confirm a small **Finish this artwork?** dialog for today's finish date. **Keep working** cancels it; there is no extra completion page in the normal route. An earlier finish date remains available through the optional stage editor.
 5. Record received money separately, whenever the client pays.
 
 Updating Sketch, Lineart, and Colors is optional. The artist can finish directly from Sketch without clicking through intermediate stages. Finishing work does not mark its checklist complete or record money.
@@ -26,7 +26,7 @@ Updating Sketch, Lineart, and Colors is optional. The artist can finish directly
 | Artwork cards | Show the main work status and a readable deadline, rather than competing drawing-stage labels |
 | Details | Artwork identity, money summary, brief/references, and one fixed primary action appropriate to its status |
 | Queued primary action | Start commission |
-| In-progress primary action | Mark completed, opening date confirmation directly |
+| In-progress primary action | Mark completed, using one compact confirmation dialog without changing screens |
 | Completed but unpaid | Record payment remains the primary action |
 | Completed and fully paid | Show a simple completion/paid message rather than an unusable payment action |
 | Optional controls | More details & optional checklist expands dates, style/background details, optional stage editing, and task checkboxes |
@@ -38,10 +38,19 @@ Updating Sketch, Lineart, and Colors is optional. The artist can finish directly
 | Progress editor | Remains available under More details; uses Save stage / Review completion labels |
 | Dates / months | Due today, Due tomorrow, overdue-day wording, short dates, and a readable reporting-month selector |
 | Confirm dialogs | Ordinary confirmations use Cancel; only discard dialogs use Keep editing |
+| Date entry | Separate Mali labels and readable dates with a calendar icon; a cream/plum Material calendar uses the OBRA fonts. Internal dates remain ISO strings |
+| Pricing | Remove the detailed-background checkbox, fixed surcharge, suggested package quotes, and prefilled intake price. Enter the agreed price directly. Historical background flags are retained without imposing charges |
+| Return to menu | Back to Home is always visible at the bottom of Details, including after completion |
+| Artist artwork | Add artwork opens a separate image upload for Sketch, Lineart, Colors, or Finished; references remain separate |
+| Latest preview | Home/Work and Details show the highest saved artwork-update ID first; tap the preview to browse earlier versions |
+| History density | Compact tappable payment rows replace large View commission buttons; artwork thumbnails appear on the right |
+| History image | Prefer the newest Finished image; if none exists, show the latest artist upload. Client reference images are not used as finished work |
 
 ## Data and compatibility
 
-No database/schema or recommendation-policy changes are included. Existing commissions, references, receipts, task states, stage values, and lookup IDs remain in their existing tables. The default checklist can still exist on new commissions; its controls are now optional and hidden until requested. Checkbox changes continue to affect only that checklist row.
+The follow-up adds database version 3 with the new `artwork_updates` table. The ordered version 2-to-3 migration only adds that table/index; existing commissions, references, receipts, task states, stage values, and lookup IDs remain in their existing tables. Version-one databases upgrade through both existing and new migrations. Recommendations retain their previous type/genre policy. The default checklist can still exist on new commissions; its controls remain optional. Checkbox changes affect only that checklist row.
+
+An artwork update stores its parent commission key, stage label, image location/storage type/MIME, UTC creation time, and a unique retry token/fingerprint. Save validates lasting image access and image format. A matching retry returns the existing row; conflicting reuse is rejected. Images decode off the UI thread at bounded sizes. Uploading a Finished image does not complete work or create a receipt. Uploads remain available after completion. Reference edits do not replace artist uploads.
 
 Home's still-to-collect amount includes completed-but-unpaid artwork and excludes cancelled artwork, matching the existing financial rules. Earnings continue to count received receipts by their received date. Opening or expanding a view never writes data.
 
@@ -57,6 +66,6 @@ gradlew.bat assembleDebug testDebugUnitTest lintDebug connectedDebugAndroidTest
 
 `EnhancementWorkflowTest` covers a clean Home, optional checklist persistence/recreation, the real Details-to-completion route, completed-but-unpaid artwork, and cancelling direct completion. Existing regression checks are updated to expand the optional checklist and use the renamed stage actions. Instrumentation uses the existing separate test database. Visual review should use the Medium Phone reference, including longer titles and larger text.
 
-Verified locally on November 18, 2026: debug APK build succeeded; 13 unit tests and 25 device tests passed; lint reported zero errors and seven warnings. Home/Details and completion review were inspected on the 1080 x 2400 Medium Phone reference, including Details/completion at 1.3 font scale. The review emulator ran in a temporary read-only session so the original AVD data was not changed. Review screenshots are outside Git under LocalAppData/OBRA/enhancement-review.
+The initial pass passed 13 unit tests and 25 device tests on November 18, 2026. The follow-up passed **13 unit tests and 31 device tests**, with a successful debug build and lint reporting zero errors/seven warnings. `ArtworkUsabilityTest` checks version ordering, finished-image selection, decoded thumbnails, picker results, draft/calendar recreation, returning Home after completion, and migration safety. Normal-size date fields, the themed calendar, upload preview, Home artwork, and compact History were visually inspected. Device verification used a separate review AVD and the existing isolated test database, not the artist's running emulator. Review screenshots stay outside Git under LocalAppData/OBRA/enhancement-review/artwork-pass.
 
 Generated APKs remain outside the repository in the checkout-specific LocalAppData build folder. Do not add APKs, emulator data, or local review screenshots to Git.

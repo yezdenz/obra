@@ -5,6 +5,8 @@ import org.junit.Test
 import java.time.LocalDate
 
 class ValidationTest {
+    @org.junit.Before fun useExplicitFixtures() { Studio.repository = Fixtures }
+    @org.junit.After fun resetRepository() { Studio.repository = StudioSnapshot(emptyList(), emptyList()) }
     @Test fun exactCentavos() { assertEquals(150001L,Validation.minor("1500.01")) }
     @Test fun rejectsFractionalCentavo() { assertNull(Validation.minor("12.345")) }
     @Test fun rejectsNonPositiveMoney() { assertNull(Validation.minor("0"));assertNull(Validation.minor("-1")) }

@@ -30,7 +30,7 @@ class DetailActivity : BaseActivity() {
         reset("Commission details")
         headerAction("Edit") { form("edit", c.id) }
         card(lavender) {
-            text(c.status, 14, false, it)
+            statusChip(c.status, it)
             text(c.title, 25, true, it)
             text("${c.username} · ${c.platform}", 15, false, it)
             text(deadline(c), 15, false, it)
@@ -43,7 +43,7 @@ class DetailActivity : BaseActivity() {
             preview.setOnClickListener { artworkGallery(c) }
             note("${c.latestArtwork?.stage ?: "Finished"} · Latest upload · Tap to view all")
         } else note("No artwork uploaded yet. Add a sketch or your latest progress below.")
-        button("Add artwork") { startActivity(Intent(this,ArtworkActivity::class.java).putExtra("commissionId",c.id)) }
+        uploadButton("Add artwork") { startActivity(Intent(this,ArtworkActivity::class.java).putExtra("commissionId",c.id)) }
         val received = Studio.received(c.id)
         val remaining = Studio.balance(c)
         card(sage) { panel ->

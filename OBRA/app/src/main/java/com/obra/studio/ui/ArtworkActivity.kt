@@ -70,7 +70,7 @@ class ArtworkActivity : BaseActivity() {
                     .putStringArrayListExtra("images",arrayListOf(selected)))
             }
         }
-        button(if(image==null)"Choose image" else "Choose another image") { picker.launch(arrayOf("image/*")) }
+        uploadButton(if(image==null)"Choose image" else "Choose another image") { picker.launch(arrayOf("image/*")) }
         note("This adds an image only. It does not change work status or record a payment.")
         button("Save artwork",footer,true) {
             val selected=requireNotNull(image)

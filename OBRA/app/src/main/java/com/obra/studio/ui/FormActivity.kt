@@ -124,7 +124,7 @@ class FormActivity:BaseActivity() {
                 tile.addView(remove,FrameLayout.LayoutParams(dp(48),dp(48),android.view.Gravity.TOP or android.view.Gravity.END))
             }
         }
-        button("Add references") { capture();picker.launch(arrayOf("image/*")) }.isEnabled=draft.images.size<6
+        uploadButton("Add references") { capture();picker.launch(arrayOf("image/*")) }.isEnabled=draft.images.size<6
     }
     private fun review(label:String,value:String,target:Int) {
         card { panel ->

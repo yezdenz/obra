@@ -24,7 +24,7 @@ class ArtworkImages(private val context: Context) {
     fun load(view: ImageView, location: String, edge: Int = 480) {
         val expected = generation
         val key = "$edge:$location"
-        cache.get(key)?.let { view.imageTintList=null;view.setPadding(0,0,0,0);view.setImageBitmap(it);return }
+        cache.get(key)?.let { showImage(view,it);return }
         jobs.add(worker.submit {
             val result = runCatching {
                 val uri = Uri.parse(location)
@@ -39,10 +39,16 @@ class ArtworkImages(private val context: Context) {
             main.post {
                 if (expected != generation) { result.getOrNull()?.recycle(); return@post }
                 result.onSuccess { bitmap ->
-                    cache.put(key,bitmap);view.imageTintList=null;view.setPadding(0,0,0,0);view.setImageBitmap(bitmap)
+                    cache.put(key,bitmap);showImage(view,bitmap)
                 }.onFailure { view.contentDescription = "Artwork image unavailable" }
             }
         })
+    }
+
+    private fun showImage(view: ImageView, bitmap: Bitmap) {
+        view.imageTintList=null;view.setPadding(0,0,0,0)
+        view.scaleType=ImageView.ScaleType.CENTER_CROP
+        view.setImageBitmap(bitmap)
     }
 
     fun clear() { generation++;jobs.forEach { it.cancel(true) };jobs.clear() }

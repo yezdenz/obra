@@ -62,7 +62,7 @@ class MainActivity: BaseActivity() {
                 orientation=LinearLayout.VERTICAL;gravity=Gravity.CENTER
                 minimumHeight=dp(64);setPadding(dp(2),dp(7),dp(2),dp(7))
                 contentDescription=name;isSelected=name==tab;isFocusable=true
-                background=shape(if(isSelected)0xfff8edcb.toInt() else cream,14)
+                background=shape(if(isSelected)selectedTone else cream,14)
                 setOnClickListener { switch(name) }
             }
             item.addView(ImageView(this).apply {
@@ -81,7 +81,7 @@ class MainActivity: BaseActivity() {
         note(java.time.LocalDate.now().format(java.time.format.DateTimeFormatter.ofPattern("EEEE, MMM d")))
         val works=Studio.repository.commissions()
         val outstanding=works.filter { it.status != "Cancelled" }.sumOf { Studio.balance(it) }
-        card(sage) {
+        card(summaryTone) {
             val headingRow=LinearLayout(this).apply { gravity=android.view.Gravity.CENTER_VERTICAL }
             it.addView(headingRow)
             val monthPattern=if(month.year==YearMonth.now().year)"MMMM" else "MMMM yyyy"
@@ -98,7 +98,7 @@ class MainActivity: BaseActivity() {
             text("Still to collect: ${Studio.money(outstanding)} across all artwork",13,false,it)
         }.apply {
             tag="home-earnings"
-            background=shape(sage,22).apply { setStroke(dp(2),yellow) }
+            background=shape(summaryTone,22).apply { setStroke(dp(2),yellow) }
         }
         val counts=LinearLayout(this);body.addView(counts,LinearLayout.LayoutParams(-1,-2).apply{bottomMargin=dp(18)})
         listOf("${works.count{it.status=="In progress"}}\nIn progress","${works.count{it.status=="Queued"}}\nIn queue").forEachIndexed { i,label ->
@@ -133,7 +133,7 @@ class MainActivity: BaseActivity() {
     }
     private fun history() {
         note("Payments grouped by commission. Tap an entry for its full history.");period();val payments=Studio.monthly(month).sortedByDescending { it.receivedOn }
-        card(sage) { text(Studio.money(payments.sumOf { p->p.amountMinor }),30,false,it);text("${payments.size} payments received",14,false,it) }
+        card(summaryTone) { text(Studio.money(payments.sumOf { p->p.amountMinor }),30,false,it);text("${payments.size} payments received",14,false,it) }
         if(payments.isEmpty())empty("No payments this month","Received payments will appear here once recorded.")
         groupPaymentsForMonth(Studio.repository.payments(),month).forEach { group ->
             commissionPayments(group,Studio.work(group.commissionId),month)
@@ -141,11 +141,11 @@ class MainActivity: BaseActivity() {
     }
     private fun insights() {
         note("A clearer view of your creative income.");period()
-        card(sage) { text("Monthly earnings",18,true,it);text(Studio.money(Studio.monthly(month).sumOf { p->p.amountMinor }),30,false,it);button("View payments",it) { switch("History") } }
+        card(summaryTone) { text("Monthly earnings",18,true,it);text(Studio.money(Studio.monthly(month).sumOf { p->p.amountMinor }),30,false,it);button("View payments",it) { switch("History") } }
         card { text("All-time received",17,true,it);text(Studio.money(Studio.repository.payments().sumOf { p->p.amountMinor }),26,false,it) }
         section("Six-month earnings")
         val series=(5L downTo 0L).map { month.minusMonths(it) }.map { it to Studio.monthly(it).sumOf { p->p.amountMinor } };val max=series.maxOf { it.second }.coerceAtLeast(1)
-        series.forEach { (m,amount)->text("$m   ${Studio.money(amount)}",13);val bar=ProgressBar(this,null,android.R.attr.progressBarStyleHorizontal);bar.max=100;bar.progress=(amount*100/max).toInt();bar.progressTintList=android.content.res.ColorStateList.valueOf(0xff6a507d.toInt());bar.contentDescription="$m received ${Studio.money(amount)}";body.addView(bar,LinearLayout.LayoutParams(-1,dp(12))) };note("Received income (PHP) by month; six months ending $month.")
+        series.forEach { (m,amount)->text("$m   ${Studio.money(amount)}",13);val bar=ProgressBar(this,null,android.R.attr.progressBarStyleHorizontal);bar.max=100;bar.progress=(amount*100/max).toInt();bar.progressTintList=android.content.res.ColorStateList.valueOf(accentTone);bar.contentDescription="$m received ${Studio.money(amount)}";body.addView(bar,LinearLayout.LayoutParams(-1,dp(12))) };note("Received income (PHP) by month; six months ending $month.")
         section("By commission type");val grouped=Studio.monthly(month).groupBy { Studio.work(it.commissionId)?.type?:"Other" };if(grouped.isEmpty())note("No received payments for this period.");grouped.forEach { (type,ps)->text("$type  ·  ${Studio.money(ps.sumOf { it.amountMinor })}") }
         section("Current balances");note("Across all dates, including completed artwork.");Studio.repository.commissions().filter { it.status != "Cancelled" && Studio.balance(it)>0 }.forEach { c->button("${c.title}\n${Studio.money(Studio.balance(c))} remaining") { detail(c.id) } }
     }
@@ -165,7 +165,7 @@ class MainActivity: BaseActivity() {
                 "Select a current commission above to find previous clients with matching type and genre.")
             return
         }
-        val c=Studio.work(selected)!!;card(lavender) { text("${c.type}  ·  ${c.genre}",17,true,it);text("Suggestions use commission type and genre.",14,false,it) }
+        val c=Studio.work(selected)!!;card(detailTone) { text("${c.type}  ·  ${c.genre}",17,true,it);text("Suggestions use commission type and genre.",14,false,it) }
         val results=Studio.repository.recommendations(selected)
         if(results.isEmpty())empty(if(c.genreId==null)"Choose a primary genre" else "No matching clients yet",if(c.genreId==null)"Edit this commission and add a primary genre to find similar completed work." else "Try another current commission. Matching completed artwork will appear here.")
         results.forEach { r->val previous=Studio.work(r.previousCommissionId)!!;card { text(r.clientName,22,true,it);text(previous.title,18,true,it);text("${r.reason}\n${previous.type} · ${previous.genre}\nFinished ${previous.finishedOn}",14,false,it);button("View previous commission",it) { detail(previous.id) } } }

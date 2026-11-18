@@ -62,7 +62,7 @@ class ViewerActivity : BaseActivity() {
         image = ImageView(this).apply {
             contentDescription = if(label=="Artwork")"Artist artwork image" else "Commission reference image"
             scaleType = ImageView.ScaleType.FIT_CENTER
-            background = shape(0xffede5dc.toInt())
+            background = shape(imageTone)
         }
         body.addView(image, LinearLayout.LayoutParams(-1, dp(380)))
         note("Pinch to zoom · Drag to pan when enlarged")

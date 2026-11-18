@@ -4,8 +4,13 @@
         <item name="fontFamily">@font/itim</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowActionModeOverlay">true</item>
-        <item name="android:windowBackground">#FFF8EF</item>
-        <item name="colorPrimary">#6A507D</item>
-        <item name="colorSecondary">#FFD15B</item>
+        <item name="android:windowBackground">@color/obra_canvas</item>
+        <item name="colorPrimary">@color/obra_honey</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+        <item name="colorSecondary">@color/obra_yellow</item>
+        <item name="colorOnSecondary">@color/obra_ink</item>
+        <item name="colorSurface">@color/obra_surface</item>
+        <item name="colorOnSurface">@color/obra_ink</item>
+        <item name="android:colorBackground">@color/obra_canvas</item>
     </style>
 </resources>

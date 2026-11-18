@@ -29,7 +29,7 @@ class DetailActivity : BaseActivity() {
         }
         reset("Commission details")
         headerAction("Edit") { form("edit", c.id) }
-        card(lavender) {
+        card(detailTone) {
             statusChip(c.status, it)
             text(c.title, 25, true, it)
             text("${c.username} · ${c.platform}", 15, false, it)
@@ -46,7 +46,7 @@ class DetailActivity : BaseActivity() {
         uploadButton("Add artwork") { startActivity(Intent(this,ArtworkActivity::class.java).putExtra("commissionId",c.id)) }
         val received = Studio.received(c.id)
         val remaining = Studio.balance(c)
-        card(sage) { panel ->
+        card(summaryTone) { panel ->
             text(if (remaining == 0L) "Fully paid" else "Still to collect", 18, true, panel)
             text(Studio.money(remaining), 28, false, panel)
             text("${Studio.money(received)} received of ${Studio.money(c.totalMinor)}", 14, false, panel)

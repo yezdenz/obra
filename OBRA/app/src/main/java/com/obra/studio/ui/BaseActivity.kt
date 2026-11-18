@@ -84,7 +84,7 @@ open class BaseActivity: AppCompatActivity() {
 
     private fun showRefreshError(saved: Boolean) {
         refreshError?.let { body.removeView(it) }
-        val panel = card(lavender) {
+        val panel = card(detailTone) {
             text(if (saved) "Saved successfully" else "Could not refresh saved records", 18, true, it)
             text("Showing previously loaded information. Retry to read the latest saved records.", 14, false, it)
             button("Retry refresh", it, true) { refreshData() }
@@ -107,9 +107,18 @@ open class BaseActivity: AppCompatActivity() {
         if (enabled) controlStates.clear()
     }
     lateinit var body: LinearLayout; lateinit var header: LinearLayout; lateinit var footer: LinearLayout; lateinit var scroll: ScrollView
-    val cream = Color.rgb(255,248,239); val ink = Color.rgb(48,44,55); val muted = Color.rgb(107,98,112)
-    val yellow = Color.rgb(255,209,91); val sage = Color.rgb(236,235,220); val lavender = Color.rgb(237,228,244)
-    val danger = Color.rgb(180,52,62)
+    val cream get() = getColor(R.color.obra_canvas)
+    val surface get() = getColor(R.color.obra_surface)
+    val ink get() = getColor(R.color.obra_ink)
+    val muted get() = getColor(R.color.obra_muted)
+    val yellow get() = getColor(R.color.obra_yellow)
+    val summaryTone get() = getColor(R.color.obra_butter)
+    val detailTone get() = getColor(R.color.obra_peach)
+    val outlineTone get() = getColor(R.color.obra_outline)
+    val imageTone get() = getColor(R.color.obra_image_surface)
+    val accentTone get() = getColor(R.color.obra_honey)
+    val selectedTone get() = getColor(R.color.obra_selected)
+    val danger get() = getColor(R.color.obra_danger)
     val heading: Typeface by lazy { try { resources.getFont(R.font.dynapuff) } catch (_: Exception) { Typeface.DEFAULT_BOLD } }
     val supporting: Typeface by lazy { try { resources.getFont(R.font.itim) } catch (_: Exception) { Typeface.DEFAULT } }
     override fun onCreate(state: Bundle?) { super.onCreate(state); setContentView(R.layout.activity_shell)
@@ -117,9 +126,9 @@ open class BaseActivity: AppCompatActivity() {
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.shell)) { v, i -> val bars=i.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.ime()); v.setPadding(bars.left,bars.top,bars.right,bars.bottom); i }
     }
     fun dp(n: Int) = (n*resources.displayMetrics.density).toInt()
-    fun shape(color: Int, radius: Int=22, outline: Boolean=false) = GradientDrawable().apply { setColor(color); cornerRadius=dp(radius).toFloat(); if(outline)setStroke(dp(1),Color.rgb(216,206,196)) }
+    fun shape(color: Int, radius: Int=22, outline: Boolean=false) = GradientDrawable().apply { setColor(color); cornerRadius=dp(radius).toFloat(); if(outline)setStroke(dp(1),outlineTone) }
     fun text(value: String, size: Int=15, title: Boolean=false, parent: LinearLayout=body): TextView = TextView(this).apply { text=value; textSize=size.toFloat(); setTextColor(ink); typeface=if(title)heading else supporting; setLineSpacing(dp(3).toFloat(),1f); parent.addView(this, LinearLayout.LayoutParams(-1,-2).apply { bottomMargin=dp(8) }) }
-    fun button(label: String, parent: LinearLayout=body, primary: Boolean=false, action: ()->Unit): MaterialButton = MaterialButton(this).apply { text=label; isAllCaps=false; typeface=heading; textSize=15f; setTextColor(ink); backgroundTintList=android.content.res.ColorStateList.valueOf(if(primary)yellow else Color.rgb(255,253,249)); cornerRadius=dp(18); minHeight=dp(50); setPadding(dp(12),dp(5),dp(12),dp(5)); parent.addView(this,LinearLayout.LayoutParams(-1,-2).apply { bottomMargin=dp(8) }); setOnClickListener { action() } }
+    fun button(label: String, parent: LinearLayout=body, primary: Boolean=false, action: ()->Unit): MaterialButton = MaterialButton(this).apply { text=label; isAllCaps=false; typeface=heading; textSize=15f; setTextColor(ink); backgroundTintList=android.content.res.ColorStateList.valueOf(if(primary)yellow else surface); cornerRadius=dp(18); minHeight=dp(50); setPadding(dp(12),dp(5),dp(12),dp(5)); parent.addView(this,LinearLayout.LayoutParams(-1,-2).apply { bottomMargin=dp(8) }); setOnClickListener { action() } }
     fun uploadButton(label: String, parent: LinearLayout=body, action: ()->Unit): MaterialButton =
         button(label,parent,action=action).apply {
             setIconResource(R.drawable.ic_add_photo)
@@ -133,7 +142,7 @@ open class BaseActivity: AppCompatActivity() {
             imageTintList=android.content.res.ColorStateList(
                 arrayOf(intArrayOf(-android.R.attr.state_enabled),intArrayOf()),
                 intArrayOf(muted,ink))
-            background=shape(0xfffffdf9.toInt(),14,true)
+            background=shape(surface,14,true)
             setPadding(dp(12),dp(12),dp(12),dp(12))
             minimumWidth=dp(48);minimumHeight=dp(48)
             contentDescription=label;tooltipText=label;isFocusable=true
@@ -142,10 +151,10 @@ open class BaseActivity: AppCompatActivity() {
         }
     fun statusChip(status: String, parent: LinearLayout): TextView {
         val (fill,foreground)=when(status) {
-            "Queued" -> 0xfff8edcb.toInt() to 0xff71591e.toInt()
-            "In progress" -> lavender to 0xff604778.toInt()
-            "Completed" -> 0xffe5efdf.toInt() to 0xff395d37.toInt()
-            else -> 0xffeee8e3.toInt() to muted
+            "Queued" -> summaryTone to getColor(R.color.obra_queued_ink)
+            "In progress" -> detailTone to getColor(R.color.obra_progress_ink)
+            "Completed" -> getColor(R.color.obra_completed) to getColor(R.color.obra_completed_ink)
+            else -> getColor(R.color.obra_neutral) to muted
         }
         return text(status,12,false,parent).apply {
             background=shape(fill,10);setTextColor(foreground)
@@ -153,7 +162,7 @@ open class BaseActivity: AppCompatActivity() {
             layoutParams=LinearLayout.LayoutParams(-2,-2).apply { bottomMargin=dp(6) }
         }
     }
-    fun card(color: Int=Color.rgb(255,253,249), parent: LinearLayout=body, content: (LinearLayout)->Unit): LinearLayout = LinearLayout(this).apply { orientation=LinearLayout.VERTICAL; setPadding(dp(16),dp(16),dp(16),dp(12)); background=shape(color,22,true); parent.addView(this,LinearLayout.LayoutParams(-1,-2).apply { bottomMargin=dp(16) }); content(this) }
+    fun card(color: Int=surface, parent: LinearLayout=body, content: (LinearLayout)->Unit): LinearLayout = LinearLayout(this).apply { orientation=LinearLayout.VERTICAL; setPadding(dp(16),dp(16),dp(16),dp(12)); background=shape(color,22,true); parent.addView(this,LinearLayout.LayoutParams(-1,-2).apply { bottomMargin=dp(16) }); content(this) }
     fun title(name: String, back: Boolean=true) { header.removeAllViews(); if(back) { val b=TextView(this); b.text="‹"; b.textSize=32f; b.contentDescription="Back"; b.gravity=Gravity.CENTER; header.addView(b,LinearLayout.LayoutParams(dp(48),dp(48))); b.setOnClickListener { onBackPressedDispatcher.onBackPressed() } }; text(name,if(back)20 else 32,true,header).layoutParams=LinearLayout.LayoutParams(0,-2,1f) }
     fun headerAction(label: String, destructive: Boolean=false, action: () -> Unit) {
         TextView(this).apply {
@@ -254,7 +263,7 @@ open class BaseActivity: AppCompatActivity() {
     fun loadArtwork(view: ImageView, image: String, edge: Int=480) { artworkImages.load(view,image,edge) }
     fun thumbnail(image: String?, label: String, size: Int=76): ImageView = ImageView(this).apply {
         scaleType=ImageView.ScaleType.FIT_CENTER;contentDescription=label
-        background=shape(0xffede5dc.toInt(),14);clipToOutline=true
+        background=shape(imageTone,14);clipToOutline=true
         foreground=shape(Color.TRANSPARENT,14).apply { setStroke(dp(2),Color.BLACK) }
         setImageResource(R.drawable.ic_photo)
         imageTintList=android.content.res.ColorStateList.valueOf(muted)
@@ -352,7 +361,7 @@ open class BaseActivity: AppCompatActivity() {
         box.isClickable=true;box.isFocusable=true;box.contentDescription="Open ${c.title}";box.setOnClickListener{detail(c.id)}
     } }
     fun empty(title: String, message: String) { card { text(title,21,true,it); text(message,15,false,it) } }
-    fun input(label: String, value: String, parent: LinearLayout=body, multiline: Boolean=false, suggestions: List<String>?=null): EditText { text(label,14,false,parent); return (if(suggestions==null) EditText(this) else AutoCompleteTextView(this).apply { setAdapter(ArrayAdapter(context,android.R.layout.simple_dropdown_item_1line,suggestions));threshold=1 }).apply { setText(value); textSize=16f; typeface=supporting; setTextColor(ink); background=shape(Color.rgb(255,253,249),14,true); setPadding(dp(12),dp(10),dp(12),dp(10)); minHeight=dp(50); inputType=if(multiline) android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE else android.text.InputType.TYPE_CLASS_TEXT; if(multiline)minLines=3; parent.addView(this,LinearLayout.LayoutParams(-1,-2).apply { bottomMargin=dp(16) }); contentDescription=label } }
+    fun input(label: String, value: String, parent: LinearLayout=body, multiline: Boolean=false, suggestions: List<String>?=null): EditText { text(label,14,false,parent); return (if(suggestions==null) EditText(this) else AutoCompleteTextView(this).apply { setAdapter(ArrayAdapter(context,android.R.layout.simple_dropdown_item_1line,suggestions));threshold=1 }).apply { setText(value); textSize=16f; typeface=supporting; setTextColor(ink); background=shape(surface,14,true); setPadding(dp(12),dp(10),dp(12),dp(10)); minHeight=dp(50); inputType=if(multiline) android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE else android.text.InputType.TYPE_CLASS_TEXT; if(multiline)minLines=3; parent.addView(this,LinearLayout.LayoutParams(-1,-2).apply { bottomMargin=dp(16) }); contentDescription=label } }
     fun choose(label: String, values: List<String>, current: String, changed: (String)->Unit) { text(label,14); val spinner=Spinner(this); spinner.adapter=ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item,values); spinner.setSelection(values.indexOf(current).coerceAtLeast(0)); body.addView(spinner,LinearLayout.LayoutParams(-1,dp(52))); spinner.onItemSelectedListener=object: AdapterView.OnItemSelectedListener { override fun onNothingSelected(p: AdapterView<*>?) {} ; override fun onItemSelected(p: AdapterView<*>?,v: View?,position: Int,id: Long) { changed(values[position]) } } }
     fun dateField(label: String, value: String, changed: (String)->Unit) {
         text(label,13)
@@ -360,7 +369,7 @@ open class BaseActivity: AppCompatActivity() {
         val display=parsed?.format(java.time.format.DateTimeFormatter.ofPattern("MMM d, yyyy",java.util.Locale.ENGLISH)) ?: "Choose a date"
         val row=LinearLayout(this).apply {
             gravity=Gravity.CENTER_VERTICAL;minimumHeight=dp(60);setPadding(dp(14),dp(8),dp(14),dp(8))
-            background=shape(0xfffffdf9.toInt(),16,true);isClickable=true;isFocusable=true
+            background=shape(surface,16,true);isClickable=true;isFocusable=true
             contentDescription="$label, $display";tag="date-field:$label"
         }
         body.addView(row,LinearLayout.LayoutParams(-1,-2).apply { bottomMargin=dp(16) })

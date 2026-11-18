@@ -150,13 +150,13 @@ class FormActivity:BaseActivity() {
         return null
     }
     private val methods=listOf("GCash","Bank transfer","PayPal","Cash","Other")
-    private fun payment(){val c=Studio.work(workId)!!;card(sage){text(c.title,20,true,it);text("Remaining: ${Studio.money(Studio.balance(c))}",20,false,it)};field("amount","Amount received (PHP) *",amount);dateField("Received date",paidOn){capture();paidOn=it;render()};choose("Method",methods,method){method=it};field("note","Note · Optional",paymentNote,true);button("Save payment",footer,true){capture();val n=Validation.minor(amount);val d=Validation.date(paidOn);when{n==null->error("Enter a positive amount with at most two decimal places.");n>Studio.balance(c)->error("Payment cannot exceed the remaining balance.");d==null||d<Validation.date(c.commissionOn)||d>LocalDate.now()->error("Received date must be between commission date and today.");else->{attemptedSave=true;write({it.recordPayment(workId,n,paidOn,method,paymentNote,submissionToken)}){finish()}}}} }
+    private fun payment(){val c=Studio.work(workId)!!;card(summaryTone){text(c.title,20,true,it);text("Remaining: ${Studio.money(Studio.balance(c))}",20,false,it)};field("amount","Amount received (PHP) *",amount);dateField("Received date",paidOn){capture();paidOn=it;render()};choose("Method",methods,method){method=it};field("note","Note · Optional",paymentNote,true);button("Save payment",footer,true){capture();val n=Validation.minor(amount);val d=Validation.date(paidOn);when{n==null->error("Enter a positive amount with at most two decimal places.");n>Studio.balance(c)->error("Payment cannot exceed the remaining balance.");d==null||d<Validation.date(c.commissionOn)||d>LocalDate.now()->error("Received date must be between commission date and today.");else->{attemptedSave=true;write({it.recordPayment(workId,n,paidOn,method,paymentNote,submissionToken)}){finish()}}}} }
     private fun payments() {
         val c=Studio.work(workId)!!
         headerAction("Delete",destructive=true) { deleteCommission(c) }
         section(c.title)
         text(listOf(c.displayName,c.username,c.platform).filter { it.isNotBlank() }.joinToString(" · "),14)
-        card(sage) {
+        card(summaryTone) {
             text("Received ${Studio.money(Studio.received(workId))}",20,false,it)
             text("Remaining ${Studio.money(Studio.balance(c))}",16,false,it)
         }
@@ -178,7 +178,7 @@ class FormActivity:BaseActivity() {
         if(completing) {
             note("Ready to call it done? Check the finish date, then confirm below.")
             dateField("Actual finish date",finished){finished=it;render()}
-            card(sage) {
+            card(summaryTone) {
                 text("${Studio.money(Studio.balance(c))} still to collect",19,true,it)
                 text("You can finish the artwork before the client pays the balance. Payments stay unchanged.",14,false,it)
             }

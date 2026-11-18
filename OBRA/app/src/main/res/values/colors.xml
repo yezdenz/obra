@@ -1,0 +1,20 @@
+<resources>
+    <!-- Temporary warm palette preview. Original styling stays on final-enhancements. -->
+    <color name="obra_canvas">#FFF8EF</color>
+    <color name="obra_surface">#FFFDF9</color>
+    <color name="obra_ink">#302C37</color>
+    <color name="obra_muted">#74614E</color>
+    <color name="obra_yellow">#FFD15B</color>
+    <color name="obra_butter">#FFF0C2</color>
+    <color name="obra_peach">#FFE4D1</color>
+    <color name="obra_outline">#E7D3B3</color>
+    <color name="obra_image_surface">#F4E9D8</color>
+    <color name="obra_honey">#996000</color>
+    <color name="obra_selected">#FFE7A1</color>
+    <color name="obra_queued_ink">#795300</color>
+    <color name="obra_progress_ink">#7D421E</color>
+    <color name="obra_completed">#E9EED5</color>
+    <color name="obra_completed_ink">#43572F</color>
+    <color name="obra_neutral">#EEE8E3</color>
+    <color name="obra_danger">#B4343E</color>
+</resources>

@@ -6,6 +6,8 @@ import java.time.YearMonth
 import java.math.BigDecimal
 
 data class Task(val id: Long, val label: String, var done: Boolean = false): Serializable
+data class ArtworkUpdate(val id: Long, val stage: String, val image: String,
+    val createdAt: String, val submissionToken: String = ""): Serializable
 data class Commission(
     val id: Long, val title: String, val username: String, val platform: String,
     val type: String, val genre: String, val status: String, val stage: String,
@@ -15,8 +17,14 @@ data class Commission(
     val tasks: List<Task> = emptyList(),
     val displayName: String = "", val tags: String = "", val images: List<String> = emptyList(),
     val background: Boolean = false, val clientId: Long = 0, val typeId: Long = 0,
-    val genreId: Long? = null, val revision: String = "", val creationToken: String = ""
-): Serializable
+    val genreId: Long? = null, val revision: String = "", val creationToken: String = "",
+    val artworkUpdates: List<ArtworkUpdate> = emptyList(), val finalImages: List<String> = emptyList()
+): Serializable {
+    val latestArtwork: ArtworkUpdate? get() = artworkUpdates.maxByOrNull { it.id }
+    val previewImage: String? get() = latestArtwork?.image ?: finalImages.lastOrNull()
+    val historyImage: String? get() = artworkUpdates.filter { it.stage == "Finished" }
+        .maxByOrNull { it.id }?.image ?: previewImage
+}
 data class Payment(val id: Long, val commissionId: Long, val amountMinor: Long, val receivedOn: String, val method: String, val note: String = "", val submissionToken: String = ""): Serializable
 data class Recommendation(val clientName: String, val previousCommissionId: Long, val reason: String)
 
@@ -34,6 +42,7 @@ interface StudioWriter {
     fun startCommission(id: Long, startedOn: String)
     fun updateProgress(id: Long, stage: String, finishedOn: String?)
     fun setTaskDone(commissionId: Long, taskId: Long, done: Boolean)
+    fun addArtwork(commissionId: Long, stage: String, image: String, submissionToken: String): Long
 }
 data class CommissionDraft(
     var platform: String = "X", var username: String = "", var displayName: String = "",

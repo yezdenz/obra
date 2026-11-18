@@ -23,6 +23,7 @@ class ObraDatabaseHelper(
     override fun onCreate(db: SQLiteDatabase) {
         schemaStatements.forEach(db::execSQL)
         migrate1To2(db)
+        migrate2To3(db)
         seedCommissionTypes(db)
     }
 
@@ -35,6 +36,7 @@ class ObraDatabaseHelper(
         while (version < newVersion) {
             version = when (version) {
                 1 -> { migrate1To2(db); 2 }
+                2 -> { migrate2To3(db); 3 }
                 else -> throw SQLException(
                     "No non-destructive migration is defined from database version $version."
                 )
@@ -52,6 +54,21 @@ class ObraDatabaseHelper(
         db.execSQL("ALTER TABLE commissions ADD COLUMN background_included INTEGER NOT NULL DEFAULT 0 CHECK (background_included IN (0, 1))")
         db.execSQL("ALTER TABLE commissions ADD COLUMN creation_fingerprint TEXT")
         db.execSQL("ALTER TABLE payments ADD COLUMN submission_fingerprint TEXT")
+    }
+
+    private fun migrate2To3(db: SQLiteDatabase) {
+        db.execSQL("""CREATE TABLE artwork_updates (
+            id INTEGER PRIMARY KEY,
+            commission_id INTEGER NOT NULL REFERENCES commissions(id) ON DELETE RESTRICT,
+            stage TEXT NOT NULL CHECK(stage IN ('SKETCH','LINEART','COLORS','FINISHED')),
+            storage_kind TEXT NOT NULL CHECK(storage_kind IN ('CONTENT_URI','APP_FILE')),
+            location TEXT NOT NULL CHECK(length(trim(location)) > 0),
+            mime_type TEXT NOT NULL CHECK(mime_type LIKE 'image/%'),
+            submission_token TEXT NOT NULL UNIQUE,
+            submission_fingerprint TEXT NOT NULL,
+            created_at TEXT NOT NULL
+        )""")
+        db.execSQL("CREATE INDEX idx_artwork_latest ON artwork_updates(commission_id, id DESC)")
     }
 
     private fun seedCommissionTypes(db: SQLiteDatabase) {
@@ -242,7 +259,7 @@ class ObraDatabaseHelper(
         )
 
         const val DATABASE_NAME = "obra.db"
-        const val DATABASE_VERSION = 2
+        const val DATABASE_VERSION = 3
         const val TABLE_CLIENTS = "clients"
         const val TABLE_COMMISSION_TYPES = "commission_types"
         const val TABLE_GENRES = "genres"

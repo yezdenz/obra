@@ -35,6 +35,18 @@ class SqliteStudioRepository(
                         .getOrDefault("unavailable:reference") else rows.text("location"))
         }
         val work = mutableListOf<Commission>()
+        val updates = mutableMapOf<Long, MutableList<ArtworkUpdate>>()
+        db.rawQuery("SELECT * FROM artwork_updates ORDER BY id DESC", null).use { rows ->
+            while (rows.moveToNext()) updates.getOrPut(rows.long("commission_id")) { mutableListOf() }
+                .add(ArtworkUpdate(rows.long("id"), displayStage(rows.text("stage")),
+                    imageLocation(rows.text("storage_kind"), rows.text("location")),
+                    rows.text("created_at"), rows.text("submission_token")))
+        }
+        val finals = mutableMapOf<Long, MutableList<String>>()
+        db.rawQuery("SELECT * FROM attachments WHERE kind = 'FINAL' ORDER BY sort_order, id", null).use { rows ->
+            while (rows.moveToNext()) finals.getOrPut(rows.long("commission_id")) { mutableListOf() }
+                .add(imageLocation(rows.text("storage_kind"), rows.text("location")))
+        }
         db.rawQuery("""SELECT c.*, cl.username, cl.platform, t.name AS type_name,
             g.name AS genre_name FROM commissions c
             JOIN clients cl ON cl.id = c.client_id
@@ -52,7 +64,7 @@ class SqliteStudioRepository(
                     tasks[id].orEmpty(), rows.text("client_display_name"), tags[id].orEmpty().joinToString(", "),
                     images[id].orEmpty(), rows.long("background_included") == 1L,
                     rows.long("client_id"), rows.long("type_id"), rows.nullableLong("primary_genre_id"),
-                    rows.text("updated_at"), rows.text("creation_token")
+                    rows.text("updated_at"), rows.text("creation_token"), updates[id].orEmpty(), finals[id].orEmpty()
                 ))
             }
         }
@@ -120,6 +132,39 @@ class SqliteStudioRepository(
         transaction { db -> insertPayment(db, commissionId, amountMinor, receivedOn, method,
             note, submissionToken, null) }
     }
+
+    override fun addArtwork(commissionId: Long, stage: String, image: String, submissionToken: String): Long {
+        require(submissionToken.isNotBlank()) { "Reopen Add artwork and try again." }
+        val stageKey = when(stage) {
+            "Sketch" -> "SKETCH"; "Lineart" -> "LINEART"; "Colors" -> "COLORS"; "Finished" -> "FINISHED"
+            else -> throw IllegalArgumentException("Choose an artwork stage.")
+        }
+        val fingerprint = fingerprint(listOf(commissionId.toString(), stageKey, image))
+        fun existing(db: SQLiteDatabase): Long? = db.rawQuery(
+            "SELECT id, submission_fingerprint FROM artwork_updates WHERE submission_token = ?",
+            arrayOf(submissionToken)).use { rows ->
+            if (!rows.moveToFirst()) null else {
+                require(rows.getString(1) == fingerprint) { "This artwork save belongs to different input." }
+                rows.getLong(0)
+            }
+        }
+        existing(helper.readableDatabase)?.let { return it }
+        val prepared = prepareImages(listOf(image)).single()
+        return transaction { db ->
+            existing(db)?.let { return@transaction it }
+            require(commission(db, commissionId).status != "Cancelled") { "Cannot add artwork to cancelled work." }
+            db.insertOrThrow("artwork_updates", null, ContentValues().apply {
+                put("commission_id", commissionId); put("stage", stageKey)
+                put("storage_kind", prepared.storageKind); put("location", prepared.location)
+                put("mime_type", prepared.mime); put("submission_token", submissionToken)
+                put("submission_fingerprint", fingerprint); put("created_at", Instant.now().toString())
+            })
+        }
+    }
+
+    private fun imageLocation(kind: String, location: String): String =
+        if(kind == "APP_FILE") runCatching { Uri.fromFile(appFile(location)).toString() }
+            .getOrDefault("unavailable:artwork") else location
 
     override fun startCommission(id: Long, startedOn: String) {
         transaction { db ->

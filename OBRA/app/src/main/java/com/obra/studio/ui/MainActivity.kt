@@ -7,6 +7,8 @@ import android.text.Editable
 import android.view.View
 import android.view.Gravity
 import com.obra.studio.R
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import com.obra.studio.data.*
 import java.time.YearMonth
 
@@ -117,10 +119,38 @@ class MainActivity: BaseActivity() {
     }
     private fun commissions() {
         note("A little order for every artwork.");button("+ New commission",primary=true) { form() }
-        choose("Show",listOf("In progress","Queued","Completed"),filter) { if(it!=filter) {filter=it;render()} }
+        val filters=ChipGroup(this).apply {
+            isSingleSelection=true;isSelectionRequired=true
+            chipSpacingHorizontal=dp(8);chipSpacingVertical=dp(4)
+        }
+        body.addView(filters,LinearLayout.LayoutParams(-1,-2).apply { bottomMargin=dp(8) })
+        val filterStates=mutableMapOf<Int,String>()
+        listOf("Current" to "In progress","Queued" to "Queued","Completed" to "Completed").forEach { (label,status) ->
+            val chip=Chip(this).apply {
+                id=View.generateViewId();text=label;typeface=heading;textSize=13f
+                isCheckable=true;isCheckedIconVisible=false
+                setEnsureMinTouchTargetSize(true);chipMinHeight=dp(44).toFloat()
+                shapeAppearanceModel=shapeAppearanceModel.toBuilder().setAllCornerSizes(dp(18).toFloat()).build()
+                isAllCaps=false;setTextColor(ink)
+                chipBackgroundColor=android.content.res.ColorStateList(
+                    arrayOf(intArrayOf(android.R.attr.state_checked),intArrayOf()),
+                    intArrayOf(yellow,surface))
+                chipStrokeWidth=dp(1).toFloat()
+                chipStrokeColor=android.content.res.ColorStateList.valueOf(outlineTone)
+                contentDescription="$label commissions"
+                isChecked=status==filter
+            }
+            filterStates[chip.id]=status
+            filters.addView(chip)
+        }
         val search=input("Search artwork or client",query)
         val results=LinearLayout(this).apply { orientation=LinearLayout.VERTICAL };body.addView(results)
         fun populate() { results.removeAllViews();val found=Studio.repository.commissions().filter { it.status==filter && (it.title+it.username).contains(query,true) };if(found.isEmpty())text("No commissions found. Try a different search or add a request.",16,false,results) else found.forEach { artwork(it,results) } }
+        filters.setOnCheckedStateChangeListener { _,checked ->
+            filterStates[checked.firstOrNull()]?.let { selected ->
+                if(selected!=filter) { filter=selected;populate() }
+            }
+        }
         search.addTextChangedListener(object:TextWatcher { override fun beforeTextChanged(s:CharSequence?,a:Int,c:Int,f:Int){};override fun onTextChanged(s:CharSequence?,a:Int,b:Int,c:Int){query=s.toString();populate()};override fun afterTextChanged(e:Editable?){} });populate()
     }
     private fun period() {

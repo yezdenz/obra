@@ -11,10 +11,13 @@ data class Commission(
     val type: String, val genre: String, val status: String, val stage: String,
     val totalMinor: Long, val commissionOn: String, val dueOn: String,
     val plannedStart: String = "", val startedOn: String = "", val finishedOn: String = "",
-    val brief: String = "A relaxed over-the-shoulder pose, soft moonlight, and a lilac scarf.",
-    val tasks: List<Task> = listOf(Task(1, "Finish sketch"), Task(2, "Finish lineart"))
+    val brief: String = "",
+    val tasks: List<Task> = emptyList(),
+    val displayName: String = "", val tags: String = "", val images: List<String> = emptyList(),
+    val background: Boolean = false, val clientId: Long = 0, val typeId: Long = 0,
+    val genreId: Long? = null, val revision: String = "", val creationToken: String = ""
 ): Serializable
-data class Payment(val id: Long, val commissionId: Long, val amountMinor: Long, val receivedOn: String, val method: String, val note: String = ""): Serializable
+data class Payment(val id: Long, val commissionId: Long, val amountMinor: Long, val receivedOn: String, val method: String, val note: String = "", val submissionToken: String = ""): Serializable
 data class Recommendation(val clientName: String, val previousCommissionId: Long, val reason: String)
 
 /** Backend team replaces this read provider. IDs, not visible titles, identify records. */
@@ -23,7 +26,7 @@ interface StudioRepository {
     fun payments(): List<Payment>
     fun recommendations(selectedCommissionId: Long): List<Recommendation>
 }
-/** Write contract only. Intentionally has no database implementation in this frontend. */
+/** Called on the application database worker. */
 interface StudioWriter {
     fun saveCommission(draft: CommissionDraft, submissionToken: String): Long
     fun updateCommission(id: Long, draft: CommissionDraft)
@@ -39,7 +42,7 @@ data class CommissionDraft(
     var dueOn: String = LocalDate.now().plusDays(14).toString(), var plannedStart: String = "",
     var initialEnabled: Boolean = false, var initialAmount: String = "", var initialDate: String = LocalDate.now().toString(),
     var initialMethod: String = "GCash", var initialNote: String = "", var background: Boolean = false,
-    var images: ArrayList<String> = arrayListOf()
+    var images: ArrayList<String> = arrayListOf(), var expectedRevision: String? = null
 ): Serializable
 object Validation {
     fun minor(input: String): Long? = try { BigDecimal(input.trim()).movePointRight(2).longValueExact().takeIf { it in 1..100000000000L } } catch (_: Exception) { null }
@@ -70,10 +73,30 @@ object Fixtures: StudioRepository {
     override fun recommendations(selectedCommissionId: Long) = if (selectedCommissionId == 2L) listOf(Recommendation("@tala.arts",6,"Same type & genre")) else emptyList()
 }
 object Studio {
-    var repository: StudioRepository = Fixtures
+    // UI reads a complete in-memory snapshot published after a background database read.
+    var repository: StudioRepository = StudioSnapshot(emptyList(), emptyList())
     fun work(id: Long) = repository.commissions().find { it.id == id }
     fun received(id: Long) = repository.payments().filter { it.commissionId == id }.sumOf { it.amountMinor }
     fun balance(c: Commission) = c.totalMinor - received(c.id)
     fun monthly(month: YearMonth) = repository.payments().filter { it.receivedOn.startsWith(month.toString()) }
     fun money(minor: Long) = "₱%,.2f".format(java.util.Locale.US, minor / 100.0)
+}
+
+class StudioSnapshot(
+    private val work: List<Commission>, private val receipts: List<Payment>,
+    val activeTypes: List<String> = emptyList(), val activeGenres: List<String> = emptyList()
+) : StudioRepository {
+    override fun commissions() = work
+    override fun payments() = receipts
+    override fun recommendations(selectedCommissionId: Long): List<Recommendation> {
+        val selected = work.find { it.id == selectedCommissionId && it.status == "In progress" }
+            ?: return emptyList()
+        val genreId = selected.genreId ?: return emptyList()
+        return work.asSequence()
+            .filter { it.status == "Completed" && it.finishedOn.isNotBlank() &&
+                it.clientId != selected.clientId && it.typeId == selected.typeId && it.genreId == genreId }
+            .sortedWith(compareByDescending<Commission> { it.finishedOn }.thenByDescending { it.id })
+            .distinctBy { it.clientId }.take(5)
+            .map { Recommendation(it.username, it.id, "Same type & genre") }.toList()
+    }
 }

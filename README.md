@@ -8,11 +8,14 @@ The name comes from the Filipino word *obra*, meaning a work of art.
 
 > **Current Android implementation.**
 > The native app is in [OBRA/](OBRA/README.md). Its local backend integration connects SQLite persistence, commission workflows, received-payment records, reports and the documented Reconnect baseline. See the [backend integration guide](OBRA/docs/backend-integration.md) for scope and verification. The saved boards and clickable wireframe remain design references.
+>
+> **Final output:** the `final-output` branch includes the approved yellow/cream/peach palette, DynaPuff and Itim fonts, artwork uploads, grouped payment History, reference thumbnails, and confirmed commission deletion. Read [the current app handoff](OBRA/docs/final-enhancements.md) for behavior, validation, and the original-palette checkpoint.
 
 ## Start here — team handoff guides
 
 | Guide | Who should read it | What it explains |
 | --- | --- | --- |
+| **[Current native app handoff](OBRA/docs/final-enhancements.md)** | Everyone working on `final-output` | Approved usability changes, palette, artwork/history behavior, deletion, and verification limits |
 | **[layout.md — frontend and wireframes](layout.md)** | Frontend implementers | All numbered screens, click sequences, navigation, scrolling, fonts, colors, and shared behavior |
 | **[database-guide.md — SQLite backend](database-guide.md)** | Backend implementers | Proposed tables, relationships, executable schema SQL, screen reads/writes, payment calculations, validation, and Android storage guidance |
 | **[reconnect-algo.md — recommendations](reconnect-algo.md)** | Algorithm implementers | Type-and-genre matching, proposed selection rules, query/pseudocode, result contract, tests, and the distinction from backtracking |

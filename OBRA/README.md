@@ -1,41 +1,42 @@
-# OBRA Android frontend draft
+# OBRA Android app
 
-Native Kotlin / Android Views initial draft, November 14, 2026. Open this folder in Android Studio. The five main sections and contextual forms use fictional data. Database operations are deliberately unconnected: validated Save actions explain that backend integration is pending and retain input. No real payment processing or client outreach occurs.
+The Kotlin Android Views frontend is connected to local SQLite storage. Add/Edit, task checkboxes, work progress and received payments save real records. Home, History, Insights and Reconnect read those saved records. A fresh install starts with an empty workspace and seven commission types.
 
 ## Open and run
 
-1. Extract the ZIP fully to a normal local folder, preferably `C:\AndroidProjects\OBRA`. Do not open the ZIP itself. A OneDrive generated-file lock was encountered during verification; a clean local copy built successfully.
-2. In Android Studio Rabbit 2 2026.2.2 Patch 1, choose File > Open and select the `OBRA` folder containing `settings.gradle.kts`.
-3. Allow Gradle sync and dependency downloads. Choose Android Studio's bundled JBR as the Gradle JDK under Settings > Build, Execution, Deployment > Build Tools > Gradle.
-4. In SDK Manager, install Android SDK Platform 37 and Build Tools 36.0.0 if absent. Android Studio manages your local SDK path; `local.properties` is intentionally excluded from the ZIP.
-5. Select an emulator or USB-debugging-enabled phone with Android 8.0 / API 26 or newer. Click Run. For the reference layout, use the Medium Phone profile, approximately 411 x 914 dp.
+1. Open the `OBRA/` folder containing `settings.gradle.kts` in Android Studio.
+2. Configure Android Studio's bundled JBR as the Gradle JDK.
+3. Install SDK Platform 37 and allow Gradle dependency resolution.
+4. Run on an emulator or phone with API 26 or newer. Medium Phone is the reference device.
+5. Add a fictional commission, restart the app and verify it remains.
 
-No extra Android Studio plugin, Perforce, or Subversion extension is needed. First sync may need an internet connection. Font files are included, so the app does not download fonts at runtime.
+Current tooling uses AGP 9.5.1, Gradle 9.6.0, Java source/target 17, AppCompat 1.8.0 and Material Components 1.14.0. The local builds use Android Studio's JBR. Fonts and their OFL licenses are bundled.
 
-## Pinned toolchain
+## Data and backend
 
-- Current source: Android Gradle Plugin 9.5.1 with built-in Kotlin. Previous build verification used AGP 9.4.1 (resolved stdlib 2.2.10); rerun checks for the current configuration. Do not add a separate Kotlin Android plugin without reviewing AGP 9 requirements.
-- Gradle wrapper 9.6.0, included with its JAR and Windows/Unix launchers.
-- compileSdk / targetSdk 37; minSdk 26. Build Tools 36.0.0 were used in verification.
-- Java source/target 17. Builds used Android Studio's installed JBR; the user's Studio runtime is JBR 25.0.4. The IDE runtime version and source compatibility level are different settings.
-- AndroidX AppCompat 1.8.0; Material Components 1.14.0; JUnit 4.13.2 for local tests. Their transitive dependencies resolve through Google/Maven Central.
-- Bundled DynaPuff and Mali fonts, with OFL licenses in `licenses/`.
+`ObraApplication` owns one helper and one serial database worker. Screens use complete in-memory snapshots and refresh after confirmed writes. `SqliteStudioRepository` validates fresh database state inside transactions. Monetary values use integer centavos. Work completion, task state and payment state are independent.
+
+The database is `obra.db`, version 2. The ordered upgrade preserves version-one records and adds background selection and retry fingerprints. Images use persisted content URIs. Existing app-file references are supported within private app storage. The viewer decodes sampled images off the UI thread.
+
+Retired types and genres are excluded from new choices. Historical records keep their lookup IDs. New primary genres are resolved from trimmed text. The existing PHP, single-genre and exact-contact defaults are documented in the integration guide.
 
 ## Verification
 
-On a fresh local copy, `gradlew.bat assembleDebug lintDebug testDebugUnitTest` passed. All 13 local tests passed. Lint has no errors; remaining warnings include English strings, backup-policy guidance, newer-toolchain notices, and image gesture accessibility guidance. These are not device UI acceptance results.
+```text
+gradlew.bat assembleDebug testDebugUnitTest lintDebug connectedDebugAndroidTest
+```
 
-No emulator system image/AVD or connected device was available in this environment. Installation, touch navigation, keyboard/insets, rotation, large-text behavior, and pixel-level comparison remain to be verified on a device. The APK is a debug frontend preview, not a finished course submission.
+The instrumentation runner uses a separate database for Activity tests. Gradle is configured to keep the app installed after connected tests. The test document provider is packaged only in the test APK. Tests cover transactions, migrations, financial rules, UI flows, refresh recovery, draft recreation, reference access and bounded image decoding. See the current test summary in [backend-integration.md](docs/backend-integration.md).
 
-## Reading order
+The shared XML shell and Kotlin view composition implement the screens. Android Studio's XML preview displays the shell. Device appearance and larger-text checks are listed in the walkthrough.
 
-- `docs/frontend-handoff.md`: screen ownership, data contract, backend integration and open work.
-- `docs/frontend-progress.md`: resume checkpoint.
-- `docs/manual-checks.md`: device walkthrough and expected outcomes.
-- Original design sources: https://github.com/yezdenz/obra (reviewed snapshot da93933).
+## Handoff documents
 
-The first draft uses one shared XML activity shell and native Kotlin view composition for screen content. Individual layouts are composed in the Activity files; the XML Design tab will show the shell, not every populated screen. This is a valid native Android project, but separate per-screen XML resources remain a useful follow-up if the team prefers visual-layout editing.
+- [Backend starting guide](docs/backend-start-here.md)
+- [Database handoff](docs/DATABASE_HANDOFF.md)
+- [Frontend integration contract](docs/frontend-handoff.md)
+- [Function reference](docs/function-reference.md)
+- [Backend implementation and verification](docs/backend-integration.md)
+- [Manual checks](docs/manual-checks.md)
 
-## Team handoff
-
-Start with [Backend team starting guide](docs/backend-start-here.md) for the documentation index, integration checklist, current verification limits and GitHub contents. See [Function reference](docs/function-reference.md) for source entry points.
+Cancellation, refunds, receipt corrections, destructive deletion and structured quote snapshots are deferred product scope. The existing agreed backend is the implementation target. Source, resources, tests, wrapper and licenses belong in Git. APKs, local databases, machine configuration and generated output belong outside source commits.

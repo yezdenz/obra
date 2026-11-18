@@ -6,8 +6,8 @@ OBRA brings commission requests, reference images, deadlines, creative progress,
 
 The name comes from the Filipino word *obra*, meaning a work of art.
 
-> **Current phase: wireframe review and frontend handoff.**
-> The repository includes saved visual boards and the [clickable phone wireframe](docs/wireframes/CLICKABLE.md), synchronized to **Home, Commissions, History, Insights, Reconnect**. The native Android frontend, real persistence/payment processing, and recommendation algorithm are not implemented by these review files.
+> **Current Android implementation.**
+> The native app is in [OBRA/](OBRA/README.md). Its local backend integration connects SQLite persistence, commission workflows, received-payment records, reports and the documented Reconnect baseline. See the [backend integration guide](OBRA/docs/backend-integration.md) for scope and verification. The saved boards and clickable wireframe remain design references.
 
 ## Start here — team handoff guides
 
@@ -123,6 +123,6 @@ The initial concept is a workspace for the artist. It does not require a client-
 
 ## Repository status
 
-Planning documents, saved visual boards, and a clickable in-memory phone wireframe. There is no native Android application build or Android test suite yet. Clients, artwork, and money amounts in review files are fictional.
+The repository contains the native Android project, its database/backend integration and tests, alongside the planning guides and wireframe references. Clients, artwork and amounts in review files are fictional. Current implementation status is maintained in OBRA/docs/backend-integration.md.
 
 No software license has been selected. No third-party branding, illustrations, font files, proposal PDF, personal client records, or credentials are included.

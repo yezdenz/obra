@@ -4,11 +4,11 @@ This index is extracted from the current Kotlin declarations. See the source lin
 
 ## Integration entry points
 
-`StudioRepository` supplies commission, payment and recommendation reads. `StudioWriter` declares writes but is not implemented or connected. `Studio.repository` currently points to Fixtures. Before adding asynchronous storage, update the screen state/refresh flow rather than blocking these rendering methods.
+`StudioRepository` supplies the saved snapshot used by screens. `StudioWriter` is implemented by `SqliteStudioRepository`. `ObraApplication` serializes database operations and publishes snapshots. `BaseActivity.write()` coordinates confirmed actions and refreshes.
 
-`Validation.minor()` parses price text exactly into positive integer centavos; `Validation.date()` parses calendar dates; `Validation.schedule()` checks date ordering. `Studio.money()` formats display text only.
+`Validation.minor()` parses positive integer centavos. `Validation.date()` validates calendar dates and `Validation.schedule()` checks request-date ordering. `Studio.money()` formats display values.
 
-`pending()` is shared feedback, not a write operation: replace its call sites with the appropriate writer action, not its global implementation. `confirm()` must remain a confirmation wrapper.
+`BaseActivity.refreshData()` loads saved records on resume. Initial read failures expose Retry, and later failures expose Retry refresh while retaining existing information. `confirm()` wraps user confirmation before an operation.
 
 ## Source function index
 
@@ -51,7 +51,6 @@ This index is extracted from the current Kotlin declarations. See the source lin
 - `note(value: String)`
 - `showObraDialog(title: String, message: String, positive: String,
         negative: String? = null, destructive: Boolean = false, action: ()`
-- `pending()`
 - `error(message: String)`
 - `confirm(title: String, message: String, action: ()`
 - `detail(id: Long)`
@@ -68,7 +67,7 @@ This index is extracted from the current Kotlin declarations. See the source lin
 
 [Open source](../app/src/main/java/com/obra/studio/ui/DetailActivity.kt)
 
-- `onCreate(state:Bundle?)`
+- `onStudioReady()`
 
 ### FormActivity.kt
 
@@ -115,12 +114,21 @@ This index is extracted from the current Kotlin declarations. See the source lin
 - `onCreate(state:Bundle?)`
 - `onSaveInstanceState(out:Bundle)`
 - `render()`
-- `onScale(d:ScaleGestureDetector)`
+- `decode(uri: Uri)`
+- `onDestroy()`
+- `onScale(detector: ScaleGestureDetector)`
 
 ## Where to connect actions
 
 - FormActivity: validate/render for Add/Edit; payment for receipt entry; progress for stage/completion.
 - DetailActivity: Start confirmation and task checkboxes.
 - MainActivity: task toggles and list/report/recommendation reads.
-- BaseActivity: detail/form send explicit Intent extras; showObraDialog/pending/error/confirm handle shared feedback.
+- BaseActivity: detail/form send explicit Intent extras; showObraDialog/error/confirm and refresh feedback handle shared interactions.
 - ViewerActivity: image display/gesture handling; final storage lifecycle belongs to the integration layer.
+
+## Storage implementation
+
+- `SqliteStudioRepository.snapshot()` reads commissions, children, receipts and active lookup labels in one consistent transaction.
+- `saveCommission`, `updateCommission`, `recordPayment`, `startCommission`, `updateProgress` and `setTaskDone` implement the write contract.
+- `ObraDatabaseHelper.onConfigure`, `onCreate`, `onUpgrade` and `migrate1To2` own schema lifecycle.
+- `ObraApplication.execute` runs operations off main. `refresh` publishes a saved snapshot.

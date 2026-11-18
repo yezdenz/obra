@@ -1,69 +1,54 @@
 package com.obra.studio
 
 import android.app.Application
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
+import com.obra.studio.data.Studio
+import com.obra.studio.data.StudioSnapshot
 import com.obra.studio.data.local.ObraDatabaseHelper
+import com.obra.studio.data.local.SqliteStudioRepository
+import java.util.concurrent.Executors
 
-/** Owns the app-process database connection without coupling it to a screen. */
-class ObraApplication : Application() {
-    private var databaseHelper: ObraDatabaseHelper? = null
+/** One helper and serial worker for the process. Snapshots are published on main. */
+open class ObraApplication : Application() {
+    private lateinit var helper: ObraDatabaseHelper
+    private lateinit var repository: SqliteStudioRepository
+    private val worker = Executors.newSingleThreadExecutor()
+    private val main = Handler(Looper.getMainLooper())
 
     override fun onCreate() {
         super.onCreate()
-
-        val databaseFile = getDatabasePath(ObraDatabaseHelper.DATABASE_NAME)
-        Log.i(
-            TAG,
-            "SQLite initialization attempted: file=${ObraDatabaseHelper.DATABASE_NAME}, " +
-                "version=${ObraDatabaseHelper.DATABASE_VERSION}, path=${databaseFile.absolutePath}"
-        )
-
-        val helper = ObraDatabaseHelper(this)
-        databaseHelper = helper
-        try {
-            val database = helper.writableDatabase
-            val tables = database.rawQuery(
-                """SELECT name FROM sqlite_master
-                    WHERE type = 'table'
-                      AND name NOT LIKE 'sqlite_%'
-                      AND name != 'android_metadata'
-                    ORDER BY name""".trimIndent(),
-                null
-            ).use { cursor ->
-                buildList {
-                    while (cursor.moveToNext()) add(cursor.getString(0))
-                }.joinToString()
+        helper = ObraDatabaseHelper(this)
+        repository = SqliteStudioRepository(helper, this)
+        worker.execute {
+            try {
+                helper.writableDatabase
+                Log.i("ObraDatabase", "SQLite ready at schema version ${ObraDatabaseHelper.DATABASE_VERSION}")
+            } catch (error: Exception) {
+                // The first screen exposes initialization failure with Retry.
+                Log.e("ObraDatabase", "SQLite initialization failed", error)
             }
-            val foreignKeysEnabled = database.rawQuery("PRAGMA foreign_keys", null).use { cursor ->
-                cursor.moveToFirst() && cursor.getInt(0) == 1
-            }
-            Log.i(
-                TAG,
-                "SQLite initialization succeeded: file=${ObraDatabaseHelper.DATABASE_NAME}, " +
-                    "version=${ObraDatabaseHelper.DATABASE_VERSION}, path=${databaseFile.absolutePath}, " +
-                    "size=${databaseFile.length()} bytes, foreignKeysEnabled=$foreignKeysEnabled, " +
-                    "tables=[$tables]"
-            )
-        } catch (error: Exception) {
-            helper.close()
-            databaseHelper = null
-            Log.e(
-                TAG,
-                "SQLite initialization failed: file=${ObraDatabaseHelper.DATABASE_NAME}, " +
-                    "version=${ObraDatabaseHelper.DATABASE_VERSION}, path=${databaseFile.absolutePath}",
-                error
-            )
-            throw error
+        }
+    }
+
+    fun <T> execute(operation: (SqliteStudioRepository) -> T, completed: (Result<T>) -> Unit) {
+        worker.execute {
+            val result = runCatching { operation(repository) }
+            main.post { completed(result) }
+        }
+    }
+
+    fun refresh(completed: (Result<StudioSnapshot>) -> Unit) {
+        execute({ it.snapshot() }) { result ->
+            result.onSuccess { Studio.repository = it }
+            completed(result)
         }
     }
 
     override fun onTerminate() {
-        databaseHelper?.close()
-        databaseHelper = null
+        worker.shutdown()
+        helper.close()
         super.onTerminate()
-    }
-
-    companion object {
-        private const val TAG = "ObraDatabase"
     }
 }

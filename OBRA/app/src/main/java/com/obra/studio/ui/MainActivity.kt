@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.widget.*
 import android.text.TextWatcher
 import android.text.Editable
+import android.view.View
+import android.view.Gravity
+import com.obra.studio.R
 import com.obra.studio.data.*
 import java.time.YearMonth
 
@@ -51,7 +54,28 @@ class MainActivity: BaseActivity() {
         reset(if(tab=="Home")"obra" else tab,false)
         when(tab) { "Home"->home(); "Commissions"->commissions(); "History"->history(); "Insights"->insights(); "Reconnect"->reconnect() }
         val nav=LinearLayout(this); footer.addView(nav)
-        listOf("Home","Commissions","History","Insights","Reconnect").forEach { name -> val t=TextView(this); t.text=if(name=="Commissions")"Work" else name; t.textSize=11f;t.typeface=supporting;t.setTextColor(ink);t.gravity=17;t.minHeight=dp(56);t.contentDescription=name;t.isSelected=name==tab;t.background=shape(if(name==tab)0xfff0e7dc.toInt() else cream,14);nav.addView(t,LinearLayout.LayoutParams(0,-2,1f));t.setOnClickListener { switch(name) } }
+        val destinations=listOf("Home" to R.drawable.ic_home,"Commissions" to R.drawable.ic_work,
+            "History" to R.drawable.ic_history,"Insights" to R.drawable.ic_insights,
+            "Reconnect" to R.drawable.ic_reconnect)
+        destinations.forEach { (name,icon) ->
+            val item=LinearLayout(this).apply {
+                orientation=LinearLayout.VERTICAL;gravity=Gravity.CENTER
+                minimumHeight=dp(64);setPadding(dp(2),dp(7),dp(2),dp(7))
+                contentDescription=name;isSelected=name==tab;isFocusable=true
+                background=shape(if(isSelected)0xfff8edcb.toInt() else cream,14)
+                setOnClickListener { switch(name) }
+            }
+            item.addView(ImageView(this).apply {
+                setImageResource(icon)
+                importantForAccessibility=View.IMPORTANT_FOR_ACCESSIBILITY_NO
+            },LinearLayout.LayoutParams(dp(24),dp(24)))
+            item.addView(TextView(this).apply {
+                text=if(name=="Commissions")"Work" else name
+                textSize=11f;typeface=supporting;setTextColor(ink);gravity=Gravity.CENTER
+                importantForAccessibility=View.IMPORTANT_FOR_ACCESSIBILITY_NO
+            },LinearLayout.LayoutParams(-1,-2).apply { topMargin=dp(3) })
+            nav.addView(item,LinearLayout.LayoutParams(0,-2,1f))
+        }
     }
     private fun home() {
         note(java.time.LocalDate.now().format(java.time.format.DateTimeFormatter.ofPattern("EEEE, MMM d")))

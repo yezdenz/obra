@@ -69,3 +69,16 @@ gradlew.bat assembleDebug testDebugUnitTest lintDebug connectedDebugAndroidTest
 The initial pass passed 13 unit tests and 25 device tests on November 18, 2026. The follow-up passed **13 unit tests and 31 device tests**, with a successful debug build and lint reporting zero errors/seven warnings. `ArtworkUsabilityTest` checks version ordering, finished-image selection, decoded thumbnails, picker results, draft/calendar recreation, returning Home after completion, and migration safety. Normal-size date fields, the themed calendar, upload preview, Home artwork, and compact History were visually inspected. Device verification used a separate review AVD and the existing isolated test database, not the artist's running emulator. Review screenshots stay outside Git under LocalAppData/OBRA/enhancement-review/artwork-pass.
 
 Generated APKs remain outside the repository in the checkout-specific LocalAppData build folder. Do not add APKs, emulator data, or local review screenshots to Git.
+
+## Grouped History and reference-thumbnail follow-up
+
+The owner requested these additional local refinements:
+
+- Main History now has one card per commission with payments in the selected month. The client display name/username/platform and artwork title identify it. Deposit and balance receipts stay under the same card, not separate commission entries. Different commissions are grouped by their internal keys, never by a shared client name/title.
+- Each card's main amount counts that selected month only. If earlier/later receipts exist, an explicitly labelled all-time paid total is also shown. Up to two recent receipt lines appear inside a multi-payment card. Tap it for the complete per-commission history across all dates, then use View commission to open the artwork. Saved receipts and monthly earnings calculations have not been merged or changed.
+- Single-receipt cards omit a redundant breakdown. Artwork previews use a black foreground outline so the border stays visible over the image on Home, Work, History, and other shared previews.
+- Add/Edit shows references as three-column thumbnail tiles with one Add references button. Tap a tile to enlarge it. The red corner cross removes it from the draft, retaining the entered form fields. The visible dot is smaller than its accessible 48 dp touch target. Final Save is still required to persist an edited reference list; original image files are not deleted.
+- Home uses a month-specific heading such as November earnings, removes the repeated Payments received/month caption, outlines the sage panel in yellow, and replaces the text Insights link with a labelled, keyboard-focusable chart icon.
+- Supporting font changes are suggestions only in [supporting-font-suggestions.md](supporting-font-suggestions.md). Mali/DynaPuff remain installed and applied as before.
+
+Verification for this follow-up: debug and Android-test APK compilation succeeded, all **21 JVM tests passed** (including eight grouping/financial-scope cases), and lint reported zero errors/seven warnings. No emulator, app, or device tests were launched, following the owner's instruction. On-device layout review is left for the owner. The earlier device-test totals above describe the previous pass, not a new run for these changes.
